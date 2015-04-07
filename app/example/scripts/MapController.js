@@ -1,10 +1,9 @@
 angular
   .module('example')
-  .constant('Event', supersonic.data.model('Event'))
   .controller('MapController', function($scope, supersonic) {
 
     $scope.navbarTitle = "Map";
-
+    $scope.events = [];
     
 
     function CenterControl(controlDiv, map) {
@@ -38,8 +37,10 @@ angular
         });
       });
     }
-    var map = undefined;
-    var myMarker = undefined;
+    var map;
+    var myMarker;
+    var geocoder = new google.maps.Geocoder();
+
     function initialize() {
       var mapOptions = {
         // default location is NU Campus
@@ -84,10 +85,31 @@ angular
 
       centerControlDiv.index = 0;
       map.controls[google.maps.ControlPosition.LEFT_TOP].push(centerControlDiv);
+    
     }
     google.maps.event.addDomListener(window, 'load', initialize);
 
-    $('#map-canvas').css("height", $(window).height());
+    geocoder.geocode( { 'address': 'Mudd Library Evanston, Illinois 60201'}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        var contentString = '<h1>EECS 394 Steroids Party</h1>';
+        var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location
+        });
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.open(map, marker);
+        });
+      } else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+
+
+    //$('#map-canvas').css("height", $(window).height());
+    $('#map-canvas').css("height", 500);
 
 
     setInterval(function(){
@@ -103,14 +125,18 @@ angular
       }
     }, 1000);
 
+    var Events = supersonic.data.model('Event');
+    $scope.events = null;
+    $scope.showSpinner = true;
 
-    Event.all().whenChanged( function (events) {
+    Events.all().whenChanged( function (events) {
         $scope.$apply( function () {
           $scope.events = events;
           $scope.showSpinner = false;
-          console.log("first event is " + allEvents[0].EventName);
         });
     });
+
+
 
 
   });

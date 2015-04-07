@@ -6,7 +6,16 @@
 
   <div id="map-canvas"></div>     
 
+		<ul class="list" ng-hide="events.length == 0">
 
+      <super-navigate location="event#show" data-params-id="{{ event.id }}" ng-repeat="event in events">
+        <li class="item item-icon-right">
+          <span ng-bind="event['City']"></span>
+          <i class="icon super-ios7-arrow-right"></i>
+        </li>
+      </super-navigate>
+
+    </ul>
   <super-navbar>
     <super-navbar-title ng-bind="navbarTitle">
     </super-navbar-title>
