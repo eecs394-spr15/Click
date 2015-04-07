@@ -32,6 +32,16 @@
       <button ng-click="remove(event.id)" class="button button-block button-negative">
         Remove
       </button>
+
+      <super-navigate location="event#show-map" 
+                      data-params-id="{{ event.id }}"
+                      data-params-name="{{ event['EventName'] }}"
+                      data-params-location="{{ event['Street'] + ', ' + 'Evanston, IL' }}"
+                      data-params-contact="">
+        <button class="button button-block button-positive">
+          Show on map
+        </button>
+      </super-navigate>
     </div>
   </div>
 </div>

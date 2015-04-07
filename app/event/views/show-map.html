@@ -1,0 +1,18 @@
+<div ng-controller="ShowMapController">
+
+	
+
+
+  <div id="map-canvas"></div>     
+  <p>Event ID: <span ng-bind="eventId"></span></p>
+  <p>Event name: <span ng-bind="eventName"></span></p>
+
+  <super-navbar>
+    <super-navbar-title ng-bind="navbarTitle">
+    </super-navbar-title>
+  </super-navbar>
+
+</div>
+
+<script src="/components/jquery/dist/jquery.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyYJVrwUcubg_fx5TLAmt9_faV-xx-CxI"></script>
