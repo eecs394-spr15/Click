@@ -10,9 +10,10 @@
     <ul class="list" ng-hide="events.length == 0">
 
       <super-navigate location="event#show" data-params-id="{{ event.id }}" ng-repeat="event in events">
-        <li class="item item-icon-right">
-          <span ng-bind="event['City']"></span>
-          <i class="icon super-ios7-arrow-right"></i>
+        <li class="item" >
+          <h2 ng-bind="event['EventName']"></h2>
+          <h2 ng-bind="event['Comments']"></h2>
+          <p ng-bind="event['PosterName']"></p>
         </li>
       </super-navigate>
 
