@@ -7,37 +7,21 @@ module.exports =
     {
       title: "Clicks"
       id: "index"
-      location: "example#getting-started" # Supersonic module#view type navigation
+      location: "event#index" 
     }
     {
       title: "Map"
       id: "map"
       location: "example#map-view" # URLs are supported!
     }
-    {
-      title: "My Account"
-      id: "account"
-      location: "example#settings"
-    }
-    {
-      title: "Events"
-      id: "event"
-      location: "event#index"
-    }
+    
+    
   ]
 
   # rootView:
-  #   location: "example#getting-started"
+  #   location: "events#index"
 
   preloads: [
-    {
-      id: "learn-more"
-      location: "example#learn-more"
-    }
-    {
-      id: "using-the-scanner"
-      location: "example#using-the-scanner"
-    }
     {
       id: "map-view"
       location: "example#map-view"

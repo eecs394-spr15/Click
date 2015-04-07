@@ -1,8 +1,10 @@
 <div ng-controller="IndexController">
   <super-navbar>
     <super-navbar-title>
-      Event Index
+      Clicks
     </super-navbar-title>
+    <super-navbar-button id="add" side="right" location="event#new"> +
+    </super-navbar-button>
   </super-navbar>
 
   <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
@@ -21,11 +23,5 @@
     <h4 ng-show="events.length == 0" class="assertive padding">
       No events found. Create one?
     </h4>
-
-    <super-modal-show location="event#new">
-      <button class="button button-full button-positive">
-        Create a new event
-      </button>
-    </super-modal-show>
   </div>
 </div>
