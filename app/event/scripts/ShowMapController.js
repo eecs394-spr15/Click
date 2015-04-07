@@ -11,20 +11,34 @@ angular
     $scope.eventId = undefined;
     $scope.eventName = undefined;
     $scope.eventLocation = undefined;
+    $scope.eventContactPerson = undefined;
+    $scope.eventContactNumber = undefined;
     $scope.eventMarker = undefined;
+    $scope.infowindow = undefined;
 
 
     supersonic.ui.views.current.params.onValue( function (values) {
       $scope.eventId = values.id;
       $scope.eventName = values.name;
       $scope.eventLocation = values.location;
+      $scope.eventContactPerson = values.contact;
+      $scope.eventContactNumber = values.number;
+    });
+
+    var infoString = '<p><strong>' + $scope.eventName + '</strong><br>' +
+                    $scope.eventLocation + '</p>' +
+                    $scope.eventContactPerson + '<br>' +
+                    $scope.eventContactNumber;
+
+    $scope.infowindow = new google.maps.InfoWindow({
+        content: infoString
     });
     
     
 
 
 
-    $('#map-canvas').css("height", 300);
+    $('#map-canvas').css("height", $(window).height());
     //document.getElementById('map-canvas').style.height = 300;
 
     function initialize() {
@@ -119,6 +133,15 @@ angular
               position: results[0].geometry.location,
               title: $scope.eventName
           });
+
+          google.maps.event.addListener($scope.eventMarker, 'click', function() {
+            $scope.infowindow.open($scope.map,$scope.eventMarker);
+          });
+
+          google.maps.event.addListener($scope.map, 'click', function(){
+            $scope.infowindow.close();
+          });
+
         } else {
           alert('Geocode was not successful for the following reason: ' + status);
         }
