@@ -3,8 +3,19 @@ angular
   .controller('MapController', function($scope, supersonic) {
 
     $scope.navbarTitle = "Map";
-    $scope.events = [];
+    $scope.events = null;
+    $scope.showSpinner = true;
     
+
+
+    var Events = supersonic.data.model('Event');
+    Events.all().whenChanged( function (events) {
+        $scope.$apply( function () {
+          $scope.events = events;
+          $scope.showSpinner = false;
+        });
+    });
+
 
     function CenterControl(controlDiv, map) {
 
@@ -39,7 +50,14 @@ angular
     }
     var map;
     var myMarker;
+    var contentString = []; //array of infowindow descriptions
+    var infowindow;
     var geocoder = new google.maps.Geocoder();
+    var markers = [];     //array of markers
+    var places = [];      //array of lat/long    
+    var oms;  //display multiple markers at same location
+
+
 
     function initialize() {
       var mapOptions = {
@@ -85,31 +103,73 @@ angular
 
       centerControlDiv.index = 0;
       map.controls[google.maps.ControlPosition.LEFT_TOP].push(centerControlDiv);
-    
+      
+
+      oms = new OverlappingMarkerSpiderfier(map);
+      for (var i = 0; i < $scope.events.length; i++)
+      {
+        var comments = $scope.events[i].Comments;
+        var eventName = $scope.events[i].EventName;
+        var posterName = $scope.events[i].PosterName;
+        var city = $scope.events[i].City;
+        var contact = $scope.events[i].Contact;
+        var endTime = $scope.events[i].EndTime;
+        var startTime = $scope.events[i].StartTime;
+        var month = $scope.events[i].Month;
+        var room = $scope.events[i].Room;
+        var street = $scope.events[i].Street;
+        var state = $scope.events[i].State;
+        var year = $scope.events[i].Year;
+        var day = $scope.events[i].Day;
+        contentString[i] = '<h4>' + eventName + '</h4>\n' +
+                                  '<p>When: ' + month + " " + day + " " + year + ' ' + startTime + ' - ' + endTime + 
+                                  '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state + 
+                                  '<br>Contact: ' + contact + 
+                                  '<br>Comments: ' + comments +
+                                  '</p>';
+      }
+
+      for (var i = 0; i < $scope.events.length; i++) 
+      { 
+        (function(i) { 
+          geocoder.geocode( { 'address': $scope.events[i].Street + "," + $scope.events[i].City + "," + $scope.events[i].State + " 60208"}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) 
+            {
+              places[i] = results[0].geometry.location;
+
+              var marker = new google.maps.Marker({
+                position: places[i], 
+                map: map
+              });
+              marker.desc = contentString[i];
+              markers.push(marker);
+
+              oms.addMarker(marker);
+
+
+
+            } 
+            else { 
+              alert("Geocode was not successful for the following reason: " + status); 
+            }
+          });
+
+        })(i);
+      }
+
+      var iw = new google.maps.InfoWindow();
+      oms.addListener('click', function(marker, event) {
+        iw.setContent(marker.desc);
+        iw.open(map, marker);
+      });
     }
+
     google.maps.event.addDomListener(window, 'load', initialize);
 
-    geocoder.geocode( { 'address': 'Mudd Library Evanston, Illinois 60201'}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        var contentString = '<h1>EECS 394 Steroids Party</h1>';
-        var marker = new google.maps.Marker({
-            map: map,
-            position: results[0].geometry.location
-        });
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
-        google.maps.event.addListener(marker, 'click', function() {
-          infowindow.open(map, marker);
-        });
-      } else {
-        alert('Geocode was not successful for the following reason: ' + status);
-      }
-    });
+    
 
-
-    //$('#map-canvas').css("height", $(window).height());
-    $('#map-canvas').css("height", 500);
+    $('#map-canvas').css("height", $(window).height());
+    //$('#map-canvas').css("height", 500);
 
 
     setInterval(function(){
@@ -125,16 +185,7 @@ angular
       }
     }, 1000);
 
-    var Events = supersonic.data.model('Event');
-    $scope.events = null;
-    $scope.showSpinner = true;
 
-    Events.all().whenChanged( function (events) {
-        $scope.$apply( function () {
-          $scope.events = events;
-          $scope.showSpinner = false;
-        });
-    });
 
 
 
