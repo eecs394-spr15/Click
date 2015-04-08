@@ -32,6 +32,7 @@ tab-bar {
   border-top: 1px #d8d8d8 solid;
 }
 
+
 tab-bar tab-bar-item {
   color: #b0b1b4;
   font-family: "Avenir";
@@ -54,3 +55,5 @@ tab-bar-item#map {
   background-image: url(icons/Globe.svg);
   padding-bottom: 4px;
 }
+
+
