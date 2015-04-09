@@ -33,9 +33,6 @@ angular
     $scope.infowindow = new google.maps.InfoWindow({
         content: infoString
     });
-    
-    
-
 
 
    //document.getElementById('map-canvas').style.height = 300;
@@ -69,10 +66,10 @@ angular
           url: "/icons/mylocation-marker.svg",
           size: new google.maps.Size(markerSize, markerSize),
           scaledSize: new google.maps.Size(markerSize, markerSize)
-        }
+        };
 
         $scope.myMarker = new google.maps.Marker({
-          position: currentLocation, 
+          position: currentLocation,
           map: $scope.map,
           title: "Me",
           icon: myMarkerImg
@@ -151,15 +148,15 @@ angular
 
 
     $(window).resize(function() {
-      $('#map-canvas').css("height", $(window).height()); 
+      $('#map-canvas').css("height", $(window).height());
     });
 
-    $('#map-canvas').css("height", $(window).height()); 
+    $('#map-canvas').css("height", $(window).height());
 
     // updates user location
     setInterval(function(){
       // set center to current location
-      if ($scope.map != undefined && $scope.myMarker != undefined)
+      if ($scope.map !== undefined && $scope.myMarker !== undefined)
       {
         supersonic.device.geolocation.getPosition().then(function(position)
         {
@@ -170,10 +167,5 @@ angular
       }
     }, 1000);
 
-
-
-
-
-    
 
   });

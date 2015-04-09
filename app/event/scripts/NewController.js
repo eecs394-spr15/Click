@@ -27,6 +27,6 @@ angular
 
     $scope.cancel = function () {
       supersonic.ui.modal.hide();
-    }
+    };
 
   });

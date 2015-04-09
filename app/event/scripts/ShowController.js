@@ -12,7 +12,7 @@ angular
           $scope.showSpinner = false;
         });
       });
-    }
+    };
 
     supersonic.ui.views.current.whenVisible( function () {
       if ( $scope.dataId ) {
@@ -30,5 +30,5 @@ angular
       $scope.event.delete().then( function () {
         supersonic.ui.layers.pop();
       });
-    }
+    };
   });

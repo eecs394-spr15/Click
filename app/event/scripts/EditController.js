@@ -17,10 +17,10 @@ angular
       $scope.event.save().then( function () {
         supersonic.ui.modal.hide();
       });
-    }
+    };
 
     $scope.cancel = function () {
       supersonic.ui.modal.hide();
-    }
+    };
 
   });

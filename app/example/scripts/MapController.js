@@ -5,7 +5,7 @@ angular
     $scope.navbarTitle = "Map";
     $scope.events = null;
     $scope.showSpinner = true;
-    
+
 
 
     var Events = supersonic.data.model('Event');
@@ -54,7 +54,7 @@ angular
     var infowindow;
     var geocoder = new google.maps.Geocoder();
     var markers = [];     //array of markers
-    var places = [];      //array of lat/long    
+    var places = [];      //array of lat/long
     var oms;  //display multiple markers at same location
 
 
@@ -88,10 +88,10 @@ angular
           url: "/icons/mylocation-marker.svg",
           size: new google.maps.Size(markerSize, markerSize),
           scaledSize: new google.maps.Size(markerSize, markerSize)
-        }
+        };
 
         myMarker = new google.maps.Marker({
-          position: currentLocation, 
+          position: currentLocation,
           map: map,
           title: "Me",
           icon: myMarkerImg
@@ -103,7 +103,7 @@ angular
 
       centerControlDiv.index = 0;
       map.controls[google.maps.ControlPosition.LEFT_TOP].push(centerControlDiv);
-      
+
 
       oms = new OverlappingMarkerSpiderfier(map);
       for (var i = 0; i < $scope.events.length; i++)
@@ -122,23 +122,23 @@ angular
         var year = $scope.events[i].Year;
         var day = $scope.events[i].Day;
         contentString[i] = '<h4>' + eventName + '</h4>\n' +
-                                  '<p>When: ' + month + " " + day + " " + year + ' ' + startTime + ' - ' + endTime + 
-                                  '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state + 
-                                  '<br>Contact: ' + contact + 
+                                  '<p>When: ' + month + " " + day + " " + year + ' ' + startTime + ' - ' + endTime +
+                                  '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
+                                  '<br>Contact: ' + contact +
                                   '<br>Comments: ' + comments +
                                   '</p>';
       }
 
-      for (var i = 0; i < $scope.events.length; i++) 
-      { 
-        (function(i) { 
+      for (i = 0; i < $scope.events.length; i++)
+      {
+        (function(i) {
           geocoder.geocode( { 'address': $scope.events[i].Street + "," + $scope.events[i].City + "," + $scope.events[i].State + " 60208"}, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) 
+            if (status == google.maps.GeocoderStatus.OK)
             {
               places[i] = results[0].geometry.location;
 
               var marker = new google.maps.Marker({
-                position: places[i], 
+                position: places[i],
                 map: map
               });
               marker.desc = contentString[i];
@@ -148,13 +148,13 @@ angular
 
 
 
-            } 
-            else { 
-              alert("Geocode was not successful for the following reason: " + status); 
+            }
+            else {
+              alert("Geocode was not successful for the following reason: " + status);
             }
           });
 
-        })(i);
+        })(i);  //jshint ignore:line
       }
 
       var iw = new google.maps.InfoWindow();
@@ -166,18 +166,18 @@ angular
 
     google.maps.event.addDomListener(window, 'load', initialize);
 
-    
+
     $(window).resize(function() {
-      $('#map-canvas').css("height", $(window).height()); 
+      $('#map-canvas').css("height", $(window).height());
     });
 
-    $('#map-canvas').css("height", $(window).height()); 
+    $('#map-canvas').css("height", $(window).height());
     //$('#map-canvas').css("height", 500);
 
 
     setInterval(function(){
       // set center to current location
-      if (map != undefined && myMarker != undefined)
+      if (map !== undefined && myMarker !== undefined)
       {
         supersonic.device.geolocation.getPosition().then(function(position)
         {
