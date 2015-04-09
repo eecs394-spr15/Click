@@ -1,7 +1,9 @@
-<div class="list">
+<div class="formDiv">
+<super-navigate-back  ng-click="cancel()"> 
+  <button class="button button-block button-positive">Cancel</button>
+</super-navigate-back>
 
-  
-  
+<div class="list">
   <label class="item item-input item-stacked-label">
     <span class="input-label">EventName</span>
     <input type="text" ng-model="event['EventName']">
@@ -66,7 +68,8 @@
 
 
   <br>
-
+</div>
+<super-navigate-back> 
   <button class="button button-block button-positive">Save</button>
-
+</super-navigate-back>
 </div>
