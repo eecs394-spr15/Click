@@ -1,3 +1,7 @@
 span{
   white-space: pre-wrap;
 }
+
+#map-canvas span{
+  white-space: nowrap;
+}

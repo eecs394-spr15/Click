@@ -38,8 +38,7 @@ angular
 
 
 
-    $('#map-canvas').css("height", $(window).height());
-    //document.getElementById('map-canvas').style.height = 300;
+   //document.getElementById('map-canvas').style.height = 300;
 
     function initialize() {
       var mapOptions = {
@@ -150,6 +149,12 @@ angular
       //$scope.eventLocation = new google.maps.LatLng(latitude, longitude);
     }
 
+
+    $(window).resize(function() {
+      $('#map-canvas').css("height", $(window).height()); 
+    });
+
+    $('#map-canvas').css("height", $(window).height()); 
 
     // updates user location
     setInterval(function(){

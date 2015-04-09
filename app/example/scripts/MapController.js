@@ -167,8 +167,11 @@ angular
     google.maps.event.addDomListener(window, 'load', initialize);
 
     
+    $(window).resize(function() {
+      $('#map-canvas').css("height", $(window).height()); 
+    });
 
-    $('#map-canvas').css("height", $(window).height());
+    $('#map-canvas').css("height", $(window).height()); 
     //$('#map-canvas').css("height", 500);
 
 
