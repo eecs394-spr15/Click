@@ -36,22 +36,40 @@ angular
       $scope.event.Day = date[2];
       $scope.event.Year = date[0];
 
+      var address = $scope.event.Street;
+      var city = $scope.event.City;
+      var state = $scope.event.State;
+      var geocoder = new google.maps.Geocoder();
 
+      alert(geocoder);
+      geocoder.geocode({'address': address + "," + city + "," + state + " 60208"}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK)
+        {
+          $scope.event.Lat = results[0].geometry.location.lat;
+          $scope.event.Long = results[0].geometry.location.lng;
+          supersonic.logger.log($scope.event.Lat);
+          supersonic.logger.log($some.event.Long);
+          newevent = new Event($scope.event);
+          alert("geocoding");
+          var TestObject = Parse.Object.extend("Events");
+          var testObject = new TestObject();
+          testObject.save($scope.event, {
+            success: function(object) {
+              supersonic.ui.modal.hide();
+            },
+            error: function(model, error) {
+              steroids.logger.log(error);
+            }
+          });
 
-      newevent = new Event($scope.event);
-
-      var TestObject = Parse.Object.extend("Events");
-      var testObject = new TestObject();
-      testObject.save($scope.event, {
-      success: function(object) {
-        supersonic.ui.modal.hide();
-      },
-      error: function(model, error) {
-        steroids.logger.log(error);
-      }
+        }
+        else
+        {
+          supersonic.logger.log(
+            "fail");
+          alert("query failed");
+        }
       });
-
-
 
       // newevent.save().then( function () {
       //   supersonic.ui.modal.hide();

@@ -14,9 +14,9 @@ angular
         $scope.$apply( function () {
           $scope.events = events;
           $scope.showSpinner = false;
-          initialize();
-          if (addedMarkers == false)
+          if (addedMarkers === false)
           {
+            initialize();
             oms = new OverlappingMarkerSpiderfier(map);
             for (var i = 0; i < $scope.events.length; i++)
             {
