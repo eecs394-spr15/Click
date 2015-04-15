@@ -7,6 +7,61 @@
 
   <div class="padding">
     <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
-    <form ng-hide="showSpinner" ng-submit="submitForm()" ng-include="'_form.html'"></form>
+    <form ng-hide="showSpinner" ng-submit="submitForm()">
+      
+
+
+    <div class="formDiv">
+      <super-navigate-back  ng-click="cancel()">
+        <button class="button button-block button-positive">Cancel</button>
+      </super-navigate-back>
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" placeholder="Event Name" ng-model="event['EventName']">
+        </label>
+        <div class="item item-divider">What</div>
+        <label class="item item-input">
+          <input type="text" placeholder="Comments" ng-model="event['Comments']">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Poster Name" ng-model="event['PosterName']">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Contact" ng-model="event['Contact']">
+        </label>
+        <div class="item item-divider">When</div>
+        <label class="item item-input">
+          <input id="date" type="date">
+        </label>
+        <label class="item item-input">
+          <input id="starttime" type="time">
+        </label>
+        <label class="item item-input">
+          <input id="endtime" type="time">
+        </label>
+        <div class="item item-divider">Where</div>
+        <label class="item item-input">
+          <input type="text" placeholder="Room" ng-model="event['Room']">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Street" ng-model="event['Street']">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="City" ng-model="event['City']">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="State" ng-model="event['State']">
+        </label>
+
+      </div>
+      <super-navigate-back>
+        <button class="button button-block button-positive">Save</button>
+      </super-navigate-back>
+    </div>
+
+
+
+
+    </form>
   </div>
 </div>
