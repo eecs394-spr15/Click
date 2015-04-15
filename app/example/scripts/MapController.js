@@ -14,6 +14,7 @@ angular
         $scope.$apply( function () {
           $scope.events = events;
           $scope.showSpinner = false;
+          /*
           if (addedMarkers === false)
           {
             initialize();
@@ -76,6 +77,7 @@ angular
             });
             addedMarkers = true;
           }
+          */
         });
     });
 
