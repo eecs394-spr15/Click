@@ -13,24 +13,101 @@ angular
     Date.prototype.toStartTimeInputValue = (function() {
       var local = new Date(this);
       local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-      return local.toJSON().slice(11,19);
+      return local.toJSON().slice(11,13) + ":00:00";
     });
 
     Date.prototype.toEndTimeInputValue = (function() {
       var local = new Date(this);
       local.setMinutes(this.getMinutes() - this.getTimezoneOffset() + 60);
-      return local.toJSON().slice(11,19);
+      return local.toJSON().slice(11,13) + ":00:00";
     });
     $('#date').val(new Date().toDateInputValue());
-    $('#starttime').val(new Date().toStartTimeInputValue());
-    $('#endtime').val(new Date().toEndTimeInputValue());
+    $('#start-time').val(new Date().toStartTimeInputValue());
+    $('#end-time').val(new Date().toEndTimeInputValue());
+
+    // error messaging
+    $scope.checkForm = function () {
+      var numErrors = 0;
+      var errorMsg = "Your are missing the following inputs:\n"
+      $('#event-name-lbl').removeClass('error-input');
+      $('#comments-lbl').removeClass('error-input');
+      $('#poster-name-lbl').removeClass('error-input');
+      $('#contact-lbl').removeClass('error-input');
+      $('#date-lbl').removeClass('error-input');
+      $('#start-time-lbl').removeClass('error-input');
+      $('#end-time-lbl').removeClass('error-input');
+      $('#address-lbl').removeClass('error-input');
+      $('#room-lbl').removeClass('error-input');
+      $('#city-lbl').removeClass('error-input');
+      $('#state-lbl').removeClass('error-input');
+
+      if ($('#event-name').val() === '' || $('#event-name').val() === undefined || $('#event-name').val() === null)
+      {
+        numErrors++;
+        errorMsg += "Event Name\n";
+        $('#event-name-lbl').addClass('error-input');
+      }
+      if ($('#poster-name').val() === '' || $('#poster-name').val() === undefined || $('#poster-name').val() === null)
+      {
+        numErrors++;
+        errorMsg += "Poster Name\n";
+        $('#poster-name-lbl').addClass('error-input');
+      }
+      if ($('#contact').val() === '' || $('#contact').val() === undefined || $('#contact').val() === null)
+      {
+        numErrors++;
+        errorMsg += "Contact Info\n";
+        $('#contact-lbl').addClass('error-input');
+      }
+      if ($('#date').val() === '' || $('#date').val() === undefined || $('#date').val() === null)
+      {
+        numErrors++;
+        errorMsg += "Date\n";
+        $('#date-lbl').addClass('error-input');
+      }
+      if ($('#start-time').val() === '' || $('#start-time').val() === undefined || $('#start-time').val() === null)
+      {
+        numErrors++;
+        errorMsg += "Start Time\n";
+        $('#start-time-lbl').addClass('error-input');
+      }
+      if ($('#end-time').val() === '' || $('#end-time').val() === undefined || $('#end-time').val() === null)
+      {
+        numErrors++;
+        errorMsg += "End Time\n";
+        $('#end-time-lbl').addClass('error-input');
+      }
+      if ($('#address').val() === '' || $('#address').val() === undefined || $('#address').val() === null)
+      {
+        numErrors++;
+        errorMsg += "Address\n";
+        $('#address-lbl').addClass('error-input');
+      }
+      if ($('#city').val() === '' || $('#city').val() === undefined || $('#city').val() === null)
+      {
+        numErrors++;
+        errorMsg += "City\n";
+        $('#city-lbl').addClass('error-input');
+      }
+      if ($('#state').val() === '' || $('#state').val() === undefined || $('#state').val() === null)
+      {
+        numErrors++;
+        errorMsg += "State\n";
+        $('#state-lbl').addClass('error-input');
+      }
+      if (numErrors === 0)
+      {
+        $scope.submitForm();
+      }
+    };
+
 
     $scope.submitForm = function () {
       $scope.showSpinner = true;
 
       // parse form input, ng-model breaks the input type=date for some reason
-      $scope.event.StartTime = $('#starttime').val();
-      $scope.event.EndTime = $('#endtime').val();
+      $scope.event.StartTime = $('#start-time').val();
+      $scope.event.EndTime = $('#end-time').val();
       var date = $('#date').val().split("-");
       $scope.event.Month = date[1];
       $scope.event.Day = date[2];
@@ -53,19 +130,18 @@ angular
           var testObject = new TestObject();
           testObject.save($scope.event, {
             success: function(object) {
-              supersonic.ui.modal.hide();
+              supersonic.ui.layers.pop();
             },
             error: function(model, error) {
               steroids.logger.log(error);
             }
           });
-
         }
         else
         {
           supersonic.logger.log(
             "fail");
-          alert("query failed");
+          alert("The inputted address could not be found.");
         }
       });
  
