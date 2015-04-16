@@ -6,6 +6,8 @@ span {
   white-space: nowrap;
 }
 
+/* styles for new.html page */
+
 #form-error-card {
   border-color: red;
   border-style: solid;
@@ -21,4 +23,26 @@ span {
   border-color: red;
   border-style: solid;
   border-width: 2px;
+}
+
+/* styles for sort selector on main page */
+
+.sort {
+  padding-bottom: 40px;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-bottom: 0px;
+}
+
+/* sytles for show.html page */
+
+#event-divider {
+  font-weight: bold;
+  font-size: 1em;
+  white-space: nowrap;
+  height: 1.1em;
+}
+
+#showpage-heading {
+  color: #666666;
 }

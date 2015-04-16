@@ -8,20 +8,21 @@
   <div class="padding">
     <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
     <div ng-hide="showSpinner">
-      <h2 ng-bind="event['EventName']"></h2>
+      <h2 id="showpage-heading" ng-bind="event['EventName']"></h2>
         
-	   <div class="item item-divider"><p>What:</p>  
+     <div class="item item-divider"><p id="event-divider"><b>What</b></p>
        <p>Comments: <span ng-bind="event['Comments']"></span></p> 
        <p>PosterName: <span ng-bind="event['PosterName']"></span></p> 
        <p>Contact: <span ng-bind="event['Contact']"></span></p>
-	   </div>
-       <div class="item item-divider"><p>When:</p>  
-	   <p>Date: <span ng-bind="event['Year']"></span>, <span ng-bind="event['Month']"></span>, <span ng-bind="event['Day']"></span></p> 
+     </div>
+       <div class="item item-divider"><p id="event-divider">When</p>  
+     <p>Date: <span ng-bind="event['Year']"></span>, <span ng-bind="event['Month']"></span>, <span ng-bind="event['Day']"></span></p> 
        <p>Time: From <span ng-bind="event['StartTime']"></span> to <span ng-bind="event['EndTime']"></span></p> 
         </div>   
-       <div class="item item-divider"><p>Where:</p>  
-		<p><span ng-bind="event['Street']"></span>, <span ng-bind="event['City']">, <span ng-bind="event['State']">, Apt: <span ng-bind="event['Room']"></span></p>
-	   </div>
+       <div class="item item-divider"><p id="event-divider">Where</p>  
+    <p><span ng-bind="event['Street']"></span>, <span ng-bind="event['City']"></span> <span ng-bind="event['State']"></span></p>
+    <p>Room: <span ng-bind="event['Room']"></span></p>
+     </div>
     
       <!--<super-modal-show location="event#edit?id={{ event.id }}">
         <button class="button button-block button-positive">

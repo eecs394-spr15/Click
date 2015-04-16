@@ -25,10 +25,12 @@ angular
     $('#start-time').val(new Date().toStartTimeInputValue());
     $('#end-time').val(new Date().toEndTimeInputValue());
 
+    var stateIndex; // index in states array
+
     // error messaging
     $scope.checkForm = function () {
       var numErrors = 0;
-      var errorMsg = "Your are missing the following inputs:\n"
+      var errorMsg = "Your are missing the following inputs:\n";
       $('#event-name-lbl').removeClass('error-input');
       $('#comments-lbl').removeClass('error-input');
       $('#poster-name-lbl').removeClass('error-input');
@@ -95,12 +97,24 @@ angular
         errorMsg += "State\n";
         $('#state-lbl').addClass('error-input');
       }
+      stateIndex = states.indexOf($('#state').val().toUpperCase());
+      if (stateIndex == -1)
+      {
+        numErrors++;
+        $('#state-lbl').addClass('error-input');
+      }
       if (numErrors === 0)
       {
         $scope.submitForm();
       }
     };
 
+    $('#state').focusout(function() {
+      if (states.indexOf($('#state').val().toUpperCase()) == -1)
+      {
+        $('#state-lbl').addClass('error-input');
+      }
+    });
 
     $scope.submitForm = function () {
       $scope.showSpinner = true;
@@ -112,15 +126,54 @@ angular
       $scope.event.Month = date[1];
       $scope.event.Day = date[2];
       $scope.event.Year = date[0];
+      $scope.event.DateTime = $('#date').val() + "-" + $scope.event.StartTime;
+
+      //add empty string for room and comments if none
+      if ($scope.event.Room === undefined)
+      {
+        $scope.event.Room = '';
+      }  
+      if ($scope.event.Comments === undefined)
+      {
+        $scope.event.Comments = '';
+      }
+      if ($scope.event.Contact === undefined)
+      {
+        $scope.event.Contact = '';
+      }
+
+      // sanitize the address with format Capital Letter for first letter and lower case for the rest
 
       var address = $scope.event.Street;
       var city = $scope.event.City;
       var state = $scope.event.State;
+      $scope.event.City = city.substr(0, 1).toUpperCase() + city.substr(1, city.length - 1).toLowerCase();  // change all but first letter to lower case
+      if (stateIndex % 2 == 0)  // store the state full name into the DB
+      {
+        $scope.event.State = states[stateIndex].substr(0, 1) + states[stateIndex].substr(1, states[stateIndex].length -1).toLowerCase(); // upper case then lower case
+      }
+      else
+        $scope.event.State = states[stateIndex + 1].substr(0, 1) + states[stateIndex - 1].substr(1, states[stateIndex - 1].length -1).toLowerCase(); 
+      var address_components = address.split(" ");
+      for (var i = 0; i < address_components.length; i++)
+      {
+        address_components[i] = address_components[i].substr(0, 1).toUpperCase() + address_components[i].substr(1, address_components[i].length - 1); // same as above comments
+      }
+      $scope.event.Street = address_components.join(" ");
+
+
       var geocoder = new google.maps.Geocoder();
       $scope.event.Lat = undefined;
       $scope.event.Long = undefined;
-      geocoder.geocode({'address': address + "," + city + "," + state + " 60208"}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK)
+      geocoder.geocode({'address': address + "," + city + "," + state}, function(results, status) {
+        if (results[0].geometry.location_type == 'APPROXIMATE')
+        {
+          supersonic.logger.log(
+            "fail");
+          alert("The inputted address could not be found.");
+          supersonic.ui.layers.pop();
+        }
+        else if (status == google.maps.GeocoderStatus.OK)
         {
           
           $scope.event.Lat = results[0].geometry.location.lat();
@@ -139,9 +192,8 @@ angular
         }
         else
         {
-          supersonic.logger.log(
-            "fail");
-          alert("The inputted address could not be found.");
+          alert("A problem occurred with adding this event");
+          supersonic.ui.layers.pop();
         }
       });
  

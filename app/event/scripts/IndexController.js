@@ -11,4 +11,6 @@ angular
           $scope.showSpinner = false;
         });
     });
+
+    $scope.predicate = "DateTime";
   });
