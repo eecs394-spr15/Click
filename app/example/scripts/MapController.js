@@ -6,79 +6,115 @@ angular
     $scope.events = null;
     $scope.showSpinner = true;
 
-    var addedMarkers = false;
-
+    var map;
+    var myMarker;
+    var contentString = []; // array of infowindow descriptions
+    var infowindow;
+    var geocoder = new google.maps.Geocoder();
+    var markers = [];     // array of markers
+    var places = [];      // array of lat/long
+    var oms;  // display multiple markers at same location
 
     var Events = supersonic.data.model('Event');
     Events.all().whenChanged( function (events) {
-        $scope.$apply( function () {
-          $scope.events = events;
-          $scope.showSpinner = false;
-          /*
-          if (addedMarkers === false)
+      $scope.$apply( function () {
+        $scope.events = events;
+        $scope.showSpinner = false;
+        // create the map
+        if (map === undefined && myMarker === undefined)
+        {
+          initialize();
+          oms = new OverlappingMarkerSpiderfier(map);
+
+        }
+        // place markers on map, map should now update new events automatically. "should".
+        for (var i = 0; i < $scope.events.length; i++)
+        {
+          var comments = $scope.events[i].Comments;
+          var eventName = $scope.events[i].EventName;
+          var posterName = $scope.events[i].PosterName;
+          var city = $scope.events[i].City;
+          var contact = $scope.events[i].Contact;
+          var endTime = $scope.events[i].EndTime;
+          var startTime = $scope.events[i].StartTime;
+          var month = $scope.events[i].Month;
+          var room = $scope.events[i].Room;
+          var street = $scope.events[i].Street;
+          var state = $scope.events[i].State;
+          var year = $scope.events[i].Year;
+          var day = $scope.events[i].Day;
+          var LatLng = new google.maps.LatLng($scope.events[i].Lat, $scope.events[i].Long);
+          var tempString = '<h4>' + eventName + '</h4>\n' +
+            '<p>When: ' + month + " " + day + " " + year + ' ' + startTime + ' - ' + endTime +
+            '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
+            '<br>Contact: ' + contact +
+            '<br>Comments: ' + comments +
+            '</p>';
+          
+          // new marker, so add string and place, then add the marker
+          if (i >= markers.length)
           {
-            initialize();
-            oms = new OverlappingMarkerSpiderfier(map);
-            for (var i = 0; i < $scope.events.length; i++)
-            {
-              var comments = $scope.events[i].Comments;
-              var eventName = $scope.events[i].EventName;
-              var posterName = $scope.events[i].PosterName;
-              var city = $scope.events[i].City;
-              var contact = $scope.events[i].Contact;
-              var endTime = $scope.events[i].EndTime;
-              var startTime = $scope.events[i].StartTime;
-              var month = $scope.events[i].Month;
-              var room = $scope.events[i].Room;
-              var street = $scope.events[i].Street;
-              var state = $scope.events[i].State;
-              var year = $scope.events[i].Year;
-              var day = $scope.events[i].Day;
-              contentString[i] = '<h4>' + eventName + '</h4>\n' +
-                                        '<p>When: ' + month + " " + day + " " + year + ' ' + startTime + ' - ' + endTime +
-                                        '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
-                                        '<br>Contact: ' + contact +
-                                        '<br>Comments: ' + comments +
-                                        '</p>';
-            }
+            contentString[i] = '<h4>' + eventName + '</h4>\n' +
+              '<p>When: ' + month + " " + day + " " + year + ' ' + startTime + ' - ' + endTime +
+              '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
+              '<br>Contact: ' + contact +
+              '<br>Comments: ' + comments +
+              '</p>';
+            places[i] = LatLng;
 
-            for (i = 0; i < $scope.events.length; i++)
-            {
-              (function(i) {
-                geocoder.geocode( { 'address': $scope.events[i].Street + "," + $scope.events[i].City + "," + $scope.events[i].State + " 60208"}, function(results, status) {
-                  if (status == google.maps.GeocoderStatus.OK)
-                  {
-                    places[i] = results[0].geometry.location;
-
-                    var marker = new google.maps.Marker({
-                      position: places[i],
-                      map: map
-                    });
-                    marker.desc = contentString[i];
-                    markers.push(marker);
-
-                    oms.addMarker(marker);
-
-
-
-                  }
-                  else {
-                    alert("Geocode was not successful for the following reason: " + status);
-                  }
-                });
-
-              })(i);  //jshint ignore:line
-            }
-
-            var iw = new google.maps.InfoWindow();
-            oms.addListener('click', function(marker, event) {
-              iw.setContent(marker.desc);
-              iw.open(map, marker);
+            var marker = new google.maps.Marker({
+              position: places[i],
+              map: map
             });
-            addedMarkers = true;
+
+            marker.desc = contentString[i];
+            markers.push(marker);
+            oms.addMarker(marker);
           }
-          */
+          // existing marker's description has changed
+          else if (contentString[i] != tempString)
+          {
+            contentString[i] = '<h4>' + eventName + '</h4>\n' +
+              '<p>When: ' + month + " " + day + " " + year + ' ' + startTime + ' - ' + endTime +
+              '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
+              '<br>Contact: ' + contact +
+              '<br>Comments: ' + comments +
+              '</p>';
+            markers[i].desc = contentString[i];
+          }
+          // existing marker's latitude longitude changed 
+          if (places[i].lat() != LatLng.lat() || places[i].lng() != LatLng.lng())
+          {
+            places[i] = LatLng;
+            markers[i].setPosition(places[i]);
+          }
+        }
+        // remove a marker
+        if ($scope.events.length < markers.length)
+        {
+          //alert($scope.events.length + " " + markers.length);
+          for (i = $scope.events.length; i < markers.length; i++)
+          {
+            places[i] = 0;
+            contentString[i] = 0;
+            markers[i].setMap(null);
+            oms.removeMarker(markers[i]);
+            markers[i] = null;
+          }
+          if (markers.length > $scope.event.length)
+          {
+            markers = markers.splice(0, $scope.event.length);
+            places = places.splice(0, $scope.event.length);
+            contentString = contentString.splice(0, $scope.event.length);
+          }
+        }
+
+        var iw = new google.maps.InfoWindow();
+        oms.addListener('click', function(marker, event) {
+          iw.setContent(marker.desc);
+          iw.open(map, marker);
         });
+      });
     });
 
 
@@ -113,16 +149,6 @@ angular
         });
       });
     }
-    var map;
-    var myMarker;
-    var contentString = []; //array of infowindow descriptions
-    var infowindow;
-    var geocoder = new google.maps.Geocoder();
-    var markers = [];     //array of markers
-    var places = [];      //array of lat/long
-    var oms;  //display multiple markers at same location
-
-
 
     function initialize() {
       var mapOptions = {
