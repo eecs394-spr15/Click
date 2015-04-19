@@ -3,7 +3,13 @@ angular
   .controller("NewController", function ($scope, Event, supersonic) {
     $scope.event = {};
 
+    $scope.options = [
+      'Party',
+      'Code'
+    ];
+
     // get current date and time
+
     $('#date').val(new Date().toDateInputValue());
     $('#start-time').val(new Date().toStartTimeInputValue());
     $('#end-time').val(new Date().toEndTimeInputValue());
