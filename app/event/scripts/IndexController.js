@@ -5,6 +5,7 @@ angular
     $scope.showSpinner = true;
 
 
+
     Event.all().whenChanged( function (events) {
         $scope.$apply( function () {
           $scope.events = events;

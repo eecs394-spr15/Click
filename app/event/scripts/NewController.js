@@ -3,6 +3,11 @@ angular
   .controller("NewController", function ($scope, Event, supersonic) {
     $scope.event = {};
 
+    $scope.options = [
+      'Party',
+      'Code'
+    ];
+
     //set the date input as current day, set starttime as right now, set endtime as hour from now
     Date.prototype.toDateInputValue = (function() {
       var local = new Date(this);
