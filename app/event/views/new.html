@@ -22,11 +22,8 @@
           <label id="event-name-lbl" class="item item-input">
             <input id="event-name" type="text" placeholder="Event Name" ng-model="event['EventName']">
           </label>
-          <label id="event-type-lbl" class="item item-input item-select">
+          <label id="event-type-lbl" class="item item-select event-type">
             
-            <div class="input-label">
-              Event Type
-            </div>
             <select ng-model="event['EventType']"
                 ng-options="opt as opt for opt in options">
             </select>

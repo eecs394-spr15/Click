@@ -5,8 +5,15 @@ angular
 
     $scope.options = [
       'Party',
+      'Enterainment',
+      'Fine Arts',
+      'Academic',
+      'Sports and Recreation',
+      'Lectures and Meetings',
       'Code'
     ];
+
+    $scope.event.EventType = $scope.options[0];
 
     // get current date and time
 
