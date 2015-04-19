@@ -2,6 +2,11 @@ span {
   white-space: pre-wrap;
 }
 
+.event-icon {
+  width: 60px;
+  height: 60px;
+}
+
 #map-canvas span {
   white-space: nowrap;
 }

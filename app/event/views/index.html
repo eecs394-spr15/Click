@@ -27,7 +27,8 @@
     <ul class="list" ng-hide="events.length == 0">
 
       <super-navigate location="event#show" data-params-id="{{ event.id }}" ng-repeat="event in events | orderBy:predicate">
-        <li class="item" >
+        <li class="item item-thumbnail-left" >
+          <img class="event-icon" src="/svg/{{event['EventType'] || 'Event'}}.svg">
           <h2 ng-bind="event['EventName']"></h2>
           <p><span ng-bind="event['Month']"></span> <span ng-bind="event['Day']"></span> <span ng-bind="event['Year']"></span></p>
           <p><span ng-bind="event['StartTime']"></span> - <span ng-bind="event['EndTime']"></span></p>
