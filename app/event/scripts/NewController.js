@@ -5,6 +5,9 @@ angular
 
     $scope.options = [
       'Party',
+      'Speech',
+      'Game',
+      'Meeting',
       'Code'
     ];
 
