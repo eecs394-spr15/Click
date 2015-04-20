@@ -47,11 +47,17 @@ angular
           startDate = new Date(startDate.iso);
           var endDate = $scope.events[i].EndDate;
           endDate = new Date(endDate.iso);
+
+          var startTimeArr = startDate.toLocaleTimeString().split(" ");
+          var endTimeArr = endDate.toLocaleTimeString().split(" ");
+          var startTimeText = startTimeArr[0].split(":")[0] + ":" + startTimeArr[0].split(":")[1] + " " +  startTimeArr[1];
+          var endTimeText = endTimeArr[0].split(":")[0] + ":" + endTimeArr[0].split(":")[1] + " " +  endTimeArr[1];
+
           var LatLng = new google.maps.LatLng($scope.events[i].Lat, $scope.events[i].Long);
           var tempString = '<h4>' + eventName + '</h4>\n' +
             '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
-            '<br>Start Time: ' + startDate.toDateString() + ' ' + startDate.toLocaleTimeString() +
-            '<br>End Time: ' + endDate.toDateString() + ' ' + endDate.toLocaleTimeString() +
+            '<br>Start: ' + startTimeText + ', ' + startDate.toDateString() + 
+            '<br>End: ' + endTimeText + ', ' + endDate.toDateString() + 
             '<br>Contact: ' + contact +
             '<br>Comments: ' + comments +
             '</p>';
@@ -61,8 +67,8 @@ angular
           {
             contentString[i] = '<h4>' + eventName + '</h4>\n' +
             '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
-            '<br>Start Time: ' + startDate.toDateString() + ' ' + startDate.toLocaleTimeString() +
-            '<br>End Time: ' + endDate.toDateString() + ' ' + endDate.toLocaleTimeString() +
+            '<br>Start: ' + startTimeText + ', ' + startDate.toDateString() + 
+            '<br>End: ' + endTimeText + ', ' + endDate.toDateString() + 
             '<br>Contact: ' + contact +
             '<br>Comments: ' + comments +
             '</p>';
@@ -82,8 +88,8 @@ angular
           {
             contentString[i] = '<h4>' + eventName + '</h4>\n' +
             '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
-            '<br>Start Time: ' + startDate.toDateString() + ' ' + startDate.toLocaleTimeString() +
-            '<br>End Time: ' + endDate.toDateString() + ' ' + endDate.toLocaleTimeString() +
+            '<br>Start: ' + startTimeText + ', ' + startDate.toDateString() + 
+            '<br>End: ' + endTimeText + ', ' + endDate.toDateString() + 
             '<br>Contact: ' + contact +
             '<br>Comments: ' + comments +
             '</p>';
