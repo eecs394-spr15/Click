@@ -14,6 +14,11 @@ module.exports =
       id: "map"
       location: "example#map-view" # URLs are supported!
     }
+    {
+      title: "Profile"
+      id: "profile"
+      location: "event#login" # URLs are supported!
+    }
     
     
   ]
