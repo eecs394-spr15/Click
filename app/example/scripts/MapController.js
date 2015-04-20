@@ -43,10 +43,15 @@ angular
           var state = $scope.events[i].State;
           var year = $scope.events[i].Year;
           var day = $scope.events[i].Day;
+          var startDate = $scope.events[i].StartDate;
+          startDate = new Date(startDate.iso);
+          var endDate = $scope.events[i].EndDate;
+          endDate = new Date(endDate.iso);
           var LatLng = new google.maps.LatLng($scope.events[i].Lat, $scope.events[i].Long);
           var tempString = '<h4>' + eventName + '</h4>\n' +
-            '<p>When: ' + month + " " + day + " " + year + ' ' + startTime + ' - ' + endTime +
             '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
+            '<br>Start Time: ' + startDate.toDateString() + ' ' + startDate.toLocaleTimeString() +
+            '<br>End Time: ' + endDate.toDateString() + ' ' + endDate.toLocaleTimeString() +
             '<br>Contact: ' + contact +
             '<br>Comments: ' + comments +
             '</p>';
@@ -55,11 +60,12 @@ angular
           if (i >= markers.length)
           {
             contentString[i] = '<h4>' + eventName + '</h4>\n' +
-              '<p>When: ' + month + " " + day + " " + year + ' ' + startTime + ' - ' + endTime +
-              '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
-              '<br>Contact: ' + contact +
-              '<br>Comments: ' + comments +
-              '</p>';
+            '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
+            '<br>Start Time: ' + startDate.toDateString() + ' ' + startDate.toLocaleTimeString() +
+            '<br>End Time: ' + endDate.toDateString() + ' ' + endDate.toLocaleTimeString() +
+            '<br>Contact: ' + contact +
+            '<br>Comments: ' + comments +
+            '</p>';
             places[i] = LatLng;
 
             var marker = new google.maps.Marker({
@@ -75,11 +81,12 @@ angular
           else if (contentString[i] != tempString)
           {
             contentString[i] = '<h4>' + eventName + '</h4>\n' +
-              '<p>When: ' + month + " " + day + " " + year + ' ' + startTime + ' - ' + endTime +
-              '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
-              '<br>Contact: ' + contact +
-              '<br>Comments: ' + comments +
-              '</p>';
+            '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
+            '<br>Start Time: ' + startDate.toDateString() + ' ' + startDate.toLocaleTimeString() +
+            '<br>End Time: ' + endDate.toDateString() + ' ' + endDate.toLocaleTimeString() +
+            '<br>Contact: ' + contact +
+            '<br>Comments: ' + comments +
+            '</p>';
             markers[i].desc = contentString[i];
           }
           // existing marker's latitude longitude changed 

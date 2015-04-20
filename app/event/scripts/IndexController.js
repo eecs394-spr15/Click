@@ -13,5 +13,5 @@ angular
         });
     });
 
-    $scope.predicate = "DateTime";
+    $scope.predicate = "EventName";
   });

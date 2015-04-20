@@ -17,7 +17,8 @@ angular
 
     // get current date and time
 
-    $('#date').val(new Date().toDateInputValue());
+    $('#start-date').val(new Date().toDateInputValue());
+    $('#end-date').val(new Date().toDateInputValue());
     $('#start-time').val(new Date().toStartTimeInputValue());
     $('#end-time').val(new Date().toEndTimeInputValue());
 
@@ -31,13 +32,16 @@ angular
       $('#comments-lbl').removeClass('error-input');
       $('#poster-name-lbl').removeClass('error-input');
       $('#contact-lbl').removeClass('error-input');
-      $('#date-lbl').removeClass('error-input');
       $('#start-time-lbl').removeClass('error-input');
       $('#end-time-lbl').removeClass('error-input');
       $('#address-lbl').removeClass('error-input');
       $('#room-lbl').removeClass('error-input');
       $('#city-lbl').removeClass('error-input');
       $('#state-lbl').removeClass('error-input');
+      $('#start-date-lbl').removeClass('error-input');
+      $('#end-date-lbl').removeClass('error-input');
+      $('#start-time-lbl').removeClass('error-input');
+      $('#end-time-lbl').removeClass('error-input');
 
       if ($('#event-name').val() === '' || $('#event-name').val() === undefined || $('#event-name').val() === null)
       {
@@ -57,22 +61,16 @@ angular
         errorMsg += "Contact Info\n";
         $('#contact-lbl').addClass('error-input');
       }
-      if ($('#date').val() === '' || $('#date').val() === undefined || $('#date').val() === null)
+
+      var startDateTime = $('#start-date').val() + "-" + $('#start-time').val();
+      var endDateTime = $('#end-date').val() + "-" + $('#end-time').val();
+
+      if (startDateTime >= endDateTime)
       {
         numErrors++;
-        errorMsg += "Date\n";
-        $('#date-lbl').addClass('error-input');
-      }
-      if ($('#start-time').val() === '' || $('#start-time').val() === undefined || $('#start-time').val() === null)
-      {
-        numErrors++;
-        errorMsg += "Start Time\n";
+        $('#start-date-lbl').addClass('error-input');
+        $('#end-date-lbl').addClass('error-input');
         $('#start-time-lbl').addClass('error-input');
-      }
-      if ($('#end-time').val() === '' || $('#end-time').val() === undefined || $('#end-time').val() === null)
-      {
-        numErrors++;
-        errorMsg += "End Time\n";
         $('#end-time-lbl').addClass('error-input');
       }
       if ($('#address').val() === '' || $('#address').val() === undefined || $('#address').val() === null)
@@ -119,15 +117,24 @@ angular
     $scope.submitForm = function () {
       $scope.showSpinner = true;
 
-      // parse form input, ng-model breaks the input type=date for some reason
-      $scope.event.StartTime = $('#start-time').val();
-      $scope.event.EndTime = $('#end-time').val();
-      var date = $('#date').val().split("-");
-      $scope.event.Month = date[1];
-      $scope.event.Day = date[2];
-      $scope.event.Year = date[0];
-      $scope.event.DateTime = $('#date').val() + "-" + $scope.event.StartTime;
+      var startDate = $('#start-date').val().split("-");
+      startDate[1] = parseInt(startDate[1]) - 1;
+      startDate[0] = parseInt(startDate[0]);
+      startDate[2] = parseInt(startDate[2]);
+      var startTime = $('#start-time').val().split(":");
+      startTime[0] = parseInt(startTime[0]);
+      startTime[1] = parseInt(startTime[1]);
+      var endDate = $('#end-date').val().split("-");
+      endDate[1] = parseInt(endDate[1]) - 1;
+      endDate[0] = parseInt(endDate[0]);
+      endDate[2] = parseInt(endDate[2]);
+      var endTime = $('#end-time').val().split(":");
+      endTime[0] = parseInt(endTime[0]);
+      endTime[1] = parseInt(endTime[1]);
 
+      $scope.event.StartDate = new Date(startDate[0], startDate[1], startDate[2], startTime[0], startTime[1]);
+      $scope.event.EndDate = new Date(endDate[0], endDate[1], endDate[2], endTime[0], endTime[1]);
+      alert("dates work");
       //add empty string for room and comments if none
       if ($scope.event.Room === undefined)
       {
@@ -149,7 +156,7 @@ angular
       var city = $scope.event.City;
       var state = $scope.event.State;
       $scope.event.City = city.substr(0, 1).toUpperCase() + city.substr(1, city.length - 1).toLowerCase();  // change all but first letter to lower case
-      if (stateIndex % 2 == 0)  // store the state full name into the DB
+      if (stateIndex % 2 === 0)  // store the state full name into the DB
       {
         $scope.event.State = states[stateIndex].substr(0, 1) + states[stateIndex].substr(1, states[stateIndex].length -1).toLowerCase(); // upper case then lower case
       }
@@ -188,6 +195,7 @@ angular
             },
             error: function(model, error) {
               steroids.logger.log(error);
+              alert("something wrong");
             }
           });
         }
