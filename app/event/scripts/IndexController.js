@@ -5,6 +5,12 @@ angular
     $scope.showSpinner = true;
 
 
+    //upvote and downvote
+
+    
+
+
+
     Event.all().whenChanged( function (events) {
         $scope.$apply( function () {
           $scope.events = events;
