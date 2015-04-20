@@ -7,6 +7,12 @@ span {
   height: 60px;
 }
 
+.navigate-index {
+  float: left;
+  width: 90%;
+  max-width: 100%;
+}
+
 #map-canvas span {
   white-space: nowrap;
 }

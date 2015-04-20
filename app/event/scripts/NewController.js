@@ -3,7 +3,33 @@ angular
   .controller("NewController", function ($scope, Event, supersonic) {
     $scope.event = {};
 
-    // get current date and time
+
+    $scope.options = [
+      'Party',
+      'Speech',
+      'Game',
+      'Meeting',
+      'Code'
+    ];
+
+    //set the date input as current day, set starttime as right now, set endtime as hour from now
+    Date.prototype.toDateInputValue = (function() {
+      var local = new Date(this);
+      local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+      return local.toJSON().slice(0,10);
+    });
+
+    Date.prototype.toStartTimeInputValue = (function() {
+      var local = new Date(this);
+      local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+      return local.toJSON().slice(11,13) + ":00:00";
+    });
+
+    Date.prototype.toEndTimeInputValue = (function() {
+      var local = new Date(this);
+      local.setMinutes(this.getMinutes() - this.getTimezoneOffset() + 60);
+      return local.toJSON().slice(11,13) + ":00:00";
+    });
     $('#date').val(new Date().toDateInputValue());
     $('#start-time').val(new Date().toStartTimeInputValue());
     $('#end-time').val(new Date().toEndTimeInputValue());
@@ -136,7 +162,7 @@ angular
       var city = $scope.event.City;
       var state = $scope.event.State;
       $scope.event.City = city.substr(0, 1).toUpperCase() + city.substr(1, city.length - 1).toLowerCase();  // change all but first letter to lower case
-      if (stateIndex % 2 == 0)  // store the state full name into the DB
+      if (stateIndex % 2 === 0)  // store the state full name into the DB
       {
         $scope.event.State = states[stateIndex].substr(0, 1) + states[stateIndex].substr(1, states[stateIndex].length -1).toLowerCase(); // upper case then lower case
       }
