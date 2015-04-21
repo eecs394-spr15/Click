@@ -33,8 +33,8 @@
             <div class="item-thumbnail-left">
               <img class="event-icon" src="/svg/{{event['EventType'] || 'Event'}}.svg">
               <h2 ng-bind="event['EventName']"></h2>
-              <p><span ng-bind="event['Month']"></span> <span ng-bind="event['Day']"></span> <span ng-bind="event['Year']"></span></p>
-              <p><span ng-bind="event['StartTime']"></span> - <span ng-bind="event['EndTime']"></span></p>
+              <p>Start: <span ng-bind="event['StartTimeText']"></span>, <span ng-bind="event['StartDateText']"></span></p>
+              <p>End: <span ng-bind="event['EndTimeText']"></span> - <span ng-bind="event['EndDateText']"></span></p>
               <p>Vote:<span ng-bind="event['Vote']"></span></p>
             </div>
           </super-navigate>
