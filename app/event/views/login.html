@@ -1,0 +1,50 @@
+<div ng-controller="LoginController">
+  <super-navbar>
+    <super-navbar-title>
+      Clicks
+    </super-navbar-title>
+    <super-navbar-button id="add" side="right" location="event#new"> +
+    </super-navbar-button>
+  </super-navbar>
+
+  <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
+  <div ng-hide="showSpinner">
+
+<div ng-hide="currentUser">
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Username</span>
+    <input type="text" ng-model="existingUser.username"/>
+    </label>
+  
+    <label class="item item-input item-stacked-label">
+    <span class="input-label">Password</span>
+    <input type="password" ng-model="existingUser.password"/>
+     </label>
+     <button ng-click="logIn()" width=400 height=500 class="button button-block button-positive">Log In</button>
+
+    <label class="item item-input item-stacked-label">
+    <span class="input-label">Username</span>
+    <input type="text" ng-model="newUser.username"/>
+    </label>
+  
+    <label class="item item-input item-stacked-label">
+    <span class="input-label">Password</span>
+    <input type="password" ng-model="newUser.password"/>
+     </label>
+
+    <label class="item item-input item-stacked-label">
+    <span class="input-label">Email</span>
+    <input type="text" ng-model="newUser.email"/>
+     </label>
+
+     <button ng-click="signUp()" width=400 height=500 class="button button-block button-positive">Sign Up</button>
+</div>
+
+<div ng-show="currentUser">
+        <h1>Welcome {{currentUser.get('username')}}</h1>
+       <button ng-click="logOut()" width=400 height=500 class="button button-block button-positive">Log Out</button>
+</div>
+
+     
+  </div>
+</div>
