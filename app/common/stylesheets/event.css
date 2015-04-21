@@ -45,6 +45,21 @@ span {
   margin-bottom: 0px;
 }
 
+/* style for event type on new event page */
+
+.event-type {
+  padding-bottom: 30px;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-bottom: 0px;
+}
+
+.event-type select {
+  direction: ltr;
+  width: 100%;
+  max-width: 100%;
+}
+
 /* sytles for show.html page */
 
 #event-divider {
@@ -57,3 +72,5 @@ span {
 #showpage-heading {
   color: #666666;
 }
+
+

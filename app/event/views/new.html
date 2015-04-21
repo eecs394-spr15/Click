@@ -22,11 +22,8 @@
           <label id="event-name-lbl" class="item item-input">
             <input id="event-name" type="text" placeholder="Event Name" ng-model="event['EventName']">
           </label>
-          <label id="event-type-lbl" class="item item-input item-select">
+          <label id="event-type-lbl" class="item item-select event-type">
             
-            <div class="input-label">
-              Event Type
-            </div>
             <select ng-model="event['EventType']"
                 ng-options="opt as opt for opt in options">
             </select>
@@ -42,11 +39,15 @@
             <input id="comments" type="text" placeholder="Comments" ng-model="event['Comments']">
           </label>
           <div class="item item-divider">When</div>
-          <label id="date-lbl" class="item item-input">
-            <input id="date" type="date">
+          <label id="start-date-lbl" class="item item-input">
+            <input id="start-date" type="date">
           </label>
           <label id="start-time-lbl" class="item item-input">
             <input id="start-time" type="time">
+          </label>
+          <div class="item item-divider">To</div>
+          <label id="end-date-lbl" class="item item-input">
+            <input id="end-date" type="date">
           </label>
           <label id="end-time-lbl" class="item item-input">
             <input id="end-time" type="time">
