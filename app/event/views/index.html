@@ -29,17 +29,25 @@
     <div ng-repeat="event in events | orderBy:predicate" >
       <li>
         <div class="item">
+          
+          
           <super-navigate location="event#show" data-params-id="{{ event.id }}">
             <div class="item-thumbnail-left">
-              <img class="event-icon" src="/svg/{{event['EventType'] || 'Event'}}.svg">
-              <h2 ng-bind="event['EventName']"></h2>
-              <p>Time: <span ng-bind="event['StartTimeText']"></span> - <span ng-bind="event['EndTimeText']"></span></p>
+              <img class="event-icon" src="/svg/{{event['EventType'] || 'Event'}}.svg" style="position:absolute;top:30px;left:20px">
+              <div style="width:180px;word-break:break-word;"> 
+              <h2> <span ng-bind="event['EventName']"></span></h2>
+              <p >Time: <span ng-bind="event['StartTimeText']"></span> - <span ng-bind="event['EndTimeText']"></span></p>
               <p>Date: <span ng-bind="event['StartDateText']"></span><span ng-bind="event['EndDateText']"></span></p>
               <p>Votes:<span ng-bind="event['Vote']"></span></p>
+              </div> 
             </div>
           </super-navigate>
-          <super-button style="position:absolute; width:60px;right:10px;top:10px;" class="button button-small button-assertive" ng-click="up(event.id)">up</super-button>
-          <super-button style="position:absolute; width:60px;right:10px;top:50px;" class="button button-small button-positive" ng-click="down(event.id)">down</super-button>
+      
+       <!-- <img src="/svg/smiley3.svg" style="width:20px;height:2px" ></img>  -->
+          <img src="/svg/smiley3.svg" style="position:absolute; width:20px;right:30px;top:30px;" ng-click="up(event.id)"></img>
+           <img src="/svg/sad70.svg" style="position:absolute; width:20px;right:30px;top:70px;" ng-click="down(event.id)"></img>
+
+          <!-- <super-button style="position:absolute; width:20px;right:10px;top:50px;" class="button button-small button-positive" ng-click="down(event.id)">down</super-button> -->
         
         </div>
       </li>
