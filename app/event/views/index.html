@@ -12,6 +12,7 @@
     <div class="row">
       <div class="col col-60">
         <!-- filter div -->
+      
       </div>
       <div class="col col-40">
         <div class="item-select sort">
@@ -28,6 +29,8 @@
     <div ng-repeat="event in events | orderBy:predicate" >
       <li>
         <div class="item">
+          
+          
           <super-navigate location="event#show" data-params-id="{{ event.id }}">
             <div class="item-thumbnail-left">
               <img style= "position:absolute; top:35px; border-style: solid; border-width: 4px; border-color: #919191;"class="event-icon" src="/svg/{{event['EventType'] || 'Event'}}.svg">
@@ -39,7 +42,6 @@
           </super-navigate>
           <super-button style="position:absolute; width:50px;right:10px;top:30px; font-size:30px; background-color: #1596f7; border-color: #1596f7;" class="button button-small button-assertive" ng-click="up(event.id)">&#128077</super-button>
           <super-button style="position:absolute; width:50px;right:10px;top:70px; font-size:30px; background-color: #ff0000; border-color: #ff0000;" class="button button-small button-positive" ng-click="down(event.id)">&#128078</super-button>
-        
         </div>
       </li>
     </div>
