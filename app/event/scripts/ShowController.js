@@ -5,6 +5,7 @@ angular
     $scope.showSpinner = true;
     $scope.dataId = undefined;
 
+
     var _refreshViewData = function () {
       Event.find($scope.dataId).then( function (event) {
         $scope.$apply( function () {

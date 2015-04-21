@@ -20,9 +20,11 @@ navigation-bar button, navigation-bar back-bar-button {
   font-weight: 300;
 }
 
-navigation-bar button, navigation-bar-item#add{
+navigation-bar button{
   font-size: 20px;
   font-weight: bold;
+  position: absolute;
+  left:40px;
 
 }
 
@@ -43,7 +45,7 @@ tab-bar tab-bar-item:selected {
   color: #1596f7;
 }
 
-tab-bar-item#account {
+tab-bar-item#profile {
   background-image: url(icons/user.svg);
 }
 

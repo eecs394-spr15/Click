@@ -3,8 +3,7 @@
     <super-navbar-title>
       Clicks
     </super-navbar-title>
-    <super-navbar-button id="add" side="right" location="event#new"> +
-    </super-navbar-button>
+    <super-navbar-button id="add" side="right"location="event#new">+</super-navbar-button>
   </super-navbar>
 
   <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
@@ -31,15 +30,15 @@
         <div class="item">
           <super-navigate location="event#show" data-params-id="{{ event.id }}">
             <div class="item-thumbnail-left">
-              <img class="event-icon" src="/svg/{{event['EventType'] || 'Event'}}.svg">
-              <h2 ng-bind="event['EventName']"></h2>
-              <p>Time: <span ng-bind="event['StartTimeText']"></span> - <span ng-bind="event['EndTimeText']"></span></p>
-              <p>Date: <span ng-bind="event['StartDateText']"></span><span ng-bind="event['EndDateText']"></span></p>
-              <p>Votes:<span ng-bind="event['Vote']"></span></p>
+              <img style= "position:absolute; top:35px; border-style: solid; border-width: 4px; border-color: #919191;"class="event-icon" src="/svg/{{event['EventType'] || 'Event'}}.svg">
+              <h2 style="position:relative; right:20px;"ng-bind="event['EventName']"></h2>
+              <p style= "position:relative; right:20px;">Time: <span ng-bind="event['StartTimeText']"></span> - <span ng-bind="event['EndTimeText']"></span></p>
+              <p style= "position:relative; right:20px;">Date: <span ng-bind="event['StartDateText']"></span><span ng-bind="event['EndDateText']"></span></p>
+              <p style= "position:relative; right:20px;"><span ng-bind="event['Vote']"></span> Likes</p>
             </div>
           </super-navigate>
-          <super-button style="position:absolute; width:60px;right:10px;top:10px;" class="button button-small button-assertive" ng-click="up(event.id)">up</super-button>
-          <super-button style="position:absolute; width:60px;right:10px;top:50px;" class="button button-small button-positive" ng-click="down(event.id)">down</super-button>
+          <super-button style="position:absolute; width:50px;right:10px;top:30px; font-size:30px; background-color: #1596f7; border-color: #1596f7;" class="button button-small button-assertive" ng-click="up(event.id)">&#128077</super-button>
+          <super-button style="position:absolute; width:50px;right:10px;top:70px; font-size:30px; background-color: #ff0000; border-color: #ff0000;" class="button button-small button-positive" ng-click="down(event.id)">&#128078</super-button>
         
         </div>
       </li>

@@ -22,7 +22,7 @@ angular
             var endDate = new Date($scope.events[i].EndDate.iso);
             if (startDate.toDateString() == endDate.toDateString()){
               $scope.events[i].StartDateText = startDate.toDateString();
-              $scope.events[i].EndDateText = "hi";
+              $scope.events[i].EndDateText = null;
             }
             else{
               $scope.events[i].StartDateText = startDate.toDateString();
@@ -32,15 +32,12 @@ angular
             var endTime = endDate.toLocaleTimeString();
             var newStart = startTime.split(":");
             var newEnd = endTime.split(":");
-            var a = newStart[2].split(" ");
-            var b = a[1];
-            var c = newEnd[2].split(" ");
-            var d = c[1];
-            $scope.events[i].StartTimeText = newStart[0] + ":" + newStart[1] + b;
-            $scope.events[i].EndTimeText = newEnd[0] + ":" + newEnd[1];
-
-            //$scope.events[i].StartTimeText = startTime[0].split(":")[0] + ":" + startTime[0].split(":")[1] + " " +  startTime[1];
-            //$scope.events[i].EndTimeText = endTime[0].split(":")[0] + ":" + endTime[0].split(":")[1] + " " +  endTime[1];
+            var sTime = newStart[2].split(" ");
+            var addSTime = sTime[1];
+            var eTime = newEnd[2].split(" ");
+            var addETime = eTime[1];
+            $scope.events[i].StartTimeText = newStart[0] + ":" + newStart[1] + addSTime;
+            $scope.events[i].EndTimeText = newEnd[0] + ":" + newEnd[1] + addETime;
           }
 
         });
