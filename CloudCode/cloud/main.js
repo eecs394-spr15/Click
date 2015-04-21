@@ -1,8 +1,8 @@
 
 // Use Parse.Cloud.define to define as many cloud functions as you want.
 // For example:
-Parse.Cloud.define("hello", function(request, response) {
-  response.success("Hello world!");
+Parse.Cloud.define('hello', function(request, response) {
+  response.success('Hello world!');
 });
 
 Parse.Cloud.job('autodeleteEvents', function(request, status) {
@@ -19,25 +19,41 @@ Parse.Cloud.job('autodeleteEvents', function(request, status) {
   var query = new Parse.Query(Event);
   query.each(function(e) {
 
-      var year = e.get('Year'),
-      		month = e.get('Month'),
-      		endDateTime = e.get('EndDate');
+      var endDateTime = e.get('EndDate');
 
-      var dateTime = new Date(endDateTime.toUTCString());
-
-      
       counter += 1;
 
-      console.log('Event ' + counter + ' ends at ' + dateTime);
-      //console.log('toString: ' + toString);
-      //console.log('toISOString: ' + toISOString);
-      //console.log('toUTCString: ' + toUTCString);
-      //console.log('Time now: ' + now);
+      if (now.getTime() > endDateTime.getTime()){
+      	var name = e.get('EventName');
+      	var entry = 'Event ' + name + ' ended on ' + endDateTime + '. ';
+      	e.destroy({
+				  success: function(myObject) {
+				    // The object was deleted from the Parse Cloud.
+				    entry += 'It has been deleted from the Cloud.';
+				    console.log(entry);
+				  },
+				  error: function(myObject, error) {
+				    // The delete failed.
+				    // error is a Parse.Error with an error code and message.
+				  	entry += 'Error on deletion. '
+				  	console.log(entry);
+				  }
+				});
+      }
+
+      /*var str = 'Event ' + counter + ' ends at ' + endDateTime + '. ';
+      if (now.getTime() > endDateTime.getTime()){
+      	str += 'Already ended!';
+      }
+      console.log(str);*/
+      
+
+
   }).then(function() {
     // Set the job's success status
-    status.success("Deletion completed successfully.");
+    status.success('Deletion completed successfully.');
   }, function(error) {
     // Set the job's error status
-    status.error("Uh oh, something went wrong.");
+    status.error('Uh oh, something went wrong.');
   });
 });
