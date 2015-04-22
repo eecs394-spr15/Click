@@ -1,15 +1,14 @@
 angular
   .module('event')
   .controller("ShowController", function ($scope, Event, supersonic) {
-	$scope.currentUser = Parse.User.current();
     $scope.event = null;
     $scope.showSpinner = true;
     $scope.dataId = undefined;
     $scope.attendingStr = null;
     $scope.isAttending = false;
     $('#cancel-btn').hide();
-
     var currentUser = Parse.User.current();
+
     var GuestList = Parse.Object.extend("GuestList");
     
     var _refreshViewData = function () {
@@ -86,25 +85,36 @@ angular
 
     $scope.cancel = function(id) {
       // check if user is attending this event
-      var query = new Parse.Query(GuestList);
-      query.equalTo("userId", currentUser.id);
-      query.first({
-        success: function(myObject)
-        {
-          myObject.destroy({
-            success: function(myObject) {
-              location.reload();
-            },
-            error: function(myObject, error) {
-              supersonic.dialog.ui.alert("error canceling event, please try again.");
-            }
-          });
-          
-        },
-        error: function(error) {
-          supersonic.ui.dialog.alert("Error with database.");
-          supersonic.ui.dialog.alert(error);
-        }
-      });
+      if (currentUser === null)
+        supersonic.ui.dialog.alert("You need to login before you can cancel");
+      else
+      {
+        var query = new Parse.Query(GuestList);
+        query.equalTo("userId", currentUser.id);
+        query.first({
+          success: function(myObject)
+          {
+            myObject.destroy({
+              success: function(myObject) {
+                location.reload();
+              },
+              error: function(myObject, error) {
+                supersonic.dialog.ui.alert("error canceling event, please try again.");
+              }
+            });
+            
+          },
+          error: function(error) {
+            supersonic.ui.dialog.alert("Error with database.");
+            supersonic.ui.dialog.alert(error);
+          }
+        });
+      }
     };
+
+    document.addEventListener("visibilitychange", onVisibilityChange, false);
+
+    function onVisibilityChange() {
+        location.reload();
+    }
   });

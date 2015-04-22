@@ -20,7 +20,7 @@ angular
         alert("Error: " + error.message);
       }
     });
-  }
+  };
 
 
   $scope.logIn = function(){
@@ -31,7 +31,7 @@ angular
           user.save(null, {
             success: function(user) {
             alert("successfully logged in");
-			supersonic.ui.layers.pop();
+			supersonic.ui.layers.popAll();
             }
           });
         },
@@ -39,7 +39,7 @@ angular
             alert("Error: " + error.message);
             }
       });
-  }
+  };
   
   $scope.logOut = function() {
     Parse.User.logOut();
