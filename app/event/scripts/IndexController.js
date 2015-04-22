@@ -3,6 +3,8 @@ angular
   .controller("IndexController", function ($scope, Event, supersonic) {
     $scope.events = null;
     $scope.showSpinner = true;
+	$scope.currentUser = Parse.User.current();
+
 
 
     //upvote and downvote
@@ -44,9 +46,14 @@ angular
     });
 
     $scope.up = function (id) {
-
-      
-  
+      for (var i = 0; i < $scope.events.length; i++)
+      {
+        if($scope.events[i].id==id)
+        {
+          $scope.events[i].Vote =($scope.events[i].Vote)+1;
+        }
+      }
+//alert($scope.events[0].id)
       var Events = Parse.Object.extend("Events");
       var query = new Parse.Query(Events);
       query.get(id.toString(), {
@@ -54,9 +61,20 @@ angular
           // The object was retrieved successfully.
           event.increment('Vote');
           event.save();
-          alert(event.get('Vote'));
-          location.reload();
-
+         // alert(id);
+          //alert(event.get('Vote'));
+          //alert($scope.events[2].Vote);
+          //($scope.events[2].Vote=;
+          //alert($scope.events[2].Vote);
+         
+         // location.reload();
+  //       $scope.events[2].Vote=event.get('Vote');
+         //supersonic.data.model('Event').find(id).then( function(task) {
+           
+       //     alert(task.Vote);
+           // $scope.events[2].Vote=task.Vote;
+          //});
+          //alert($scope.events[0].Vote);
 
         },
         error: function(object, error) {
@@ -66,7 +84,15 @@ angular
         }
       });  
     };
-    $scope.down = function (id) {  
+    $scope.down = function (id) { 
+      for (var i = 0; i < $scope.events.length; i++)
+      {
+        if($scope.events[i].id==id)
+        {
+          $scope.events[i].Vote =($scope.events[i].Vote)-1;
+        }
+      } 
+      
       var Events = Parse.Object.extend("Events");
       var query = new Parse.Query(Events);
       query.get(id.toString(), {
@@ -74,8 +100,8 @@ angular
           // The object was retrieved successfully.
           event.increment('Vote',-1);
           event.save();
-          alert(event.get('Vote'));
-          location.reload();
+         // alert(event.get('Vote'));
+          //location.reload();
 
         },
         error: function(object, error) {

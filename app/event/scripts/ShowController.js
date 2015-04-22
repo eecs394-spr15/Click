@@ -1,6 +1,7 @@
 angular
   .module('event')
   .controller("ShowController", function ($scope, Event, supersonic) {
+	$scope.currentUser = Parse.User.current();
     $scope.event = null;
     $scope.showSpinner = true;
     $scope.dataId = undefined;

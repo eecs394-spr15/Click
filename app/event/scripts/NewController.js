@@ -2,6 +2,7 @@ angular
   .module('event')
   .controller("NewController", function ($scope, Event, supersonic) {
     $scope.event = {};
+    $scope.currentUser = Parse.User.current();
 
 
 
@@ -219,5 +220,10 @@ angular
     $scope.cancel = function () {
       supersonic.ui.modal.hide();
     };
+	$scope.RedirectToProfile = function () {
+		var view = new supersonic.ui.View("event#login");
+		supersonic.ui.layers.push(view);
+    };
+	
 
   });

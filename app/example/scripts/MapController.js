@@ -6,6 +6,7 @@ angular
     $scope.events = null;
     $scope.showSpinner = true;
 
+
     var map;
     var myMarker;
     var contentString = []; // array of infowindow descriptions
