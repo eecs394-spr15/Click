@@ -35,7 +35,7 @@ Parse.Cloud.job('autodeleteEvents', function(request, status) {
 				  error: function(myObject, error) {
 				    // The delete failed.
 				    // error is a Parse.Error with an error code and message.
-				  	entry += 'Error on deletion. '
+				  	entry += 'Error on deletion. ';
 				  	console.log(entry);
 				  }
 				});
