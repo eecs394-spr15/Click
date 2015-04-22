@@ -38,7 +38,8 @@
               <h2 style="position:relative; right:20px;"><span ng-bind="event['EventName']"></h2>
               <p style= "position:relative; right:20px;">Time: <span ng-bind="event['StartTimeText']"></span> - <span ng-bind="event['EndTimeText']"></span></p>
               <p style= "position:relative; right:20px;">Date: <span ng-bind="event['StartDateText']"></span><span ng-bind="event['EndDateText']"></span></p>
-              <p style= "position:relative; right:20px;"><span ng-bind="event['Vote']"></span> Likes</p>
+          <!--     <p style= "position:relative; right:20px;"><span ng-bind="event['Vote']"></span> Likes</p> -->
+          <p style= "position:relative; right:20px;">{{event.Vote}} Likes</p>
               </div>
             </div>
           </super-navigate>
