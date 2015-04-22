@@ -3,6 +3,8 @@ angular
   .controller("IndexController", function ($scope, Event, supersonic) {
     $scope.events = null;
     $scope.showSpinner = true;
+	$scope.currentUser = Parse.User.current();
+
 
 
     //upvote and downvote

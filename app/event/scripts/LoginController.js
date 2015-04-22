@@ -14,6 +14,7 @@ angular
         $scope.currentUser = user;
         $scope.$apply();
         alert("success");
+		supersonic.ui.layers.pop();
       },
       error: function(user, error) {
         alert("Error: " + error.message);
@@ -30,6 +31,7 @@ angular
           user.save(null, {
             success: function(user) {
             alert("successfully logged in");
+			supersonic.ui.layers.pop();
             }
           });
         },

@@ -3,6 +3,7 @@ angular
   .controller("ShowMapController", function ($scope, supersonic) {
 
     $scope.navbarTitle = "Map";
+    $scope.currentUser = Parse.User.current();
 
     $scope.map = undefined;
     $scope.myMarker = undefined;

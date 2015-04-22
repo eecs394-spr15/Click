@@ -3,6 +3,7 @@ angular
   .controller("EditController", function ($scope, Event, supersonic) {
     $scope.event = null;
     $scope.showSpinner = true;
+	$scope.currentUser = Parse.User.current();
 
     // Fetch an object based on id from the database
     Event.find(steroids.view.params.id).then( function (event) {
