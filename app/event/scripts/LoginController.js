@@ -13,36 +13,55 @@ angular
       success: function(user) {
         $scope.currentUser = user;
         $scope.$apply();
-        alert("success");
+        supersonic.ui.dialog.alert("success");
 		supersonic.ui.layers.pop();
+		supersonic.ui.tabs.select(0);
       },
       error: function(user, error) {
-        alert("Error: " + error.message);
+        supersonic.ui.dialog.alert("Error: " + error.message);
       }
     });
   };
 
 
-  $scope.logIn = function(){
+   $scope.logIn = function(){
     Parse.User.logIn($scope.existingUser.username, $scope.existingUser.password, {
         success: function(user) {
           $scope.currentUser = user;
           $scope.$apply();
           user.save(null, {
             success: function(user) {
-            alert("successfully logged in");
-			supersonic.ui.layers.popAll();
+            supersonic.ui.dialog.alert("successfully logged in");
+			//supersonic.ui.layers.pop();
+			//var view = new supersonic.ui.View("event#new");
+			//supersonic.ui.views.find("indexView").then( function(startedView) {
+				//alert("hehe");
+				//startedView.start();
+				//supersonic.logger.error("myCarsView location: " + startedView.getLocation());
+				//startedView.reload();
+				supersonic.ui.tabs.select(0);
+			//});
+			//supersonic.ui.views.find("index").getLocation().reload();
             }
           });
         },
         error: function(user, error) {
-            alert("Error: " + error.message);
+            supersonic.ui.dialog.alert("Error: " + error.message);
             }
       });
-  };
+  }
   
   $scope.logOut = function() {
     Parse.User.logOut();
     $scope.currentUser = null;
   };
+  
+  $scope.addNewEvent = function () {
+		if(!Parse.User.current()){
+		    supersonic.ui.dialog.alert("You need login to create new event");
+		}else{
+		var view = new supersonic.ui.View("event#new");
+		supersonic.ui.layers.push(view);
+		}
+    };
 });
