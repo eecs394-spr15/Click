@@ -6,9 +6,14 @@ angular
     $scope.dataId = undefined;
     $scope.attendingStr = null;
     $scope.isAttending = false;
+    $scope.guestList = [];
+    $scope.isLoggedIn = false;
     $('#cancel-btn').hide();
     var currentUser = Parse.User.current();
-
+    if (currentUser === null)
+      $scope.isLoggedIn = false;
+    else
+      $scope.isLoggedIn = true;
     var GuestList = Parse.Object.extend("GuestList");
     
     var _refreshViewData = function () {
@@ -17,28 +22,46 @@ angular
           $scope.event = event;
           $scope.showSpinner = false;
 
-          // check if user is attending this event
-          var query = new Parse.Query(GuestList);
-          query.equalTo("userId", currentUser.id);
+          // get list of who is attending
+          query = new Parse.Query(GuestList);
+          query.equalTo("eventId", $scope.event.id);
           query.find({
             success: function(results)
             {
-              for (var i = 0; i < results.length; i++)
-              {
-                if (results[i].get('eventId') == $scope.event.id)
-                {
-                  $('#join-btn-text').text('Attending');
-                  $scope.isAttending = true;
-                  $('#join-btn').attr('disabled', true);
-                  $('#cancel-btn').show();
-                }
-              }
+              $scope.$apply( function () {
+                $scope.guestList = results;
+              });
             },
             error: function(error) {
               supersonic.ui.dialog.alert("Error with database.");
               supersonic.ui.dialog.alert(error);
             }
           });
+          if (currentUser !== null)
+          {
+            // check if user is attending this event
+            var query = new Parse.Query(GuestList);
+            query.equalTo("userId", currentUser.id);
+            query.find({
+              success: function(results)
+              {
+                for (var i = 0; i < results.length; i++)
+                {
+                  if (results[i].get('eventId') == $scope.event.id)
+                  {
+                    $('#join-btn-text').text('Attending');
+                    $scope.isAttending = true;
+                    $('#join-btn').attr('disabled', true);
+                    $('#cancel-btn').show();
+                  }
+                }
+              },
+              error: function(error) {
+                supersonic.ui.dialog.alert("Error with database.");
+                supersonic.ui.dialog.alert(error);
+              }
+            });
+          }
         });
       });
     };
@@ -68,7 +91,8 @@ angular
       {
         var options = {
           eventId: id,
-          userId: currentUser.id
+          userId: currentUser.id,
+          email: currentUser.get('email')
         };
         var newGuestObject = new GuestList();
         newGuestObject.save(options, {

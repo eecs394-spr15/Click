@@ -38,11 +38,17 @@ span {
 
 /* styles for sort selector on main page */
 
-.sort {
+.index-select {
   padding-bottom: 40px;
   padding-left: 0px;
   padding-right: 0px;
   margin-bottom: 0px;
+}
+
+.index-select select {
+  width: 100%;
+  max-width: 100%;
+  direction: rtl;
 }
 
 /* style for event type on new event page */

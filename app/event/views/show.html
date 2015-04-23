@@ -52,6 +52,13 @@
       <button id="cancel-btn" ng-click="cancel(event.id)" class="button button-block button-positive">
         <span id="cancel-btn-text">Cancel</span>
       </button>
+      <!-- add list of people attending -->
+      <div class="list">
+        <div class="item item-divider"><em><span ng-bind="guestList.length"></span> <span ng-show="guestList.length == 1">Person Attending</span><span ng-show="guestList.length != 1">People Attending</span></em></div>
+        <div ng-show="isLoggedIn" class="item" ng-repeat="guest in guestList">
+          <p><span ng-bind="guest.get('email')"></span></p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
