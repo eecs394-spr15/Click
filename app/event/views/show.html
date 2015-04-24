@@ -51,13 +51,12 @@
       <div id="test"></div>
 
       <super-navigate location="event#show-map" 
-                      data-params-id="{{ event.id }}"
                       data-params-name="{{ event['EventName'] }}"
-                      data-params-location="{{ event['Street'] + ',' + 
-                                               event['City'] + ',' + 
+                      data-params-location="{{ event['Street'] + ', ' + 
+                                               event['City'] + ', ' + 
                                                event['State'] }}"
-                      data-params-contact="{{ event['PosterName'] }}"
-                      data-params-number="{{ event['Contact'] }}">
+                      data-params-lat="{{ event['Lat'] }}"
+                      data-params-lng="{{ event['Long'] }}">
         <button class="button button-block button-positive">
           Show on map
         </button>
