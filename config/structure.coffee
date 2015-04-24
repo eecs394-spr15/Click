@@ -28,8 +28,8 @@ module.exports =
 
   preloads: [
     {
-      id: "map-view"
-      location: "map#map-view"
+      id: "map"
+      location: "map#index"
     }
   ]
 
