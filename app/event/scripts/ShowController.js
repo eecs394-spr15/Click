@@ -3,7 +3,7 @@ angular
   .controller("ShowController", function ($scope, Event, supersonic) {
     $scope.event = null;
     $scope.showSpinner = true;
-    $scope.dataId = undefined;
+    $scope.dataId = null;
     $scope.attendingStr = null;
     $scope.isAttending = false;
     $scope.guestList = [];
@@ -19,7 +19,9 @@ angular
     var _refreshViewData = function () {
       Event.find($scope.dataId).then( function (event) {
         $scope.$apply( function () {
-          $scope.event = event;
+          //$scope.event = event;
+
+          $scope.event = EventHelper.formatEvent(event);
           $scope.showSpinner = false;
 
           // get list of who is attending
