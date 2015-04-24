@@ -213,6 +213,8 @@ angular
 
     };
 
+    
+
     $scope.addNewEvent = function () {
       $scope.currentUser = Parse.User.current();
       if(!$scope.currentUser)
