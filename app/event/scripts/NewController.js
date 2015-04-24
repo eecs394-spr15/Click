@@ -31,6 +31,8 @@ angular
 
     // error messaging
     $scope.checkForm = function () {
+      if (!Parse.User.current());
+        supersonic.ui.dialog.alert("You need to be logged in to create a new event.");
       var numErrors = 0;
       var errorMsg = "Your are missing the following inputs:\n";
       $('#event-name-lbl').removeClass('error-input');
@@ -139,7 +141,6 @@ angular
 
       $scope.event.StartDate = new Date(startDate[0], startDate[1], startDate[2], startTime[0], startTime[1]);
       $scope.event.EndDate = new Date(endDate[0], endDate[1], endDate[2], endTime[0], endTime[1]);
-      alert("dates work");
       //add empty string for room and comments if none
       if ($scope.event.Room === undefined)
       {

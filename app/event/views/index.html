@@ -3,26 +3,20 @@
     <super-navbar-title>
       Clicks
     </super-navbar-title>
-    <super-navbar-button id="add" side="right"location="event#new">+</super-navbar-button>
+    <super-navbar-button id="add" side="right" ng-click="addNewEvent()">+</super-navbar-button>
   </super-navbar>
 
   <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
   <div ng-hide="showSpinner">
 
-    <div class="row">
-      <div class="col col-60">
-        <!-- filter div -->
       
-      </div>
-      <div class="col col-40">
-        <div class="item-select sort">
+        <div id="filter" class="item-select index-select">
           <select ng-model="predicate">
             <option value="EventName">Name</option>
             <option value="StartDate">Time</option>
+            <option value="-Vote">Likes</option>
           </select>
         </div>
-      </div>
-    </div>
 
     <ul class="list" ng-hide="events.length == 0">
 

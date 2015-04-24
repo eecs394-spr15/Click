@@ -3,7 +3,6 @@ angular
   .controller("IndexController", function ($scope, Event, supersonic) {
     $scope.events = null;
     $scope.showSpinner = true;
-	$scope.currentUser = Parse.User.current();
 
 
 
@@ -113,11 +112,28 @@ angular
           alert('vote error');
         }
       });  
-
-  
-     
-  
     };
+
+    $scope.addNewEvent = function () {
+      $scope.currentUser = Parse.User.current();
+      if(!$scope.currentUser)
+      {
+        supersonic.ui.dialog.alert("You need login to create new event");
+      }
+      else
+      {
+        var view = new supersonic.ui.View("event#new");
+        supersonic.ui.layers.push(view);
+      }
+    };
+
+
     $scope.predicate = "EventName";
+
+    document.addEventListener("visibilitychange", onVisibilityChange, false);
+
+    function onVisibilityChange() {
+      location.reload();
+    }
 
   });
