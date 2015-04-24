@@ -3,8 +3,9 @@ angular
   .controller("IndexController", function ($scope, Event, supersonic) {
     $scope.events = null;
     $scope.showSpinner = true;
-
-
+$scope.currentUser = Parse.User.current();
+    var already=0;
+   
 
     //upvote and downvote
 
@@ -45,73 +46,72 @@ angular
     });
 
     $scope.up = function (id) {
+  
       $scope.currentUser = Parse.User.current();
-    //  alert($scope.currentUser.password);
-      //if($scope.currentUser== null){alert("hey");}
-      for (var i = 0; i < $scope.events.length; i++)
-      {
-        if($scope.events[i].id==id)
+      if($scope.currentUser == null){
+        supersonic.ui.dialog.alert("Please Log In First :)");
+      }else if (already==1){
+        supersonic.ui.dialog.alert("You already vote :)");
+      }else{
+        for (var i = 0; i < $scope.events.length; i++)
         {
-          $scope.events[i].Vote =($scope.events[i].Vote)+1;
+          if($scope.events[i].id==id)
+          {
+            $scope.events[i].Vote =($scope.events[i].Vote)+1;
+          }
         }
-      }
-//alert($scope.events[0].id)
-      var Events = Parse.Object.extend("Events");
-      var query = new Parse.Query(Events);
-      query.get(id.toString(), {
-        success: function(event) {
+        var Events = Parse.Object.extend("Events");
+        var query = new Parse.Query(Events);
+        query.get(id.toString(), {
+          success: function(event) {
           // The object was retrieved successfully.
-          event.increment('Vote',1);
-          event.save();
-         // alert(id);
-          //alert(event.get('Vote'));
-          //alert($scope.events[2].Vote);
-          //($scope.events[2].Vote=;
-          //alert($scope.events[2].Vote);
-         
-         // location.reload();
-  //       $scope.events[2].Vote=event.get('Vote');
-         //supersonic.data.model('Event').find(id).then( function(task) {
-           
-       //     alert(task.Vote);
-           // $scope.events[2].Vote=task.Vote;
-          //});
-          //alert($scope.events[0].Vote);
+            event.increment('Vote',1);
+            event.save();
 
-        },
-        error: function(object, error) {
+          },
+          error: function(object, error) {
           // The object was not retrieved successfully.
           // error is a Parse.Error with an error code and message.
-          alert('vote error');
-        }
-      });  
+            alert('vote error');
+          }
+        });
+        already++;
+        //alreadydown=0;
+        //reset=0;
+      }  
     };
     $scope.down = function (id) { 
-      for (var i = 0; i < $scope.events.length; i++)
-      {
-        if($scope.events[i].id==id)
+      $scope.currentUser = Parse.User.current();
+    //  alert($scope.currentUser);
+      if($scope.currentUser == null){
+        supersonic.ui.dialog.alert("Please Log In First :)");
+      }else if (already==-1){
+        supersonic.ui.dialog.alert("You already vote :)");
+      }else{
+        for (var i = 0; i < $scope.events.length; i++)
         {
-          $scope.events[i].Vote =($scope.events[i].Vote)-1;
+          if($scope.events[i].id==id)
+          {
+            $scope.events[i].Vote =($scope.events[i].Vote)-1;
+          }
         }
-      } 
-      
-      var Events = Parse.Object.extend("Events");
-      var query = new Parse.Query(Events);
-      query.get(id.toString(), {
-        success: function(event) {
+        var Events = Parse.Object.extend("Events");
+        var query = new Parse.Query(Events);
+        query.get(id.toString(), {
+          success: function(event) {
           // The object was retrieved successfully.
-          event.increment('Vote',-1);
-          event.save();
-         // alert(event.get('Vote'));
-          //location.reload();
+            event.increment('Vote',-1);
+            event.save();
 
-        },
-        error: function(object, error) {
+          },
+          error: function(object, error) {
           // The object was not retrieved successfully.
           // error is a Parse.Error with an error code and message.
-          alert('vote error');
-        }
-      });  
+            alert('vote error');
+          }
+        });
+        already--; 
+      }  
     };
 
     $scope.addNewEvent = function () {
