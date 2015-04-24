@@ -9,68 +9,63 @@
   </super-navbar>
 
   <div class="padding">
-    <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
-	<div ng-hide="currentUser">
-		<h1>Need Login to post a event</h1>
-	</div>
-	<div ng-show="currentUser">
-    <form ng-hide="showSpinner" ng-submit="checkForm()">
-      <div class="formDiv">
-        <super-navigate-back  ng-click="cancel()">
-          <button class="button button-block button-positive">Cancel</button>
-        </super-navigate-back>
-        <div class="list">
-          <div class="item item-divider"><em>What</em></div>
-          <label id="event-name-lbl" class="item item-input">
-            <input id="event-name" type="text" placeholder="Event Name" ng-model="event['EventName']">
-          </label>
-          <label id="event-type-lbl" class="item item-select event-type">
-            
-            <select ng-model="event['EventType']"
-                ng-options="opt as opt for opt in options">
-            </select>
-
-          </label>
-          <label id="poster-name-lbl" class="item item-input">
-            <input id="poster-name" type="text" placeholder="Poster Name" ng-model="event['PosterName']">
-          </label>
-          <label id="contact-lbl" class="item item-input">
-            <input id="contact" type="text" placeholder="Contact" ng-model="event['Contact']">
-          </label>
-          <label id="comments-lbl" class="item item-input">
-            <input id="comments" type="text" placeholder="Comments" ng-model="event['Comments']">
-          </label>
-          <div class="item item-divider">When</div>
-          <label id="start-date-lbl" class="item item-input">
-            <input id="start-date" type="date">
-          </label>
-          <label id="start-time-lbl" class="item item-input">
-            <input id="start-time" type="time">
-          </label>
-          <div class="item item-divider">To</div>
-          <label id="end-date-lbl" class="item item-input">
-            <input id="end-date" type="date">
-          </label>
-          <label id="end-time-lbl" class="item item-input">
-            <input id="end-time" type="time">
-          </label>
-          <div class="item item-divider">Where</div>
-          <label id="address-lbl" class="item item-input">
-            <input id="address" type="text" placeholder="Address" ng-model="event['Street']">
-          </label>
-          <label id="room-lbl" class="item item-input">
-            <input id="room" type="text" placeholder="Room #" ng-model="event['Room']">
-          </label>
-          <label id="city-lbl" class="item item-input">
-            <input id="city" type="text" placeholder="City" ng-model="event['City']">
-          </label>
-          <label id="state-lbl" class="item item-input">
-            <input id="state" type="text" placeholder="State" ng-model="event['State']">
-          </label>
+      <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
+  	<div ng-hide="currentUser">
+  		<h1>Need Login to post a event</h1>
+  	</div>
+  	<div ng-show="currentUser">
+      <form ng-hide="showSpinner" ng-submit="checkForm()">
+        <div class="formDiv">
+          <super-navigate-back  ng-click="cancel()">
+            <button class="button button-block button-positive">Cancel</button>
+          </super-navigate-back>
+          <div class="list">
+            <div class="item item-divider"><em>What</em></div>
+            <label id="event-name-lbl" class="item item-input">
+              <input id="event-name" type="text" placeholder="Event Name" ng-model="event['EventName']">
+            </label>
+            <label id="event-type-lbl" class="item item-select event-type">
+              <select ng-model="event['EventType']"
+                  ng-options="opt as opt for opt in options">
+              </select>
+            </label>
+            <div class="item item-checkbox checkbox-div">
+              <label class="checkbox">
+                <input id="all-day" type="checkbox">
+              </label>
+              All Day
+            </div>
+            <div class="item item-divider">From</div>
+            <label id="start-date-lbl" class="item item-input">
+              <input id="start-date" type="date">
+            </label>
+            <label id="start-time-lbl" class="item item-input">
+              <input id="start-time" type="time">
+            </label>
+            <div class="item item-divider">To</div>
+            <label id="end-date-lbl" class="item item-input">
+              <input id="end-date" type="date">
+            </label>
+            <label id="end-time-lbl" class="item item-input">
+              <input id="end-time" type="time">
+            </label>
+            <div class="item item-divider">Where</div>
+            <label id="address-lbl" class="item item-input">
+              <input id="address" type="text" placeholder="Address" ng-model="event['Street']">
+            </label>
+            <label id="room-lbl" class="item item-input">
+              <input id="room" type="text" placeholder="Room #" ng-model="event['Room']">
+            </label>
+            <label id="city-lbl" class="item item-input">
+              <input id="city" type="text" placeholder="City" ng-model="event['City']">
+            </label>
+            <label id="state-lbl" class="item item-input">
+              <input id="state" type="text" placeholder="State" ng-model="event['State']">
+            </label>
+          </div>
+            <button id="submit-btn" class="button button-block button-positive">Save</button>
         </div>
-          <button id="submit-btn" class="button button-block button-positive">Save</button>
-	</div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </div>

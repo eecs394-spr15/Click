@@ -8,6 +8,14 @@
   <div class="padding">
     <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
     <div ng-hide="showSpinner">
+
+    <super-navigate location="event#edit" ng-show="ownsEvent" data-params-id="{{ event.id }}">
+      <button class="button button-block button-positive">Edit</button>
+    </super-navigate>
+    <button ng-show="ownsEvent" ng-click="remove(event.id)" class="button button-block button-positive">
+      Cancel Event
+    </button> 
+
       <h2 id="showpage-heading" ng-bind="event['EventName']"></h2>
         
      <div class="item item-divider"><p id="event-divider"><b>What</b></p>
