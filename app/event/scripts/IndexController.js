@@ -46,6 +46,9 @@ angular
     });
 
     $scope.up = function (id) {
+      $scope.currentUser = Parse.User.current();
+    //  alert($scope.currentUser.password);
+      //if($scope.currentUser== null){alert("hey");}
       for (var i = 0; i < $scope.events.length; i++)
       {
         if($scope.events[i].id==id)
@@ -59,7 +62,7 @@ angular
       query.get(id.toString(), {
         success: function(event) {
           // The object was retrieved successfully.
-          event.increment('Vote');
+          event.increment('Vote',1);
           event.save();
          // alert(id);
           //alert(event.get('Vote'));
