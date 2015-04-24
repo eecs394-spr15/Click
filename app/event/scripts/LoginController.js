@@ -49,7 +49,7 @@ angular
             supersonic.ui.dialog.alert("Error: " + error.message);
             }
       });
-  }
+  };
   
   $scope.logOut = function() {
     Parse.User.logOut();
