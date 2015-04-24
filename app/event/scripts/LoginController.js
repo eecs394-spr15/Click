@@ -25,6 +25,7 @@ angular
     });
       }else{
       supersonic.ui.dialog.alert("Please use NU email to SignUp");
+      //
       //$('#email-lbl').addClass('error-input');
     }
   };
