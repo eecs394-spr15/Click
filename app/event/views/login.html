@@ -29,12 +29,17 @@
   
     <label class="item item-input item-stacked-label">
     <span class="input-label">Password</span>
-    <input type="password" ng-model="newUser.password"/>
+    <input id="password1" type="text"  type="password" />
      </label>
 
-    <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label">
+    <span class="input-label">Password</span>
+    <input id="password2" type="text"  type="password" ng-model="newUser.password" placeholder="Please enter the same password"/>
+     </label>
+
+    <label id= "email-lbl" class="item item-input item-stacked-label">
     <span class="input-label">Email</span>
-    <input type="text" ng-model="newUser.email"/>
+    <input id="emailAddr" type="text" ng-model="newUser.email" placeholder="Please use Northwestern email"/>
      </label>
 
      <button ng-click="signUp()" width=400 height=500 class="button button-block button-positive">Sign Up</button>

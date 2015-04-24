@@ -29,11 +29,14 @@
             <div class="item-thumbnail-left">
               <img style= "position:absolute; top:35px; border-style: solid; border-width: 4px; border-color: #919191;"class="event-icon" src="/svg/{{event['EventType'] || 'Event'}}.svg">
               <div style="width:180px;word-break:break-word;"> 
-              <h2 style="position:relative; right:20px;"><span ng-bind="event['EventName']"></h2>
-              <p style= "position:relative; right:20px;">Time: <span ng-bind="event['StartTimeText']"></span> - <span ng-bind="event['EndTimeText']"></span></p>
-              <p style= "position:relative; right:20px;">Date: <span ng-bind="event['StartDateText']"></span><span ng-bind="event['EndDateText']"></span></p>
+                <h2 style="position:relative; right:20px;"><span ng-bind="event['EventName']"></h2>
+                <p style= "position:relative; right:20px;">Time: <span ng-bind="event['StartTimeString']"></span> - <span ng-bind="event['EndTimeString']"></span></p>
+                <p style= "position:relative; right:20px;">Date: 
+                  <span ng-bind="event['StartDateString']"></span>
+                  <span ng-show="event['EndDateString']"> - <span ng-bind="event['EndDateString']"></span></span>
+                </p>
           <!--     <p style= "position:relative; right:20px;"><span ng-bind="event['Vote']"></span> Likes</p> -->
-          <p style= "position:relative; right:20px;">{{event.Vote}} Likes</p>
+                <p style= "position:relative; right:20px;">{{event.Vote}} Likes</p>
               </div>
             </div>
           </super-navigate>
