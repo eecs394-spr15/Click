@@ -12,7 +12,7 @@ module.exports =
     {
       title: "Map"
       id: "map"
-      location: "example#map-view" # URLs are supported!
+      location: "map#index" # URLs are supported!
     }
     {
       title: "Profile"
@@ -29,7 +29,7 @@ module.exports =
   preloads: [
     {
       id: "map-view"
-      location: "example#map-view"
+      location: "map#map-view"
     }
   ]
 

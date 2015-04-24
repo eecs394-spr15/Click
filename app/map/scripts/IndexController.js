@@ -1,6 +1,6 @@
 angular
-  .module('example')
-  .controller('MapController', function($scope, supersonic) {
+  .module('map')
+  .controller('IndexController', function($scope, supersonic) {
 
     $scope.navbarTitle = "Map";
     $scope.events = null;
