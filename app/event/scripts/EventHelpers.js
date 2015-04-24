@@ -20,15 +20,16 @@ var EventHelper = (function(){
 
 			// format date and time to human readable string
 			var startDate = new Date(event.StartDate.iso);
-			var startDateString = this.formatDate(startDate);
-
 			var endDate = new Date(event.EndDate.iso);
-			var endDateString = this.formatDate(endDate);
-
-			var startTimeString = this.formatTime(startDate);
-			var endTimeString = this.formatTime(endDate);
-
 			
+			var startDateString = startDate.toDateString();
+			var endDateString = endDate.toDateString();
+			
+			event.StartDateString = startDateString;
+			event.EndDateString = endDateString == startDateString ? null : endDateString;
+
+			event.StartTimeString = this.formatTime(startDate);
+			event.EndTimeString = this.formatTime(endDate);
 
 			return event;
 		},
@@ -37,7 +38,7 @@ var EventHelper = (function(){
 			var day = dateObj.getDate();
 			var year = dateObj.getFullYear();
 
-			return day + ' ' + month + ' ' + year;
+			return month + ' ' + day + ', ' + year;
 		},
 		formatTime: function(dateObj){
 			var hour = dateObj.getHours();
