@@ -11,14 +11,19 @@
       <h2 id="showpage-heading" ng-bind="event['EventName']"></h2>
         
       <div class="item item-divider"><p id="event-divider"><b>What</b></p>
-        <p style="text-indent: 20px;">Comments: <span ng-bind="event['Comments']"></span></p> 
+        <p style="text-indent: 20px;">Description: <span ng-bind="event['Comments']"></span></p> 
         <p style="text-indent: 20px;">Host's Name: <span ng-bind="event['PosterName']"></span></p> 
         <p style="text-indent: 20px;">Contact: <span ng-bind="event['Contact']"></span></p>
       </div>
       <div class="item item-divider">
         <p id="event-divider">When</p>  
-        <p style="text-indent: 20px;">Date: <span ng-bind="event['Month']"></span><span ng-bind="event['Day']"></span><span ng-bind="event['Year']"></span></p>
-        <p style="text-indent: 20px;">Time: From <span ng-bind="event['StartTime']"></span> to <span ng-bind="event['EndTime']"></span></p> 
+        <p style="text-indent: 20px;">Date:
+          <span ng-bind="event['StartDateString']"></span>
+          <span ng-show="event['EndDateString']"> - <span ng-bind="event['EndDateString']"></span></span>
+        </p>
+        <p style="text-indent: 20px;">Time:
+          <span ng-bind="event['StartTimeString']"></span> - <span ng-bind="event['EndTimeString']"></span>
+        </p> 
       </div>   
       <div class="item item-divider">
         <p id="event-divider">Where</p>
