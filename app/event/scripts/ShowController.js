@@ -8,6 +8,7 @@ angular
     $scope.isAttending = false;
     $scope.guestList = [];
     $scope.isLoggedIn = false;
+    $scope.ownsEvent = false;
     $('#cancel-btn').hide();
     var currentUser = Parse.User.current();
     if (currentUser === null)
@@ -64,6 +65,12 @@ angular
               }
             });
           }
+          // check if user owns this event
+          if (currentUser)
+            if (currentUser.get("username") == $scope.event.PosterName)
+            {
+              $scope.ownsEvent = true;
+            }
         });
       });
     };
@@ -143,4 +150,41 @@ angular
     function onVisibilityChange() {
         location.reload();
     }
+
+    $scope.editEvent = function () {
+      var view = new supersonic.ui.View("event#edit");
+      supersonic.ui.layers.push(view);
+    };
+
+    $scope.remove = function(id) {
+      alert("yes");
+      if (currentUser === null)
+        supersonic.ui.dialog.alert("You need to login before you can cancel");
+      else
+      {
+        alert("lolo");
+        var Event = Parse.Object.extend("Events");
+        var query = new Parse.Query(Event);
+        query.equalTo("id", id);
+        query.first({
+          success: function(myObject)
+          {
+            myObject.destroy({
+              success: function(myObject) {
+                supersonic.ui.layers.popAll();
+              },
+              error: function(myObject, error) {
+                supersonic.dialog.ui.alert("error canceling event, please try again.");
+              }
+            });
+            
+          },
+          error: function(error) {
+            supersonic.ui.dialog.alert("Error with database.");
+            supersonic.ui.dialog.alert(error);
+          }
+        });
+      }
+    };
+
   });

@@ -31,14 +31,15 @@ angular
 
     // error messaging
     $scope.checkForm = function () {
-      if (!Parse.User.current());
-        supersonic.ui.dialog.alert("You need to be logged in to create a new event.");
       var numErrors = 0;
+      if (!Parse.User.current())
+      {
+        supersonic.ui.dialog.alert("You need to be logged in to create a new event.");
+        numErrors++;
+      }
       var errorMsg = "Your are missing the following inputs:\n";
       $('#event-name-lbl').removeClass('error-input');
       $('#comments-lbl').removeClass('error-input');
-      $('#poster-name-lbl').removeClass('error-input');
-      $('#contact-lbl').removeClass('error-input');
       $('#start-time-lbl').removeClass('error-input');
       $('#end-time-lbl').removeClass('error-input');
       $('#address-lbl').removeClass('error-input');
@@ -56,19 +57,6 @@ angular
         errorMsg += "Event Name\n";
         $('#event-name-lbl').addClass('error-input');
       }
-      if ($('#poster-name').val() === '' || $('#poster-name').val() === undefined || $('#poster-name').val() === null)
-      {
-        numErrors++;
-        errorMsg += "Poster Name\n";
-        $('#poster-name-lbl').addClass('error-input');
-      }
-      if ($('#contact').val() === '' || $('#contact').val() === undefined || $('#contact').val() === null)
-      {
-        numErrors++;
-        errorMsg += "Contact Info\n";
-        $('#contact-lbl').addClass('error-input');
-      }
-
       var startDateTime = $('#start-date').val() + "-" + $('#start-time').val();
       var endDateTime = $('#end-date').val() + "-" + $('#end-time').val();
 
@@ -161,7 +149,12 @@ angular
       var address = $scope.event.Street;
       var city = $scope.event.City;
       var state = $scope.event.State;
-      $scope.event.City = city.substr(0, 1).toUpperCase() + city.substr(1, city.length - 1).toLowerCase();  // change all but first letter to lower case
+      var city_components = city.split(" ");
+      for (var i = 0; i < city_components.length; i++)
+      {
+        city_components[i] = city_components[i].substr(0, 1).toUpperCase() + city_components[i].substr(1, city_components[i].length - 1); // same as above comments
+      }
+      $scope.event.City = city_components.join(" ");
       if (stateIndex % 2 === 0)  // store the state full name into the DB
       {
         $scope.event.State = states[stateIndex].substr(0, 1) + states[stateIndex].substr(1, states[stateIndex].length -1).toLowerCase(); // upper case then lower case
@@ -174,6 +167,10 @@ angular
         address_components[i] = address_components[i].substr(0, 1).toUpperCase() + address_components[i].substr(1, address_components[i].length - 1); // same as above comments
       }
       $scope.event.Street = address_components.join(" ");
+
+      var currentUser = Parse.User.current();
+      $scope.event.PosterName = currentUser.get("username");
+      $scope.event.Contact = currentUser.get("email");
 
 
       var geocoder = new google.maps.Geocoder();
@@ -221,10 +218,18 @@ angular
     $scope.cancel = function () {
       supersonic.ui.modal.hide();
     };
-	$scope.RedirectToProfile = function () {
-		var view = new supersonic.ui.View("event#login");
-		supersonic.ui.layers.push(view);
+	  $scope.RedirectToProfile = function () {
+		  var view = new supersonic.ui.View("event#login");
+		  supersonic.ui.layers.push(view);
     };
+
+    $('#all-day').change(function(){
+      if($(this).is(':checked'))
+      {
+        $('#start-time').val("00:00");
+        $('#end-time').val("23:59");
+      }
+    });
 	
 
   });

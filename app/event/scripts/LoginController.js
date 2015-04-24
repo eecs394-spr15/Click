@@ -7,6 +7,7 @@ angular
   $scope.signUp = function(){
       if ($('#emailAddr').val().indexOf("@u.northwestern.edu")>-1 || $('#emailAddr').val().indexOf("@northwestern.edu")>-1)
       {
+        if($('#password1').val() === $('#password2').val()){
         var user = new Parse.User();
         user.set("username", $scope.newUser.username);
         user.set("password", $scope.newUser.password);
@@ -23,6 +24,9 @@ angular
         supersonic.ui.dialog.alert("Error: " + error.message);
       }
     });
+        }else{
+          supersonic.ui.dialog.alert("Please Enter the same Password");
+        }
       }else{
       supersonic.ui.dialog.alert("Please use NU email to SignUp");
       //

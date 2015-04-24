@@ -5,10 +5,12 @@ angular
     $scope.navbarTitle = "Map";
     $scope.currentUser = Parse.User.current();
 
-    $scope.map = undefined;
-    $scope.myMarker = undefined;
-    $scope.geocoder = undefined;
+    $scope.map = null;
+    $scope.myMarker = null;
+    $scope.geocoder = null;
+    $scope.eventMarker = null;
 
+    /*
     $scope.eventId = undefined;
     $scope.eventName = undefined;
     $scope.eventLocation = undefined;
@@ -16,20 +18,17 @@ angular
     $scope.eventContactNumber = undefined;
     $scope.eventMarker = undefined;
     $scope.infowindow = undefined;
-
+    //*/
 
     supersonic.ui.views.current.params.onValue( function (values) {
-      $scope.eventId = values.id;
-      $scope.eventName = values.name;
-      $scope.eventLocation = values.location;
-      $scope.eventContactPerson = values.contact;
-      $scope.eventContactNumber = values.number;
+      //$scope.eventId = values.id;
+      $scope.name = values.name;
+      $scope.location = values.location;
+      $scope.latLng = new google.maps.LatLng(values.lat, values.lng);
     });
 
-    var infoString = '<p><strong>' + $scope.eventName + '</strong><br>' +
-                    $scope.eventLocation + '</p>' +
-                    $scope.eventContactPerson + '<br>' +
-                    $scope.eventContactNumber;
+    var infoString = '<p><strong>' + $scope.name + '</strong><br>' +
+                    $scope.location + '</p>';
 
     $scope.infowindow = new google.maps.InfoWindow({
         content: infoString
@@ -121,30 +120,20 @@ angular
     }
 
     function locateEvent(){
-      $scope.geocoder = new google.maps.Geocoder();
-      $scope.geocoder.geocode( { 'address': $scope.eventLocation}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          $scope.map.setCenter(results[0].geometry.location);
-          $scope.eventMarker = new google.maps.Marker({
-              map: $scope.map,
-              position: results[0].geometry.location,
-              title: $scope.eventName
-          });
-
-          google.maps.event.addListener($scope.eventMarker, 'click', function() {
-            $scope.infowindow.open($scope.map,$scope.eventMarker);
-          });
-
-          google.maps.event.addListener($scope.map, 'click', function(){
-            $scope.infowindow.close();
-          });
-
-        } else {
-          alert('Geocode was not successful for the following reason: ' + status);
-        }
+      $scope.map.setCenter($scope.latLng);
+      $scope.eventMarker = new google.maps.Marker({
+        map: $scope.map,
+        position: $scope.latLng,
+        title: $scope.name
       });
-      //var latitude = 42.055984, longitude = -87.675171;
-      //$scope.eventLocation = new google.maps.LatLng(latitude, longitude);
+
+      google.maps.event.addListener($scope.eventMarker, 'click', function() {
+        $scope.infowindow.open($scope.map, $scope.eventMarker);
+      });
+
+      google.maps.event.addListener($scope.map, 'click', function(){
+        $scope.infowindow.close();
+      });
     }
 
 
@@ -157,7 +146,7 @@ angular
     // updates user location
     setInterval(function(){
       // set center to current location
-      if ($scope.map !== undefined && $scope.myMarker !== undefined)
+      if ($scope.map && $scope.myMarker)
       {
         supersonic.device.geolocation.getPosition().then(function(position)
         {
