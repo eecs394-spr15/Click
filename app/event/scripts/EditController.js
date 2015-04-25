@@ -21,10 +21,14 @@ angular
         $scope.event = event;
         $scope.showSpinner = false;
 
+        var startDate = new Date($scope.event.StartDate.iso);
+        var endDate = new Date($scope.event.EndDate.iso);
+
+
         $('#start-date').val(new Date($scope.event.StartDate.iso).toDateInputValue());
         $('#end-date').val(new Date($scope.event.EndDate.iso).toDateInputValue());
-        $('#start-time').val(new Date($scope.event.StartDate.iso).toStartTimeInputValue());
-        $('#end-time').val(new Date($scope.event.StartDate.iso).toEndTimeInputValue());
+        $('#start-time').val(new Date($scope.event.StartDate.iso).toTimeInputValue());
+        $('#end-time').val(new Date($scope.event.EndDate.iso).toTimeInputValue());
       });
     });
 

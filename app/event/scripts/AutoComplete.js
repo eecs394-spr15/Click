@@ -119,3 +119,10 @@ Date.prototype.toEndTimeInputValue = (function() {
   local.setMinutes(this.getMinutes() - this.getTimezoneOffset() + 60);
   return local.toJSON().slice(11,13) + ":00:00";
 });
+
+Date.prototype.toTimeInputValue = (function() {
+  var local = new Date(this);
+  local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+  return local.toJSON().slice(11,19);
+});
+
