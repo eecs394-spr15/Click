@@ -157,26 +157,19 @@ angular
     };
 
     $scope.remove = function(id) {
-      alert("yes");
       if (currentUser === null)
         supersonic.ui.dialog.alert("You need to login before you can cancel");
       else
       {
-        alert("lolo");
         var Event = Parse.Object.extend("Events");
         var query = new Parse.Query(Event);
-        query.equalTo("id", id);
+        query.equalTo("objectId", id);
         query.first({
           success: function(myObject)
           {
-            myObject.destroy({
-              success: function(myObject) {
-                supersonic.ui.layers.popAll();
-              },
-              error: function(myObject, error) {
-                supersonic.dialog.ui.alert("error canceling event, please try again.");
-              }
-            });
+            myObject.destroy({});
+            supersonic.ui.dialog.alert("Event Canceled.");
+            supersonic.ui.layers.popAll();
             
           },
           error: function(error) {
