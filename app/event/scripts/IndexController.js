@@ -4,9 +4,10 @@ angular
     $scope.events = null;
     $scope.showSpinner = true;
     $scope.currentUser = Parse.User.current();
-    var already=0;
+    $scope.localvote=0;
     //$scope.test;
     $scope.key;
+    
    
   
    
@@ -31,7 +32,7 @@ angular
      
       $scope.currentUser = Parse.User.current();
       // check if the user already voted or not
-
+      // var localvote=0;
      if($scope.currentUser == null){
         supersonic.ui.dialog.alert("Please Log In First :)");
      }else{
@@ -42,7 +43,8 @@ angular
       query.first({
         success: function(results)
         {  //check if the user already voted or already upvote  
-          if(typeof results=='undefined' || results.get('alreadyVote')  <1){
+          if((typeof results=='undefined' || results.get('alreadyVote')  <1) && $scope.localvote!=1){
+            $scope.localvote++;
             for (var i = 0; i < $scope.events.length; i++)
             {
               if($scope.events[i].id==id)
@@ -59,6 +61,9 @@ angular
             // The object was retrieved successfully.
                 event.increment('Vote',1);
                 event.save();
+                $scope.$apply( function () {
+                 $scope.localvote--;
+                });
 
               },
               error: function(object, error) {
@@ -67,7 +72,7 @@ angular
                 alert('vote error');
               }
             });
-       
+            
           ////////user haven't voted, store alreadyvote =1
            if(typeof results=='undefined'){
             var record = {
@@ -93,10 +98,8 @@ angular
             kk++;
             results.set("alreadyVote",kk);
             results.save();
-        
+            
             }
-        
-
           }else{
             supersonic.ui.dialog.alert("You Already Upvote :)");
           }
@@ -124,8 +127,9 @@ angular
       query.first({
         success: function(results)
         {      
-          
-          if(typeof results=='undefined' || results.get('alreadyVote')>-1){
+       //   alert(localvote);
+          if((typeof results=='undefined' || results.get('alreadyVote')>-1) && $scope.localvote != -1){
+            $scope.localvote--;
             for (var i = 0; i < $scope.events.length; i++)
             {
               if($scope.events[i].id==id)
@@ -144,6 +148,9 @@ angular
             // The object was retrieved successfully.
                 event.increment('Vote',-1);
                 event.save();
+                $scope.$apply( function () {
+                 $scope.localvote++;
+                });
 
               },
               error: function(object, error) {
@@ -152,6 +159,7 @@ angular
                 alert('vote error');
               }
             });
+             
           ////////store alreadyvote =1
             if(typeof results=='undefined'){
             var record = {
@@ -172,6 +180,7 @@ angular
                 alert("Could not join event, please try again.");
               }
             });
+           
            }else{
               var kk=results.get("alreadyVote");
             kk--;
@@ -179,6 +188,8 @@ angular
             results.save();
 
            }
+
+  
          
           }else{
             supersonic.ui.dialog.alert("You Already Downvote :)");
