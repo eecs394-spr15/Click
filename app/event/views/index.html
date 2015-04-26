@@ -8,19 +8,16 @@
 
   <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
   <div ng-hide="showSpinner">
-
-      
-        <div id="filter" class="item-select index-select">
-          <select ng-model="predicate">
-            <option value="EventName">Name</option>
-            <option value="StartDate">Time</option>
-            <option value="-Vote">Likes</option>
-          </select>
-        </div>
+    <label class="item">Sort By:</label>
+    <div class="button-bar">
+      <a class="button" ng-click="predicate = 'EventName'; reverse=!reverse">Name</a>
+      <a class="button" ng-click="predicate = 'StartTime'; reverse=!reverse">Time</a>
+      <a class="button" ng-click="predicate = 'Vote'; reverse=!reverse" >Vote</a>
+    </div>
 
     <ul class="list" ng-hide="events.length == 0">
 
-    <div ng-repeat="event in events | orderBy:predicate" >
+    <div ng-repeat="event in events | orderBy:predicate:reverse" >
       <li>
         <div class="item">
           
