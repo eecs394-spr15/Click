@@ -222,7 +222,66 @@ angular
     };
 
 
-    $scope.predicate = "EventName";
+    $scope.predicate = "StartDateString";
+    $scope.reverse = false;
+    $scope.timeReverse = false;
+    $scope.voteReverse = false;
+    $scope.nameReverse = false;
+
+    $scope.$watch('timeReverse', function() {
+      if ($scope.predicate == 'StartDateString')
+      {
+        $('#name-btn').removeClass('button-positive');
+        $('#vote-btn').removeClass('button-positive');
+
+        if ($scope.timeReverse === true)
+        {
+          $('#time-btn').removeClass('icon-right super-chevron-up');
+          $('#time-btn').addClass('icon-right super-chevron-down button-positive');
+        }
+        else
+        {
+          $('#time-btn').removeClass('icon-right super-chevron-down');
+          $('#time-btn').addClass('icon-right super-chevron-up button-positive');
+        }
+      }
+    });
+
+    $scope.$watch('nameReverse', function() {
+      if ($scope.predicate == 'EventName')
+      {
+
+        $('#vote-btn').removeClass('button-positive');
+        $('#time-btn').removeClass('button-positive');
+        if ($scope.nameReverse === true)
+        {
+          $('#name-btn').removeClass('icon-right super-chevron-up');
+          $('#name-btn').addClass('icon-right super-chevron-down button-positive');
+        }
+        else
+        {
+          $('#name-btn').removeClass('icon-right super-chevron-down');
+          $('#name-btn').addClass('icon-right super-chevron-up button-positive');
+        }
+      }
+    });
+    $scope.$watch('voteReverse', function() {
+      if ($scope.predicate == '-Vote')
+      {
+        $('#name-btn').removeClass('button-positive');
+        $('#time-btn').removeClass('button-positive');
+        if ($scope.voteReverse === true)
+        {
+          $('#vote-btn').removeClass('icon-right super-chevron-up');
+          $('#vote-btn').addClass('icon-right super-chevron-down button-positive');
+        }
+        else
+        {
+          $('#vote-btn').removeClass('icon-right super-chevron-down');
+          $('#vote-btn').addClass('icon-right super-chevron-up button-positive');
+        }
+      }
+    });
 
     document.addEventListener("visibilitychange", onVisibilityChange, false);
 
