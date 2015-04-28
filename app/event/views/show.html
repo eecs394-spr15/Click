@@ -40,11 +40,10 @@
         <p style= "font-size: 15px;">
           <li class="item item-checkbox">
      <label class="checkbox">
-       <input type="checkbox" ng-click="join(event.id)">
+       <input id="join-btn" type="checkbox" ng-click="checkEvent(event.id)">
      </label>
      Will you be attending?
   </li></p>
-  steroids.logger.log();
 
         <div ng-show="isLoggedIn" class="item" ng-repeat="guest in guestList">
           <p><span ng-bind="guest.get('email')"></span></p>

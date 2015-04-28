@@ -54,7 +54,7 @@ angular
                   {
                     $('#join-btn-text').text('Attending');
                     $scope.isAttending = true;
-                    $('#join-btn').attr('disabled', true);
+                    $('#join-btn').attr('checked', true);
                     $('#cancel-btn').show();
                   }
                 }
@@ -92,6 +92,20 @@ angular
         supersonic.ui.layers.pop();
       });
     };
+
+    $scope.checkEvent = function (id) {
+      if ($('#join-btn').attr('checked'))
+      {
+        $scope.cancel(id);
+
+      }
+      else
+      {
+        $scope.join(id);
+      }
+    };
+
+
     // allow user to join an event
     $scope.join = function(id) {
       if (currentUser === null) { // check if logged in
