@@ -3,11 +3,12 @@ angular
   .controller("ShowController", function ($scope, Event, supersonic) {
     $scope.event = null;
     $scope.showSpinner = true;
-    $scope.dataId = undefined;
+    $scope.dataId = null;
     $scope.attendingStr = null;
     $scope.isAttending = false;
     $scope.guestList = [];
     $scope.isLoggedIn = false;
+    $scope.ownsEvent = false;
     $('#cancel-btn').hide();
     var currentUser = Parse.User.current();
     if (currentUser === null)
@@ -19,7 +20,9 @@ angular
     var _refreshViewData = function () {
       Event.find($scope.dataId).then( function (event) {
         $scope.$apply( function () {
-          $scope.event = event;
+          //$scope.event = event;
+
+          $scope.event = EventHelper.formatEvent(event);
           $scope.showSpinner = false;
 
           // get list of who is attending
@@ -62,6 +65,12 @@ angular
               }
             });
           }
+          // check if user owns this event
+          if (currentUser)
+            if (currentUser.get("username") == $scope.event.PosterName)
+            {
+              $scope.ownsEvent = true;
+            }
         });
       });
     };
@@ -143,4 +152,34 @@ angular
     function onVisibilityChange() {
         location.reload();
     }
+
+    $scope.editEvent = function () {
+      var view = new supersonic.ui.View("event#edit");
+      supersonic.ui.layers.push(view);
+    };
+
+    $scope.remove = function(id) {
+      if (currentUser === null)
+        supersonic.ui.dialog.alert("You need to login before you can cancel");
+      else
+      {
+        var Event = Parse.Object.extend("Events");
+        var query = new Parse.Query(Event);
+        query.equalTo("objectId", id);
+        query.first({
+          success: function(myObject)
+          {
+            myObject.destroy({});
+            supersonic.ui.dialog.alert("Event Canceled.");
+            supersonic.ui.layers.popAll();
+            
+          },
+          error: function(error) {
+            supersonic.ui.dialog.alert("Error with database.");
+            supersonic.ui.dialog.alert(error);
+          }
+        });
+      }
+    };
+
   });

@@ -5,22 +5,33 @@ angular
   $scope.currentUser = Parse.User.current();
 
   $scope.signUp = function(){
-      var user = new Parse.User();
-      user.set("username", $scope.newUser.username);
-      user.set("password", $scope.newUser.password);
-      user.set("email", $scope.newUser.email);
-      user.signUp(null, {
+      if ($('#emailAddr').val().indexOf("@u.northwestern.edu")>-1 || $('#emailAddr').val().indexOf("@northwestern.edu")>-1)
+      {
+        if($('#password1').val() === $('#password2').val()){
+        var user = new Parse.User();
+        user.set("username", $scope.newUser.username);
+        user.set("password", $scope.newUser.password);
+        user.set("email", $scope.newUser.email);
+        user.signUp(null, {
       success: function(user) {
         $scope.currentUser = user;
         $scope.$apply();
         supersonic.ui.dialog.alert("success");
-		supersonic.ui.layers.pop();
-		supersonic.ui.tabs.select(0);
+        supersonic.ui.layers.pop();
+        supersonic.ui.tabs.select(0);
       },
       error: function(user, error) {
         supersonic.ui.dialog.alert("Error: " + error.message);
       }
     });
+        }else{
+          supersonic.ui.dialog.alert("Please Enter the same Password");
+        }
+      }else{
+      supersonic.ui.dialog.alert("Please use NU email to SignUp");
+      //
+      //$('#email-lbl').addClass('error-input');
+    }
   };
 
 

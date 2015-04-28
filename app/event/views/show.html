@@ -8,6 +8,7 @@
   <div class="padding">
     <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
     <div ng-hide="showSpinner">
+
       <h2 id="showpage-heading" style="position: relative; left:35px;" ng-bind="event['EventName']"></h2>
         
      <div class="item item-divider"><p id="event-divider"><b>What</b></p>
@@ -51,25 +52,28 @@
       </div>
 
 
-    
-      <!--<super-modal-show location="event#edit?id={{ event.id }}">
-        <button class="button button-block button-positive">
-          Edit
-        </button>
-      </super-modal-show>
+    <super-navigate location="event#edit" ng-show="ownsEvent" data-params-id="{{ event.id }}">
+      <button class="button button-block button-positive">Edit</button>
+    </super-navigate>
+    <button ng-show="ownsEvent" ng-click="remove(event.id)" class="button button-block button-positive">
+      Cancel Event
+    </button> 
 
-      <button ng-click="remove(event.id)" class="button button-block button-negative">
-        Remove
-      </button>-->
+      
+       
+
 
       <!-- <super-navigate location="event#show-map" 
                       data-params-id="{{ event.id }}"
+=======
+      <super-navigate location="event#show-map" 
+>>>>>>> 187cea765e72c9d5446d79d9b6f277ecbbaeaea0
                       data-params-name="{{ event['EventName'] }}"
-                      data-params-location="{{ event['Street'] + ',' + 
-                                               event['City'] + ',' + 
+                      data-params-location="{{ event['Street'] + ', ' + 
+                                               event['City'] + ', ' + 
                                                event['State'] }}"
-                      data-params-contact="{{ event['PosterName'] }}"
-                      data-params-number="{{ event['Contact'] }}">
+                      data-params-lat="{{ event['Lat'] }}"
+                      data-params-lng="{{ event['Long'] }}">
         <button class="button button-block button-positive">
           Show on map
         </button>
