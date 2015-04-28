@@ -5,11 +5,32 @@ Parse.Cloud.define('hello', function(request, response) {
   response.success('Hello world!');
 });
 
+Parse.Cloud.afterDelete('Events', function(request){
+  var query = new Parse.Query(Parse.Object.extend('GuestList'));
+  query.equalTo('eventId', request.object.id);
+  query.find({
+    success: function(guestLists){
+      Parse.Object.destroyAll(guestLists, {
+        success: function() {
+          // The object was deleted from the Parse Cloud.
+          console.log('Event deleted');
+        },
+        error: function(error) {
+          // The delete failed.
+          // error is a Parse.Error with an error code and message.
+          console.error('Error deleting guestLists ' + error.code + ': ' + error.message);
+        }
+      });
+    },
+    error: function(error){
+      console.error('Error finding guestLists ' + error.code + ': ' + error.message);
+    }
+  });
+});
+
 Parse.Cloud.job('autodeleteEvents', function(request, status) {
   // Set up to modify event data
   Parse.Cloud.useMasterKey();
-  // Counter for number of events
-  var counter = 0;
 
   // Get current time
   var now = new Date();
@@ -21,48 +42,25 @@ Parse.Cloud.job('autodeleteEvents', function(request, status) {
 
     var endDateTime = event.get('EndDate');
 
-    counter += 1;
-
     if (now.getTime() > endDateTime.getTime()){
       var name = event.get('EventName');
       var entry = 'Event ' + name + ' ended on ' + endDateTime + '. ';
       console.log(entry);
 
-      var guestListQuery = new Parse.Query(Parse.Object.extend('GuestList'));
-      guestListQuery.equalTo("id", event.get('id'));
-      guestListQuery.each(function(guestList) {
-        guestList.destroy({
-          success: function(myObject) {
-            var entry = 'GuestList ' + guestList.get('id') + ' has been deleted.';
-            console.log(entry);
-          },
-          error: function(myObject, error) {
-            var entry = 'Error deleting GuestList ' + guestList.get('id');
-            console.log();
-          }
-        });
-      });
-
+      //*
       event.destroy({
-        success: function(myObject) {
+        success: function() {
           // The object was deleted from the Parse Cloud.
-          var entry = event.get('id') + ' has been deleted.';
-          console.log(entry);
+          console.log('Event deleted');
         },
-        error: function(myObject, error) {
+        error: function(error) {
           // The delete failed.
           // error is a Parse.Error with an error code and message.
-          var entry = 'Error deleting Event ' + event.get('id');
-          console.log(entry);
+          console.error('Error deleteing event ' + error.code + ': ' + error.message);
         }
       });
+      //*/
     }
-
-      /*var str = 'Event ' + counter + ' ends at ' + endDateTime + '. ';
-      if (now.getTime() > endDateTime.getTime()){
-        str += 'Already ended!';
-      }
-      console.log(str);*/
 
   }).then(function() {
     // Set the job's success status
