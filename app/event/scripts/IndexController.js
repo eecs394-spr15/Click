@@ -23,6 +23,7 @@ angular
           for (var i = 0; i < $scope.events.length; i++)
           {
             $scope.events[i] = EventHelper.formatEvent(events[i]);
+            $scope.events[i].StartTimeComparison = $scope.events[i].StartDate.iso;
           }
 
         });
@@ -222,14 +223,14 @@ angular
     };
 
 
-    $scope.predicate = "StartDateString";
+    $scope.predicate = "StartTimeComparison";
     $scope.reverse = false;
     $scope.timeReverse = false;
     $scope.voteReverse = false;
     $scope.nameReverse = false;
 
     $scope.$watch('timeReverse', function() {
-      if ($scope.predicate == 'StartDateString')
+      if ($scope.predicate == 'StartTimeComparison')
       {
         $('#name-btn').removeClass('button-positive');
         $('#vote-btn').removeClass('button-positive');
