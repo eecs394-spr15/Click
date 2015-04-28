@@ -232,18 +232,18 @@ angular
     $scope.$watch('timeReverse', function() {
       if ($scope.predicate == 'StartTimeComparison')
       {
-        $('#name-btn').removeClass('button-positive');
-        $('#vote-btn').removeClass('button-positive');
+        $('#name-btn').removeClass('button-royal');
+        $('#vote-btn').removeClass('button-royal');
 
         if ($scope.timeReverse === true)
         {
           $('#time-btn').removeClass('icon-right super-chevron-up');
-          $('#time-btn').addClass('icon-right super-chevron-down button-positive');
+          $('#time-btn').addClass('icon-right super-chevron-down button-royal');
         }
         else
         {
           $('#time-btn').removeClass('icon-right super-chevron-down');
-          $('#time-btn').addClass('icon-right super-chevron-up button-positive');
+          $('#time-btn').addClass('icon-right super-chevron-up button-royal');
         }
       }
     });
@@ -253,34 +253,34 @@ angular
       if ($scope.predicate == 'EventName')
       {
 
-        $('#vote-btn').removeClass('button-positive');
-        $('#time-btn').removeClass('button-positive');
+        $('#vote-btn').removeClass('button-royal');
+        $('#time-btn').removeClass('button-royal');
         if ($scope.nameReverse === true)
         {
           $('#name-btn').removeClass('icon-right super-chevron-up');
-          $('#name-btn').addClass('icon-right super-chevron-down button-positive');
+          $('#name-btn').addClass('icon-right super-chevron-down button-royal');
         }
         else
         {
           $('#name-btn').removeClass('icon-right super-chevron-down');
-          $('#name-btn').addClass('icon-right super-chevron-up button-positive');
+          $('#name-btn').addClass('icon-right super-chevron-up button-royal');
         }
       }
     });
     $scope.$watch('voteReverse', function() {
       if ($scope.predicate == '-Vote')
       {
-        $('#name-btn').removeClass('button-positive');
-        $('#time-btn').removeClass('button-positive');
+        $('#name-btn').removeClass('button-royal');
+        $('#time-btn').removeClass('button-royal');
         if ($scope.voteReverse === true)
         {
           $('#vote-btn').removeClass('icon-right super-chevron-up');
-          $('#vote-btn').addClass('icon-right super-chevron-down button-positive');
+          $('#vote-btn').addClass('icon-right super-chevron-down button-royal');
         }
         else
         {
           $('#vote-btn').removeClass('icon-right super-chevron-down');
-          $('#vote-btn').addClass('icon-right super-chevron-up button-positive');
+          $('#vote-btn').addClass('icon-right super-chevron-up button-royal');
         }
       }
     });
