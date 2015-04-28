@@ -31,34 +31,31 @@ angular
         // place markers on map, map should now update new events automatically. "should".
         for (var i = 0; i < $scope.events.length; i++)
         {
-          var comments = $scope.events[i].Comments;
-          var eventName = $scope.events[i].EventName;
-          var posterName = $scope.events[i].PosterName;
-          var city = $scope.events[i].City;
-          var contact = $scope.events[i].Contact;
-          var endTime = $scope.events[i].EndTime;
-          var startTime = $scope.events[i].StartTime;
-          var month = $scope.events[i].Month;
-          var room = $scope.events[i].Room;
-          var street = $scope.events[i].Street;
-          var state = $scope.events[i].State;
-          var year = $scope.events[i].Year;
-          var day = $scope.events[i].Day;
-          var startDate = $scope.events[i].StartDate;
-          startDate = new Date(startDate.iso);
-          var endDate = $scope.events[i].EndDate;
-          endDate = new Date(endDate.iso);
+          $scope.events[i] = EventHelper.formatEvent(events[i]);
 
-          var startTimeArr = startDate.toLocaleTimeString().split(" ");
-          var endTimeArr = endDate.toLocaleTimeString().split(" ");
-          var startTimeText = startTimeArr[0].split(":")[0] + ":" + startTimeArr[0].split(":")[1] + " " +  startTimeArr[1];
-          var endTimeText = endTimeArr[0].split(":")[0] + ":" + endTimeArr[0].split(":")[1] + " " +  endTimeArr[1];
+          var comments = $scope.events[i].Comments,
+              eventName = $scope.events[i].EventName,
+              posterName = $scope.events[i].PosterName,
+              city = $scope.events[i].City,
+              contact = $scope.events[i].Contact,
+              //endTime = $scope.events[i].EndTime,
+              //startTime = $scope.events[i].StartTime,
+              month = $scope.events[i].Month,
+              room = $scope.events[i].Room,
+              street = $scope.events[i].Street,
+              state = $scope.events[i].State,
+              year = $scope.events[i].Year,
+              day = $scope.events[i].Day,
+              startTime = $scope.events[i].StartTimeString,
+              endTime = $scope.events[i].EndTimeString,
+              startDate = $scope.events[i].StartDateString,
+              endDate = $scope.events[i].EndDateString;
 
           var LatLng = new google.maps.LatLng($scope.events[i].Lat, $scope.events[i].Long);
           var tempString = '<h4>' + eventName + '</h4>\n' +
             '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
-            '<br>Start: ' + startTimeText + ', ' + startDate.toDateString() + 
-            '<br>End: ' + endTimeText + ', ' + endDate.toDateString() + 
+            '<br>Start: ' + startTime + ', ' + startDate + 
+            '<br>End: ' + endTime + ', ' + endDate + 
             '<br>Contact: ' + contact +
             '<br>Comments: ' + comments +
             '</p>';
@@ -68,8 +65,8 @@ angular
           {
             contentString[i] = '<h4>' + eventName + '</h4>\n' +
             '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
-            '<br>Start: ' + startTimeText + ', ' + startDate.toDateString() + 
-            '<br>End: ' + endTimeText + ', ' + endDate.toDateString() + 
+            '<br>Start: ' + startTime + ', ' + startDate + 
+            '<br>End: ' + endTime + ', ' + endDate + 
             '<br>Contact: ' + contact +
             '<br>Comments: ' + comments +
             '</p>';
@@ -89,8 +86,8 @@ angular
           {
             contentString[i] = '<h4>' + eventName + '</h4>\n' +
             '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
-            '<br>Start: ' + startTimeText + ', ' + startDate.toDateString() + 
-            '<br>End: ' + endTimeText + ', ' + endDate.toDateString() + 
+            '<br>Start: ' + startTime + ', ' + startDate + 
+            '<br>End: ' + endTime + ', ' + endDate + 
             '<br>Contact: ' + contact +
             '<br>Comments: ' + comments +
             '</p>';
