@@ -12,26 +12,26 @@ Parse.Cloud.job('updatePlanItPurple', function(request, status){
       var events = JSON.parse(httpResponse.text);
 
       // get time right now
-      var now = new Date();
+      var now = new Date(2015,3,16);
+
+      var count = 0;
 
       // get events in our Parse database
       var query = new Parse.Query(Parse.Object.extend('Events'));
 
       for(var i = 0; i < events.length; i++){
         
-        var created = events[i].create_date.split(' ');
-        var modified = events[i].modify_date.split(' ');
+        // don't add events without location
+        if (events[i].centerpoint == null) continue;
 
         var latlong = events[i].centerpoint.split(',');
 
         // get modify dates and times
-        var createdDate = created[0].split('-').map(Number),
-            modifiedDate = modified[0].split('-').map(Number),
-            modifiedTime = modified[1].split(':').map(Number);
-        
-        var modifyDate = new Date(date[0], date[1], date[2], time[0], time[1], time[2]);
+        var createdDate = events[i].create_date.split('-').map(Number);
+        var createdDateTime = new Date(createdDate[0], createdDate[1], createdDate[2]);
 
-        if (createdDate.toDateString() == now.toDateString()){
+        if (createdDateTime.toDateString() == now.toDateString()){
+          count++;
           var Event = Parse.Object.extend('Events');
           var newEvent = new Event();
           newEvent.save({
@@ -51,43 +51,54 @@ Parse.Cloud.job('updatePlanItPurple', function(request, status){
             Vote: Number(0),
             Room: ''
             }, {
-            success: function(object) {
-              console.log('Event created successfully. ');
+            success: function() {
+              console.log('Event created successfully.');
             },
-            error: function(model, error) {
-              console.log(error);
+            error: function(error) {
+              console.log('Cannot create event ' + error.code + ': ' + error.message);
             }
           });
         }
-        if (modifiedDate.toDateString() == now.toDateString()){
-          query.equalTo('planitpurpleId', events[i].id);
-          query.find({
-            success: function(event){
-              event[0].set('EventName', events[i].title);
-              event[0].set('Comments', events[i].description);
-              event[0].set('EventType', events[i].category_name || '');
-              event[0].set('PosterName', events[i].contact_name || '');
-              event[0].set('Contact', events[i].contact_email || '');
-              event[0].set('Street', events[i].facility_address_1);
-              event[0].set('City', events[i].facility_city);
-              event[0].set('State', events[i].facility_state);
-              event[0].set('Lat', Number(latlong[0]));
-              event[0].set('Long', Number(latlong[1]));
-              event[0].set('StartDate', new Date(events[i].eventdate_ical_format));
-              event[0].set('EndDate', new Date(events[i].eventend_ical_format));
-            },
-            error: function(error){
-              console.error('Cannot find event ' + error.code + ': ' + error.message);
-            }
-          });
+        if (events[i].modify_date){
+          var modified = events[i].modify_date.split(' ');
+          var modifiedDate = modified[0].split('-').map(Number),
+              modifiedTime = modified[1].split(':').map(Number);
+
+          var modifiedDateTime = new Date(modifiedDate[0], modifiedDate[1], modifiedDate[2], 
+                                    modifiedTime[0], modifiedTime[1], modifiedTime[2]);
+
+
+          if (modifiedDateTime.toDateString() == now.toDateString()){
+            query.equalTo('planitpurpleId', events[i].id);
+            query.find({
+              success: function(event){
+                event[0].set('EventName', events[i].title);
+                event[0].set('Comments', events[i].description);
+                event[0].set('EventType', events[i].category_name || '');
+                event[0].set('PosterName', events[i].contact_name || '');
+                event[0].set('Contact', events[i].contact_email || '');
+                event[0].set('Street', events[i].facility_address_1);
+                event[0].set('City', events[i].facility_city);
+                event[0].set('State', events[i].facility_state);
+                event[0].set('Lat', Number(latlong[0]));
+                event[0].set('Long', Number(latlong[1]));
+                event[0].set('StartDate', new Date(events[i].eventdate_ical_format));
+                event[0].set('EndDate', new Date(events[i].eventend_ical_format));
+              },
+              error: function(error){
+                console.error('Cannot find event ' + error.code + ': ' + error.message);
+              }
+            });
+          }
         }
       }
+      console.log(count + ' events created.');
       status.success('Feed request successful.');
     },
     error: function(httpResponse){
       status.error('Cannot get feed.');
     }
-    });
+  });
 });
 
 Parse.Cloud.afterDelete('Events', function(request){
