@@ -9,15 +9,14 @@
     <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
     <div ng-hide="showSpinner">
 
-    <super-navigate location="event#edit" ng-show="ownsEvent" data-params-id="{{ event.id }}">
-      <button class="button button-block button-positive">Edit</button>
-    </super-navigate>
-    <button ng-show="ownsEvent" ng-click="remove(event.id)" class="button button-block button-positive">
-      Cancel Event
-    </button> 
+      <super-navigate location="event#edit" ng-show="ownsEvent" data-params-id="{{ event.id }}">
+        <button class="button button-block button-royal">Edit</button>
+      </super-navigate>
+      <button ng-show="ownsEvent" ng-click="remove(event.id)" class="button button-block button-royal">
+        Cancel Event
+      </button> 
+      <h2 id="showpage-heading" style="position: relative; left:35px;" ng-bind="event['EventName']"></h2>
 
-
-      <h2 id="showpage-heading" ng-bind="event['EventName']"></h2>
         
      <div class="item item-divider"><p id="event-divider"><b>What</b></p>
        <p style="text-indent: 20px;">Host's Name: <span ng-bind="event['PosterName']"></span></p> 
@@ -41,7 +40,7 @@
                                                event['State'] }}"
                       data-params-contact="{{ event['PosterName'] }}"
                       data-params-number="{{ event['Contact'] }}">
-        <button class="button button-block button-positive">
+        <button class="button button-block button-royal">
           Show on map
         </button>
       </super-navigate>
@@ -50,7 +49,7 @@
         <p style= "font-size: 15px;">
           <li class="item item-checkbox">
      <label class="checkbox">
-       <input type="checkbox" ng-click="join(event.id)">
+       <input id="join-btn" type="checkbox" ng-click="checkEvent(event.id)">
      </label>
      Will you be attending?
   </li></p>
@@ -61,11 +60,6 @@
       </div>
 
 
-    
-       
-
-
-    
     </div>
   </div>
 </div>
