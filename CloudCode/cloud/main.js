@@ -5,11 +5,53 @@ Parse.Cloud.define('hello', function(request, response) {
   response.success('Hello world!');
 });
 
+Parse.Cloud.afterDelete('Events', function(request){
+  var query = new Parse.Query(Parse.Object.extend('GuestList'));
+  query.equalTo('eventId', request.object.id);
+  query.find({
+    success: function(guestLists){
+      Parse.Object.destroyAll(guestLists, {
+        success: function() {
+          // The object was deleted from the Parse Cloud.
+          console.log('GuestList deleted');
+        },
+        error: function(error) {
+          // The delete failed.
+          // error is a Parse.Error with an error code and message.
+          console.error('Error deleting guestLists ' + error.code + ': ' + error.message);
+        }
+      });
+    },
+    error: function(error){
+      console.error('Error finding guestLists ' + error.code + ': ' + error.message);
+    }
+  });
+
+  query = new Parse.Query(Parse.Object.extend('Vote'));
+  query.equalTo('eventId', request.object.id);
+  query.find({
+    success: function(votes){
+      Parse.Object.destroyAll(votes, {
+        success: function() {
+          // The object was deleted from the Parse Cloud.
+          console.log('Vote deleted');
+        },
+        error: function(error) {
+          // The delete failed.
+          // error is a Parse.Error with an error code and message.
+          console.error('Error deleting vote ' + error.code + ': ' + error.message);
+        }
+      });
+    },
+    error: function(error){
+      console.error('Error finding votes ' + error.code + ': ' + error.message);
+    }
+  });
+});
+
 Parse.Cloud.job('autodeleteEvents', function(request, status) {
-	// Set up to modify event data
+  // Set up to modify event data
   Parse.Cloud.useMasterKey();
-  // Counter for number of events
-  var counter = 0;
 
   // Get current time
   var now = new Date();
@@ -17,37 +59,29 @@ Parse.Cloud.job('autodeleteEvents', function(request, status) {
   // Query for all events
   var Event = Parse.Object.extend('Events');
   var query = new Parse.Query(Event);
-  query.each(function(e) {
+  query.each(function(event) {
 
-      var endDateTime = e.get('EndDate');
+    var endDateTime = event.get('EndDate');
 
-      counter += 1;
+    if (now.getTime() > endDateTime.getTime()){
+      var name = event.get('EventName');
+      var entry = 'Event ' + name + ' ended on ' + endDateTime + '. ';
+      console.log(entry);
 
-      if (now.getTime() > endDateTime.getTime()){
-      	var name = e.get('EventName');
-      	var entry = 'Event ' + name + ' ended on ' + endDateTime + '. ';
-      	e.destroy({
-				  success: function(myObject) {
-				    // The object was deleted from the Parse Cloud.
-				    entry += 'It has been deleted from the Cloud.';
-				    console.log(entry);
-				  },
-				  error: function(myObject, error) {
-				    // The delete failed.
-				    // error is a Parse.Error with an error code and message.
-				  	entry += 'Error on deletion. ';
-				  	console.log(entry);
-				  }
-				});
-      }
-
-      /*var str = 'Event ' + counter + ' ends at ' + endDateTime + '. ';
-      if (now.getTime() > endDateTime.getTime()){
-      	str += 'Already ended!';
-      }
-      console.log(str);*/
-      
-
+      //*
+      event.destroy({
+        success: function() {
+          // The object was deleted from the Parse Cloud.
+          console.log('Event deleted');
+        },
+        error: function(error) {
+          // The delete failed.
+          // error is a Parse.Error with an error code and message.
+          console.error('Error deleteing event ' + error.code + ': ' + error.message);
+        }
+      });
+      //*/
+    }
 
   }).then(function() {
     // Set the job's success status
