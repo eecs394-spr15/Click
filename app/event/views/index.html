@@ -26,14 +26,16 @@
               <img style= "position:absolute; top:28px; border-style: inset; border-width: 2px; border-color: #1596f7; border-radius: 20px;"class="event-icon" src="/svg/{{event['EventType'] || 'Event'}}.svg">
               <div style="width:180px;word-break:break-word;"> 
 
-              <h2 style="position:relative; right:20px; font-weight: bold; text-decoration:underline;"><span ng-bind="event['EventName']"></h2>
+              <h2 style="position:relative; right:20px; font-weight: bold;"><span ng-bind="event['EventName']"></h2>
               <p style= "position:relative; right:20px;">Time: <span ng-bind="event['StartTimeString']"></span> - <span ng-bind="event['EndTimeString']"></span></p>
               <p style= "position:relative; right:20px;">Date: <span ng-bind="event['StartDateString']"></span><span ng-bind="event['EndDateString']"></span></p>
               
 
           <!--     <p style= "position:relative; right:20px;"><span ng-bind="event['Vote']"></span> Likes</p> -->
+              <div>
                 <p style= "position:relative; right:20px;">{{event.Vote}} Likes</p>
               </div>
+            </div>
             </div>
           </super-navigate>
 

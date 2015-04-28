@@ -104,6 +104,7 @@ angular
           userId: currentUser.id,
           email: currentUser.get('email')
         };
+
         var newGuestObject = new GuestList();
         newGuestObject.save(options, {
           success: function(object) {
@@ -113,9 +114,22 @@ angular
             steroids.logger.log(error);
             alert("Could not join event, please try again.");
           }
-        });
+        });    
+
       }
     };
+
+    $scope.CONFIG = localStorage.getItem('CONFIG');
+if (!$scope.CONFIG) {
+  $scope.CONFIG = {sport: true};
+}
+
+$scope.save = function(checked) {
+  $scope.CONGIF.sport = checked;
+  localStorage.setItem('CONFIG', $scope.CONFIG);
+}
+
+
 
     $scope.cancel = function(id) {
       // check if user is attending this event
@@ -179,6 +193,7 @@ angular
             supersonic.ui.dialog.alert(error);
           }
         });
+
       }
     };
 

@@ -9,16 +9,26 @@
     <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
     <div ng-hide="showSpinner">
 
-      <h2 id="showpage-heading" style="position: relative; left:35px;" ng-bind="event['EventName']"></h2>
+    <super-navigate location="event#edit" ng-show="ownsEvent" data-params-id="{{ event.id }}">
+      <button class="button button-block button-positive">Edit</button>
+    </super-navigate>
+    <button ng-show="ownsEvent" ng-click="remove(event.id)" class="button button-block button-positive">
+      Cancel Event
+    </button> 
+
+
+      <h2 id="showpage-heading" ng-bind="event['EventName']"></h2>
         
      <div class="item item-divider"><p id="event-divider"><b>What</b></p>
-       <p style="text-indent: 20px;">Comments: <span ng-bind="event['Comments']"></span></p> 
        <p style="text-indent: 20px;">Host's Name: <span ng-bind="event['PosterName']"></span></p> 
        <p style="text-indent: 20px;">Contact: <span ng-bind="event['Contact']"></span></p>
+        <p style="text-indent: 20px;">Description: <span ng-bind="event['Comments']"></span></p> 
      </div>
        <div class="item item-divider"><p id="event-divider">When</p>  
-     <p style="text-indent: 20px;">Date: <span ng-bind="event['Month']">    </span><span ng-bind="event['Day']">    </span><span ng-bind="event['Year']"></span></p> 
-       <p style="text-indent: 20px;">Time: From <span ng-bind="event['StartTime']"></span> to <span ng-bind="event['EndTime']"></span></p> 
+     <p style="text-indent: 20px;">Date: <span ng-bind="event['StartDateString']"></span>
+      <span ng-show="event['EndDateString']"> - <span ng-bind="event['EndDateString']"></span></span>
+      </p> 
+       <p style="text-indent: 20px;">Time: From <span ng-bind="event['StartTimeString']"></span> to <span ng-bind="event['EndTimeString']"></span></p> 
         </div>   
        <div class="item item-divider"><p id="event-divider">Where</p>  
     <p style="text-indent: 20px;"><span ng-bind="event['Street']"></span>, <span ng-bind="event['City']"></span> <span ng-bind="event['State']"></span></p>
@@ -44,7 +54,6 @@
      </label>
      Will you be attending?
   </li></p>
-  steroids.logger.log();
 
         <div ng-show="isLoggedIn" class="item" ng-repeat="guest in guestList">
           <p><span ng-bind="guest.get('email')"></span></p>
@@ -52,52 +61,11 @@
       </div>
 
 
-    <super-navigate location="event#edit" ng-show="ownsEvent" data-params-id="{{ event.id }}">
-      <button class="button button-block button-positive">Edit</button>
-    </super-navigate>
-    <button ng-show="ownsEvent" ng-click="remove(event.id)" class="button button-block button-positive">
-      Cancel Event
-    </button> 
-
-      
+    
        
 
 
-      <!-- <super-navigate location="event#show-map" 
-                      data-params-id="{{ event.id }}"
-=======
-      <super-navigate location="event#show-map" 
->>>>>>> 187cea765e72c9d5446d79d9b6f277ecbbaeaea0
-                      data-params-name="{{ event['EventName'] }}"
-                      data-params-location="{{ event['Street'] + ', ' + 
-                                               event['City'] + ', ' + 
-                                               event['State'] }}"
-                      data-params-lat="{{ event['Lat'] }}"
-                      data-params-lng="{{ event['Long'] }}">
-        <button class="button button-block button-positive">
-          Show on map
-        </button>
-      </super-navigate> -->
-        
-        <!-- <label class="toggle">
-          <input type="checkbox">
-          <div class="track">
-            <div class="handle"></div>
-          </div>
-        </label> -->
-      <!-- <button id="join-btn" ng-click="join(event.id)" class="button button-block button-positive">
-        <span id="join-btn-text">Attend</span>
-      </button> -->
-      <button id="cancel-btn" ng-click="cancel(event.id)" class="button button-block button-positive">
-        <span id="cancel-btn-text">Cancel</span>
-      </button>
-      <!-- add list of people attending -->
-     <!--  <div class="list">
-        <div class="item item-divider"><em><span ng-bind="guestList.length"></span> <span ng-show="guestList.length == 1">Person Attending</span><span ng-show="guestList.length != 1">People Attending</span></em></div>
-        <div ng-show="isLoggedIn" class="item" ng-repeat="guest in guestList">
-          <p><span ng-bind="guest.get('email')"></span></p>
-        </div>
-      </div> -->
+    
     </div>
   </div>
 </div>
