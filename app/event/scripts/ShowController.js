@@ -85,7 +85,7 @@ angular
     };
     // allow user to join an event
     $scope.join = function(id) {
-      if (currentUser === null) // check if logged in
+      if (currentUser === null) { // check if logged in
         supersonic.ui.dialog.alert("You need to login before you can join an event!");
       }
       else
