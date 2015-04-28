@@ -4,6 +4,21 @@ Parse.Cloud.define('hello', function(request, response) {
   response.success('Hello world!');
 });
 
+Parse.Cloud.job('updatePlanItPurple', function(request, status){
+  Parse.Cloud.httpRequest({
+    url: 'http://planitpurple.northwestern.edu/feed/json/1029',
+    success: function(httpResponse){
+      var events = JSON.parse(httpResponse.text);
+
+      console.log(events[0].title);
+      status.success('Feed request successful.');
+    },
+    error: function(httpResponse){
+      status.error('Cannot get feed.');
+    }
+    });
+});
+
 Parse.Cloud.afterDelete('Events', function(request){
   var query = new Parse.Query(Parse.Object.extend('GuestList'));
   query.equalTo('eventId', request.object.id);
