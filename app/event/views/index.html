@@ -25,38 +25,27 @@
             <div class="item-thumbnail-left">
               <img style= "position:absolute; top:28px; border-style: inset; border-width: 2px; border-color: #1596f7; border-radius: 20px;"class="event-icon" src="/svg/{{event['EventType'] || 'Event'}}.svg">
               <div style="width:180px;word-break:break-word;"> 
-<<<<<<< HEAD
+
               <h2 style="position:relative; right:20px; font-weight: bold; text-decoration:underline;"><span ng-bind="event['EventName']"></h2>
-              <p style= "position:relative; right:20px;">Time: <span ng-bind="event['StartTimeText']"></span> - <span ng-bind="event['EndTimeText']"></span></p>
-              <p style= "position:relative; right:20px;">Date: <span ng-bind="event['StartDateText']"></span><span ng-bind="event['EndDateText']"></span></p>
-=======
-                <h2 style="position:relative; right:20px;"><span ng-bind="event['EventName']"></h2>
-                <p style= "position:relative; right:20px;">Time: <span ng-bind="event['StartTimeString']"></span> - <span ng-bind="event['EndTimeString']"></span></p>
-                <p style= "position:relative; right:20px;">Date: 
-                  <span ng-bind="event['StartDateString']"></span>
-                  <span ng-show="event['EndDateString']"> - <span ng-bind="event['EndDateString']"></span></span>
-                </p>
->>>>>>> 187cea765e72c9d5446d79d9b6f277ecbbaeaea0
+              <p style= "position:relative; right:20px;">Time: <span ng-bind="event['StartTimeString']"></span> - <span ng-bind="event['EndTimeString']"></span></p>
+              <p style= "position:relative; right:20px;">Date: <span ng-bind="event['StartDateString']"></span><span ng-bind="event['EndDateString']"></span></p>
+              
+
           <!--     <p style= "position:relative; right:20px;"><span ng-bind="event['Vote']"></span> Likes</p> -->
                 <p style= "position:relative; right:20px;">{{event.Vote}} Likes</p>
               </div>
             </div>
           </super-navigate>
-<<<<<<< HEAD
+
           <div style="position:relative; float:right; left: 5px; bottom: 10px; margin-top: -85px;">
             <super-button style=" color: #0DD5B2; width:50px;height:20px;font-size:50px; background-color: #ffffff; border-color:#ffffff;"class="button button-small button-assertive" ng-click="up(event.id)">&#8963</super-button>
-=======
-          <div style="position:relative; float:right; margin-top:-85px">
-          <super-button style=" color:#0DD5B2; width:50px;height:20px;font-size:50px; background-color: #FFFFFF;border-color:#FFFFFF"class="button button-small button-assertive" ng-click="up(event.id)">&#8963</super-button>
->>>>>>> 187cea765e72c9d5446d79d9b6f277ecbbaeaea0
+
 
             <div style="padding-left:20px; margin: 0 auto;" ng-bind="event['Vote']"></div>
           
-<<<<<<< HEAD
+
             <super-button style=" color: #FF554C;width:50px;height:20px;font-size:50px; background-color: #ffffff;border-color:#ffffff" class="button button-small button-assertive" ng-click="down(event.id)">&#8964</super-button>
-=======
-          <super-button style=" color:#FF554C;width:50px;height:20px;font-size:50px; background-color: #FFFFFF;border-color:#FFFFFF" class="button button-small button-assertive" ng-click="down(event.id)">&#8964</super-button>
->>>>>>> 187cea765e72c9d5446d79d9b6f277ecbbaeaea0
+
           </div>
         </div>
       </li>

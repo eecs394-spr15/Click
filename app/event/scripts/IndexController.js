@@ -246,6 +246,7 @@ angular
         }
       }
     });
+    steroids.logger.log();
 
     $scope.$watch('nameReverse', function() {
       if ($scope.predicate == 'EventName')
