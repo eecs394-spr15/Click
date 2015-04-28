@@ -8,7 +8,7 @@
   <div class="padding">
     <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
     <div ng-hide="showSpinner">
-      <h2 id="showpage-heading" ng-bind="event['EventName']"></h2>
+      <h2 id="showpage-heading" style="position: relative; left:35px;" ng-bind="event['EventName']"></h2>
         
      <div class="item item-divider"><p id="event-divider"><b>What</b></p>
        <p style="text-indent: 20px;">Comments: <span ng-bind="event['Comments']"></span></p> 
@@ -22,19 +22,7 @@
        <div class="item item-divider"><p id="event-divider">Where</p>  
     <p style="text-indent: 20px;"><span ng-bind="event['Street']"></span>, <span ng-bind="event['City']"></span> <span ng-bind="event['State']"></span></p>
     <p style="text-indent: 20px;">Room: <span ng-bind="event['Room']"></span></p>
-     </div>
-    
-      <!--<super-modal-show location="event#edit?id={{ event.id }}">
-        <button class="button button-block button-positive">
-          Edit
-        </button>
-      </super-modal-show>
-
-      <button ng-click="remove(event.id)" class="button button-block button-negative">
-        Remove
-      </button>-->
-
-      <super-navigate location="event#show-map" 
+    <super-navigate location="event#show-map" 
                       data-params-id="{{ event.id }}"
                       data-params-name="{{ event['EventName'] }}"
                       data-params-location="{{ event['Street'] + ',' + 
@@ -46,19 +34,66 @@
           Show on map
         </button>
       </super-navigate>
-      <button id="join-btn" ng-click="join(event.id)" class="button button-block button-positive">
-        <span id="join-btn-text">Attend</span>
-      </button>
-      <button id="cancel-btn" ng-click="cancel(event.id)" class="button button-block button-positive">
-        <span id="cancel-btn-text">Cancel</span>
-      </button>
-      <!-- add list of people attending -->
-      <div class="list">
-        <div class="item item-divider"><em><span ng-bind="guestList.length"></span> <span ng-show="guestList.length == 1">Person Attending</span><span ng-show="guestList.length != 1">People Attending</span></em></div>
+     </div>
+        <div class="item item-divider"><span ng-bind="guestList.length"></span> <span ng-show="guestList.length == 1">Person Attending</span><span ng-show="guestList.length != 1">People Attending</span>
+        <p style= "font-size: 15px;">
+          <li class="item item-checkbox">
+     <label class="checkbox">
+       <input type="checkbox" ng-click="join(event.id)">
+     </label>
+     Will you be attending?
+  </li></p>
+  steroids.logger.log();
+
         <div ng-show="isLoggedIn" class="item" ng-repeat="guest in guestList">
           <p><span ng-bind="guest.get('email')"></span></p>
         </div>
       </div>
+
+
+    
+      <!--<super-modal-show location="event#edit?id={{ event.id }}">
+        <button class="button button-block button-positive">
+          Edit
+        </button>
+      </super-modal-show>
+
+      <button ng-click="remove(event.id)" class="button button-block button-negative">
+        Remove
+      </button>-->
+
+      <!-- <super-navigate location="event#show-map" 
+                      data-params-id="{{ event.id }}"
+                      data-params-name="{{ event['EventName'] }}"
+                      data-params-location="{{ event['Street'] + ',' + 
+                                               event['City'] + ',' + 
+                                               event['State'] }}"
+                      data-params-contact="{{ event['PosterName'] }}"
+                      data-params-number="{{ event['Contact'] }}">
+        <button class="button button-block button-positive">
+          Show on map
+        </button>
+      </super-navigate> -->
+        
+        <!-- <label class="toggle">
+          <input type="checkbox">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label> -->
+      <!-- <button id="join-btn" ng-click="join(event.id)" class="button button-block button-positive">
+        <span id="join-btn-text">Attend</span>
+      </button> -->
+      <button id="cancel-btn" ng-click="cancel(event.id)" class="button button-block button-positive">
+        <span id="cancel-btn-text">Cancel</span>
+      </button>
+      <!-- add list of people attending -->
+     <!--  <div class="list">
+        <div class="item item-divider"><em><span ng-bind="guestList.length"></span> <span ng-show="guestList.length == 1">Person Attending</span><span ng-show="guestList.length != 1">People Attending</span></em></div>
+        <div ng-show="isLoggedIn" class="item" ng-repeat="guest in guestList">
+          <p><span ng-bind="guest.get('email')"></span></p>
+        </div>
+      </div> -->
     </div>
   </div>
 </div>

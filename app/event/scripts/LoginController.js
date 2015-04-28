@@ -59,7 +59,8 @@ angular
   $scope.addNewEvent = function () {
 		if(!Parse.User.current()){
 		    supersonic.ui.dialog.alert("You need login to create new event");
-		}else{
+		}
+    else {
 		var view = new supersonic.ui.View("event#new");
 		supersonic.ui.layers.push(view);
 		}

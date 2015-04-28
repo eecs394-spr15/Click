@@ -27,9 +27,9 @@
           
           <super-navigate location="event#show" data-params-id="{{ event.id }}">
             <div class="item-thumbnail-left">
-              <img style= "position:absolute; top:35px; border-style: solid; border-width: 4px; border-color: #919191;"class="event-icon" src="/svg/{{event['EventType'] || 'Event'}}.svg">
+              <img style= "position:absolute; top:28px; border-style: inset; border-width: 2px; border-color: #1596f7; border-radius: 20px;"class="event-icon" src="/svg/{{event['EventType'] || 'Event'}}.svg">
               <div style="width:180px;word-break:break-word;"> 
-              <h2 style="position:relative; right:20px;"><span ng-bind="event['EventName']"></h2>
+              <h2 style="position:relative; right:20px; font-weight: bold; text-decoration:underline;"><span ng-bind="event['EventName']"></h2>
               <p style= "position:relative; right:20px;">Time: <span ng-bind="event['StartTimeText']"></span> - <span ng-bind="event['EndTimeText']"></span></p>
               <p style= "position:relative; right:20px;">Date: <span ng-bind="event['StartDateText']"></span><span ng-bind="event['EndDateText']"></span></p>
           <!--     <p style= "position:relative; right:20px;"><span ng-bind="event['Vote']"></span> Likes</p> -->
@@ -37,12 +37,12 @@
               </div>
             </div>
           </super-navigate>
-          <div style="position:relative; float:right; margin-top:-85px">
-          <super-button style=" color: #0DD5B2; width:50px;height:20px;font-size:50px; background-color: #FFFFFF;border-color:#FFFFFF"class="button button-small button-assertive" ng-click="up(event.id)">&#8963</super-button>
+          <div style="position:relative; float:right; left: 5px; bottom: 10px; margin-top: -85px;">
+            <super-button style=" color: #0DD5B2; width:50px;height:20px;font-size:50px; background-color: #ffffff; border-color:#ffffff;"class="button button-small button-assertive" ng-click="up(event.id)">&#8963</super-button>
 
-          <div style="padding-left:15px; margin: 0 auto;" ng-bind="event['Vote']"></div>
+            <div style="padding-left:20px; margin: 0 auto;" ng-bind="event['Vote']"></div>
           
-          <super-button style=" color: #FF554C;width:50px;height:20px;font-size:50px; background-color: #FFFFFF;border-color:#FFFFFF" class="button button-small button-assertive" ng-click="down(event.id)">&#8964</super-button>
+            <super-button style=" color: #FF554C;width:50px;height:20px;font-size:50px; background-color: #ffffff;border-color:#ffffff" class="button button-small button-assertive" ng-click="down(event.id)">&#8964</super-button>
           </div>
         </div>
       </li>

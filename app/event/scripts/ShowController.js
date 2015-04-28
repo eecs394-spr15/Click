@@ -87,6 +87,7 @@ angular
     $scope.join = function(id) {
       if (currentUser === null) // check if logged in
         supersonic.ui.dialog.alert("You need to login before you can join an event!");
+      }
       else
       {
         var options = {
@@ -109,8 +110,9 @@ angular
 
     $scope.cancel = function(id) {
       // check if user is attending this event
-      if (currentUser === null)
+      if (currentUser === null){
         supersonic.ui.dialog.alert("You need to login before you can cancel");
+      }
       else
       {
         var query = new Parse.Query(GuestList);
