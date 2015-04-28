@@ -13,7 +13,7 @@ Parse.Cloud.afterDelete('Events', function(request){
       Parse.Object.destroyAll(guestLists, {
         success: function() {
           // The object was deleted from the Parse Cloud.
-          console.log('Event deleted');
+          console.log('GuestList deleted');
         },
         error: function(error) {
           // The delete failed.
@@ -24,6 +24,27 @@ Parse.Cloud.afterDelete('Events', function(request){
     },
     error: function(error){
       console.error('Error finding guestLists ' + error.code + ': ' + error.message);
+    }
+  });
+
+  query = new Parse.Query(Parse.Object.extend('Vote'));
+  query.equalTo('eventId', request.object.id);
+  query.find({
+    success: function(votes){
+      Parse.Object.destroyAll(votes, {
+        success: function() {
+          // The object was deleted from the Parse Cloud.
+          console.log('Vote deleted');
+        },
+        error: function(error) {
+          // The delete failed.
+          // error is a Parse.Error with an error code and message.
+          console.error('Error deleting vote ' + error.code + ': ' + error.message);
+        }
+      });
+    },
+    error: function(error){
+      console.error('Error finding votes ' + error.code + ': ' + error.message);
     }
   });
 });
