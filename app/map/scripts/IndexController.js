@@ -53,7 +53,7 @@ angular
 
           var LatLng = new google.maps.LatLng($scope.events[i].Lat, $scope.events[i].Long);
           var tempString = '<h4>' + eventName + '</h4>\n' +
-            '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
+            'Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
             '<br>Start: ' + startTime + ', ' + startDate + 
             '<br>End: ' + endTime + ', ' + endDate + 
             '<br>Contact: ' + contact +
@@ -64,7 +64,7 @@ angular
           if (i >= markers.length)
           {
             contentString[i] = '<h4>' + eventName + '</h4>\n' +
-            '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
+            'Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
             '<br>Start: ' + startTime + ', ' + startDate + 
             '<br>End: ' + endTime + ', ' + endDate + 
             '<br>Contact: ' + contact +
@@ -85,7 +85,7 @@ angular
           else if (contentString[i] != tempString)
           {
             contentString[i] = '<h4>' + eventName + '</h4>\n' +
-            '<br>Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
+            'Where: ' + street + ' ' + room + ' ' + city + ', ' + state +
             '<br>Start: ' + startTime + ', ' + startDate + 
             '<br>End: ' + endTime + ', ' + endDate + 
             '<br>Contact: ' + contact +
