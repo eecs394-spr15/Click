@@ -9,9 +9,9 @@
     <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
     <div ng-hide="showSpinner">
       <super-navigate location="event#edit" ng-show="ownsEvent" data-params-id="{{ event.id }}">
-        <button class="button button-block button-positive">Edit</button>
+        <button class="button button-block button-royal">Edit</button>
       </super-navigate>
-      <button ng-show="ownsEvent" ng-click="remove(event.id)" class="button button-block button-positive">
+      <button ng-show="ownsEvent" ng-click="remove(event.id)" class="button button-block button-royal">
         Cancel Event
       </button> 
       <h2 id="showpage-heading" style="position: relative; left:35px;" ng-bind="event['EventName']"></h2>
@@ -36,7 +36,7 @@
                                                event['State'] }}"
                       data-params-contact="{{ event['PosterName'] }}"
                       data-params-number="{{ event['Contact'] }}">
-        <button class="button button-block button-positive">
+        <button class="button button-block button-royal">
           Show on map
         </button>
       </super-navigate>

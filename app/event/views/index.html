@@ -8,10 +8,10 @@
 
   <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
   <div ng-hide="showSpinner">
-    <div class="button-bar">
-      <a class="button icon-right super-chevron-up" id="name-btn" ng-click="predicate = 'EventName'; nameReverse=!nameReverse; reverse=nameReverse">Name</a>
-      <a class="button icon-right super-chevron-up" id="time-btn" ng-click="predicate = 'StartDateString'; timeReverse=!timeReverse; reverse=timeReverse">Time</a>
-      <a class="button icon-right super-chevron-up" id="vote-btn" ng-click="predicate = '-Vote'; voteReverse=!voteReverse; reverse=voteReverse" >Votes</a>
+    <div class="button-bar bar-royal">
+      <a class="button icon-right super-chevron-up sortbutton" id="name-btn" ng-click="predicate = 'EventName'; nameReverse=!nameReverse; reverse=nameReverse">Name</a>
+      <a class="button icon-right super-chevron-up sortbutton" id="time-btn" ng-click="predicate = 'StartDateString'; timeReverse=!timeReverse; reverse=timeReverse">Time</a>
+      <a class="button icon-right super-chevron-up sortbutton" id="vote-btn" ng-click="predicate = '-Vote'; voteReverse=!voteReverse; reverse=voteReverse" >Votes</a>
     </div>
 
     <ul class="list" ng-hide="events.length == 0">

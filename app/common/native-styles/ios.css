@@ -3,8 +3,9 @@
  * Read more about native styles at http://docs.appgyver.com
  ***********************************************************/
 
+
 navigation-bar {
-  background-color: #1596f7;
+  background-color: #8a6de9;
   color: #ffffff;
 }
 
@@ -16,7 +17,7 @@ navigation-bar title {
 }
 
 navigation-bar button, navigation-bar back-bar-button {
-  color: #ffffff;
+  color: #8a6de9;
   font-weight: 300;
 }
 
@@ -42,7 +43,7 @@ tab-bar tab-bar-item {
 }
 
 tab-bar tab-bar-item:selected {
-  color: #1596f7;
+  color: #8a6de9;
 }
 
 tab-bar-item#profile {
@@ -57,3 +58,4 @@ tab-bar-item#map {
   background-image: url(icons/Globe.svg);
   padding-bottom: 4px;
 }
+
