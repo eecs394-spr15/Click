@@ -8,9 +8,80 @@ Parse.Cloud.job('updatePlanItPurple', function(request, status){
   Parse.Cloud.httpRequest({
     url: 'http://planitpurple.northwestern.edu/feed/json/1029',
     success: function(httpResponse){
+      // parse json feed from planitpurple
       var events = JSON.parse(httpResponse.text);
 
-      console.log(events[0].title);
+      // get time right now
+      var now = new Date();
+
+      // get events in our Parse database
+      var query = new Parse.Query(Parse.Object.extend('Events'));
+
+      for(var i = 0; i < events.length; i++){
+        
+        var created = events[i].create_date.split(' ');
+        var modified = events[i].modify_date.split(' ');
+
+        var latlong = events[i].centerpoint.split(',');
+
+        // get modify dates and times
+        var createdDate = created[0].split('-').map(Number),
+            modifiedDate = modified[0].split('-').map(Number),
+            modifiedTime = modified[1].split(':').map(Number);
+        
+        var modifyDate = new Date(date[0], date[1], date[2], time[0], time[1], time[2]);
+
+        if (createdDate.toDateString() == now.toDateString()){
+          var Event = Parse.Object.extend('Events');
+          var newEvent = new Event();
+          newEvent.save({
+            planitpurpleId: events[i].id, 
+            EventName: events[i].title,
+            Comments: events[i].description,
+            EventType: events[i].category_name || '',
+            PosterName: events[i].contact_name || '',
+            Contact: events[i].contact_email || '',
+            Street: events[i].facility_address_1,
+            City: events[i].facility_city,
+            State: events[i].facility_state,
+            Lat: Number(latlong[0]),
+            Long: Number(latlong[1]),
+            StartDate: new Date(events[i].eventdate_ical_format),
+            EndDate: new Date(events[i].eventend_ical_format),
+            Vote: Number(0),
+            Room: ''
+            }, {
+            success: function(object) {
+              console.log('Event created successfully. ');
+            },
+            error: function(model, error) {
+              console.log(error);
+            }
+          });
+        }
+        if (modifiedDate.toDateString() == now.toDateString()){
+          query.equalTo('planitpurpleId', events[i].id);
+          query.find({
+            success: function(event){
+              event[0].set('EventName', events[i].title);
+              event[0].set('Comments', events[i].description);
+              event[0].set('EventType', events[i].category_name || '');
+              event[0].set('PosterName', events[i].contact_name || '');
+              event[0].set('Contact', events[i].contact_email || '');
+              event[0].set('Street', events[i].facility_address_1);
+              event[0].set('City', events[i].facility_city);
+              event[0].set('State', events[i].facility_state);
+              event[0].set('Lat', Number(latlong[0]));
+              event[0].set('Long', Number(latlong[1]));
+              event[0].set('StartDate', new Date(events[i].eventdate_ical_format));
+              event[0].set('EndDate', new Date(events[i].eventend_ical_format));
+            },
+            error: function(error){
+              console.error('Cannot find event ' + error.code + ': ' + error.message);
+            }
+          });
+        }
+      }
       status.success('Feed request successful.');
     },
     error: function(httpResponse){
@@ -71,8 +142,7 @@ Parse.Cloud.job('autodeleteEvents', function(request, status) {
   var now = new Date();
 
   // Query for all events
-  var Event = Parse.Object.extend('Events');
-  var query = new Parse.Query(Event);
+  var query = new Parse.Query(Parse.Object.extend('Events'));
   query.each(function(event) {
 
     var endDateTime = event.get('EndDate');
