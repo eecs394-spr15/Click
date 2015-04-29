@@ -43,13 +43,14 @@ Parse.Cloud.job('updatePlanItPurple', function(request, status){
             newEvent.set('PosterName', events[i].contact_name || '');
             newEvent.set('Contact', events[i].contact_email || '');
             newEvent.set('Street', events[i].facility_address_1);
-            newEvent.set('Room', '');
+            newEvent.set('Room', events[i].address_2 || '');
             newEvent.set('City', events[i].facility_city);
             newEvent.set('State', events[i].facility_state);
             newEvent.set('Lat', Number(latlong[0]));
             newEvent.set('Long', Number(latlong[1]));
             newEvent.set('StartDate', new Date(events[i].eventdate_ical_format));
-            newEvent.set('EndDate', new Date(events[i].eventend_ical_format));            
+            newEvent.set('EndDate', new Date(events[i].eventend_ical_format));
+            newEvent.set('Vote', Number(0));            
             newEvents.push(newEvent);
           }
         }
@@ -57,40 +58,80 @@ Parse.Cloud.job('updatePlanItPurple', function(request, status){
         var promise = Parse.Promise.as();
         var oldEvents = [];
         promise = promise.then(function () {
-
           var query = new Parse.Query(Parse.Object.extend('Events'));
           query.notEqualTo('planitpurpleId', '');
+          query.notEqualTo('planitpurpleId', null);
+          query.notEqualTo('planitpurpleId', undefined);
           return query.each(function(result) {
             for (var i = 0; i < newEvents.length; i++)
             {
-              if (result.get("StartDate") == newEvents[i].get("StartDate") &&
-                result.get("EndDate") == newEvents[i].get("EndDate") &&
-                result.get("EventName") == newEvents[i].get("EventName"))
+              // get old events that have already been added
+              if (result.get("planitpurpleId") == newEvents[i].get("planitpurpleId") && result.get("planitpurpleId"))
               {
                 oldEvents.push(newEvents[i]);
+                console.log(result.get("planitpurpleId"));
+                result.set('planitpurpleId', newEvents[i].get("planitpurpleId"));
+                result.set('EventName', newEvents[i].get("EventName"));
+                result.set('Comments', newEvents[i].get("Comments"));
+                result.set('EventType', newEvents[i].get("EventType"));
+                result.set('PosterName', newEvents[i].get("PosterName"));
+                result.set('Contact', newEvents[i].get("Contact"));
+                result.set('Street', newEvents[i].get("Street"));
+                result.set('Room', newEvents[i].get("Room"));
+                result.set('City', newEvents[i].get("City"));
+                result.set('State', newEvents[i].get("State"));
+                result.set('Lat', newEvents[i].get("Lat"));
+                result.set('Long', newEvents[i].get("Long"));
+                result.set('StartDate', newEvents[i].get("StartDate"));
+                result.set('EndDate', newEvents[i].get("EndDate"));
+                // update old events;
+                result.save();              
               }
             }
-          });
-        }).then(function () {
-          for (var i = 0; i < oldEvents.length; i++)
-          {
-            var index = newEvents.indexOf(oldEvents[i]);
-            newEvents.splice(index, 1);
-          }
-          for (i = 0; i < oldEvents.length; i++)
-          {
-            console.log(oldEvents[i].get("EventName"));
-          }
-          console.log("----");
-          for (i = 0; i < oldEvents.length; i++)
-          {
-            console.log(newEvents[i].get("EventName"));
-          }
-          return Parse.Object.saveAll(newEvents).then(function () {
-            status.success("Finished adding planitpurple events");    //this line stops the cloud code job before the asynchronous calls can finish
+          }).then(function () {
+            // remove old events from new events list
+            for (var i = 0; i < oldEvents.length; i++)
+            {
+              var index = newEvents.indexOf(oldEvents[i]);
+              newEvents.splice(index, 1);
+            }
+            var duplicates = [];
+            var visited = [];
+            for (i = 0; i < newEvents.length; i++) { visited[i] = false; }
+            console.log("Number of old events after removing duplicates " + oldEvents.length);
+            console.log("Number of new events after removing duplicates " + newEvents.length);
+
+            // remove any duplicates from this new events list
+            for (i = 0; i < newEvents.length; i++)
+            {
+              for (var j = i + 1; j < newEvents.length; j++)
+              {
+                if ((newEvents[i].get("EventName") == newEvents[j].get("EventName")) &&
+                  (newEvents[i].get("StartDate").getDate() == newEvents[j].get("StartDate").getDate()))
+                {
+                  if (visited[j] === false)
+                  {
+                    duplicates.push(newEvents[j]);
+                    visited[j] = true;
+
+                  }
+
+                }
+              }
+            }
+            for (i = 0 ; i < duplicates.length; i++)
+            {
+              var index = newEvents.indexOf(duplicates[i]);
+              newEvents.splice(index, 1);
+
+            }
+            console.log("Number of new events after removing duplicates " + newEvents.length);
+            return Parse.Object.saveAll(newEvents).then(function () {
+              status.success("Finished adding planitpurple events");    //this line stops the cloud code job before the asynchronous calls can finish
+            });
           });
         });
-      });
+    });
   }
   var promise = Parse.Promise.as();
   promise = promise.then(function () {
