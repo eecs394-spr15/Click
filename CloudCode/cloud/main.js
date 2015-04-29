@@ -58,15 +58,42 @@ Parse.Cloud.job('updatePlanItPurple', function(request, status){
         var promise = Parse.Promise.as();
         var oldEvents = [];
         promise = promise.then(function () {
+          var duplicates = [];
+          var visited = [];
+          for (i = 0; i < newEvents.length; i++) { visited[i] = false; }
+          // remove any duplicates from this new events list
+          for (i = 0; i < newEvents.length; i++)
+          {
+            for (var j = i + 1; j < newEvents.length; j++)
+            {
+              if ((newEvents[i].get("EventName") == newEvents[j].get("EventName")) &&
+                (newEvents[i].get("StartDate").getDate() == newEvents[j].get("StartDate").getDate()))
+              {
+                if (visited[j] === false)
+                {
+                  duplicates.push(newEvents[j]);
+                  visited[j] = true;
+                }
+              }
+            }
+          }
+          for (i = 0 ; i < duplicates.length; i++)
+          {
+            var index = newEvents.indexOf(duplicates[i]);
+            newEvents.splice(index, 1);
+
+          }
+          console.log("Number of new events after removing duplicates " + newEvents.length);
+
           var query = new Parse.Query(Parse.Object.extend('Events'));
-          query.notEqualTo('planitpurpleId', '');
-          query.notEqualTo('planitpurpleId', null);
-          query.notEqualTo('planitpurpleId', undefined);
+          //query.notEqualTo("planitpurpleId", ''); doesn't work for some reason...
+
           return query.each(function(result) {
             for (var i = 0; i < newEvents.length; i++)
             {
               // get old events that have already been added
-              if (result.get("planitpurpleId") == newEvents[i].get("planitpurpleId") && result.get("planitpurpleId"))
+              if (result.get("planitpurpleId") == newEvents[i].get("planitpurpleId") &&
+                result.get("planitpurpleId"))
               {
                 oldEvents.push(newEvents[i]);
                 console.log(result.get("planitpurpleId"));
@@ -95,37 +122,9 @@ Parse.Cloud.job('updatePlanItPurple', function(request, status){
               var index = newEvents.indexOf(oldEvents[i]);
               newEvents.splice(index, 1);
             }
-            var duplicates = [];
-            var visited = [];
-            for (i = 0; i < newEvents.length; i++) { visited[i] = false; }
-            console.log("Number of old events after removing duplicates " + oldEvents.length);
-            console.log("Number of new events after removing duplicates " + newEvents.length);
+            console.log("Number of new events after removing old " + newEvents.length);
+            console.log("Number of old events " + newEvents.length);
 
-            // remove any duplicates from this new events list
-            for (i = 0; i < newEvents.length; i++)
-            {
-              for (var j = i + 1; j < newEvents.length; j++)
-              {
-                if ((newEvents[i].get("EventName") == newEvents[j].get("EventName")) &&
-                  (newEvents[i].get("StartDate").getDate() == newEvents[j].get("StartDate").getDate()))
-                {
-                  if (visited[j] === false)
-                  {
-                    duplicates.push(newEvents[j]);
-                    visited[j] = true;
-
-                  }
-
-                }
-              }
-            }
-            for (i = 0 ; i < duplicates.length; i++)
-            {
-              var index = newEvents.indexOf(duplicates[i]);
-              newEvents.splice(index, 1);
-
-            }
-            console.log("Number of new events after removing duplicates " + newEvents.length);
             return Parse.Object.saveAll(newEvents).then(function () {
               status.success("Finished adding planitpurple events");    //this line stops the cloud code job before the asynchronous calls can finish
             });
