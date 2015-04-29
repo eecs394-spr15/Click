@@ -143,6 +143,7 @@ angular
         $scope.event.Contact = '';
       }
       $scope.event.Vote = 0;
+      $scope.event.planitpurpleId = '';
 
       // sanitize the address with format Capital Letter for first letter and lower case for the rest
 
