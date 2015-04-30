@@ -156,7 +156,7 @@ angular
         supersonic.device.geolocation.getPosition().then(function(position)
         {
           map.setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
-          map.setZoom(18);
+          map.setZoom(16);
         });
       });
     }
@@ -165,7 +165,7 @@ angular
       var mapOptions = {
         // default location is NU Campus
         center: { lat: 42.055984, lng: -87.675171},
-        zoom: 18,
+        zoom: 16,
         zoomControl: true,
         zoomControlOptions: {
           style: google.maps.ZoomControlStyle.LARGE,
