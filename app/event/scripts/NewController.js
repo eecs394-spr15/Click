@@ -9,13 +9,12 @@ angular
    
 
     $scope.options = [
-      'Party',
-      'Enterainment',
+      'Social',
       'Fine Arts',
-      'Academic',
-      'Sports and Recreation',
-      'Lectures and Meetings',
-      'Code'
+      'Athletics',
+      'Lectures & Meetings',
+      'Fitness & Recreation',
+      'Other'
     ];
 
     $scope.event.EventType = $scope.options[0];
