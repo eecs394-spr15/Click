@@ -32,6 +32,7 @@ navigation-bar button{
 
 
 tab-bar {
+  color: #915AA4;
   background-color: #ffffff;
   border-top: 1px #d8d8d8 solid;
 }
@@ -43,13 +44,16 @@ tab-bar tab-bar-item {
   font-size: 10px;
 }
 
-tab-bar tab-bar-item:selected {
-  color: #000000;
+tab-bar tab-bar-item: selected {
+  color: #915AA4;
 }
+
+
 
 tab-bar-item#profile {
   background-image: url(icons/user.svg);
 }
+
 
 tab-bar-item#index {
   background-image: url(icons/click.svg);

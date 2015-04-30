@@ -15,13 +15,18 @@
       <button ng-show="ownsEvent" ng-click="remove(event.id)" class="button button-block button-royal">
         Cancel Event
       </button> 
-      <h2 id="showpage-heading" style="position: relative; left:35px;" ng-bind="event['EventName']"></h2>
+      <h2 id="showpage-heading" ng-bind="event['EventName']"></h2>
 
         
      <div class="item item-divider"><p id="event-divider"><b>What</b></p>
-       <p style="text-indent: 20px;">Host's Name: <span ng-bind="event['PosterName']"></span></p> 
-       <p style="text-indent: 20px;">Contact: <span ng-bind="event['Contact']"></span></p>
-        <p style="text-indent: 20px;">Description: <span ng-bind="event['Comments']"></span></p> 
+      <ul>
+        <li>
+   <p>
+       Host's Name: <span ng-bind="event['PosterName']"></span></p></li>
+
+       <p>Contact: <span ng-bind="event['Contact']"></span></p>
+        <p>Description: <span ng-bind="event['Comments']"></span></p>
+      </ul>
      </div>
        <div class="item item-divider"><p id="event-divider">When</p>  
      <p style="text-indent: 20px;">Date: <span ng-bind="event['StartDateString']"></span>
@@ -48,7 +53,7 @@
         <div class="item item-divider"><span ng-bind="guestList.length"></span> <span ng-show="guestList.length == 1">Person Attending</span><span ng-show="guestList.length != 1">People Attending</span>
         <p style= "font-size: 15px;">
           <li class="item item-checkbox">
-     <label class="checkbox">
+     <label class="checkbox checkbox-royal">
        <input id="join-btn" type="checkbox" ng-click="checkEvent(event.id)">
      </label>
      Will you be attending?
