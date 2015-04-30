@@ -4,58 +4,62 @@
       Clicks
     </super-navbar-title>
     <super-navbar-button id="add" side="right" ng-click="addNewEvent()">+</super-navbar-button>
-  </super-navbar>
 
-  <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
-  <div ng-hide="showSpinner">
-    <div class="button-bar bar-stable">
+
+    <div class="button-bar bar-stable" style="position:fixed;z-index: 999;">
       <a class="button icon-right super-chevron-up sortbutton" id="name-btn" ng-click="predicate = 'EventName'; nameReverse=!nameReverse; reverse=nameReverse">Name</a>
       <a class="button icon-right super-chevron-up sortbutton" id="time-btn" ng-click="predicate = 'StartTimeComparison'; timeReverse=!timeReverse; reverse=timeReverse">Time</a>
       <a class="button icon-right super-chevron-up sortbutton" id="vote-btn" ng-click="predicate = '-Vote'; voteReverse=!voteReverse; reverse=voteReverse" >Votes</a>
     </div>
+  </super-navbar>
 
-    <ul class="list" ng-hide="events.length == 0">
+  <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
+  <div ng-hide="showSpinner">
+    
+    <div style="padding-top:40px;">
+      <ul class="list"  ng-hide="events.length == 0">
 
-    <div ng-repeat="event in events | orderBy:predicate:reverse" >
-      <li>
-        <div class="item">
-          
-          
-          <super-navigate location="event#show" data-params-id="{{ event.id }}">
-            <div class="item-thumbnail-left">
-              <img style= "position:absolute; top:28px; border-style: inset; border-width: 2px; border-color: #915AA4; border-radius: 20px;"class="event-icon" src="/svg/{{event['EventType'] || 'Event'}}.svg">
-              <div style="width:180px;word-break:break-word;"> 
+      <div ng-repeat="event in events | orderBy:predicate:reverse" >
+        <li>
+          <div class="item">
+            
+            
+            <super-navigate location="event#show" data-params-id="{{ event.id }}">
+              <div class="item-thumbnail-left">
+                
+                <img style= "position:absolute; top:28px; padding: 10px; border-style: inset; border-width: 2px; border-color: #915AA4; border-radius: 20px;"class="event-icon" src="/svg/{{event['EventType']}}.svg">
+                <div style="width:180px;word-break:break-word;"> 
 
-              <h2 style="position:relative; right:20px; font-weight: bold;"><span ng-bind="event['EventName']"></h2>
-              <p style= "position:relative; right:20px;">Time: <span ng-bind="event['StartTimeString']"></span> - <span ng-bind="event['EndTimeString']"></span></p>
-              <p style= "position:relative; right:20px;">Date: <span ng-bind="event['StartDateString']"></span><span ng-bind="event['EndDateString']"></span></p>
-              
+                <h2 style="position:relative; right:20px; font-weight: bold;"><span ng-bind="event['EventName']"></h2>
+                <p style= "position:relative; right:20px;">Time: <span ng-bind="event['StartTimeString']"></span> - <span ng-bind="event['EndTimeString']"></span></p>
+                <p style= "position:relative; right:20px;">Date: <span ng-bind="event['StartDateString']"></span><span ng-bind="event['EndDateString']"></span></p>
+                
 
-          <!--     <p style= "position:relative; right:20px;"><span ng-bind="event['Vote']"></span> Likes</p> -->
-              <div>
-                <p style= "position:relative; right:20px;">{{event.Vote}} Likes</p>
+            <!--     <p style= "position:relative; right:20px;"><span ng-bind="event['Vote']"></span> Likes</p> -->
+                <div>
+                  <p style= "position:relative; right:20px;">{{event.Vote}} Likes</p>
+                </div>
               </div>
+              </div>
+            </super-navigate>
+
+            <div style="position:relative; float:right; left: 5px; bottom: 10px; margin-top: -85px;">
+              <super-button style=" color: #0DD5B2; width:50px;height:20px;font-size:50px; background-color: Transparent; border:none;"class="button button-small button-assertive" ng-click="up(event.id)">&#8963</super-button>
+
+
+              <div style="padding-left:20px; margin: 0 auto;" ng-bind="event['Vote']"></div>
+            
+
+              <super-button style=" color: #FF554C;width:50px;height:20px;font-size:50px; background-color: Transparent;border:none" class="button button-small button-assertive" ng-click="down(event.id)">&#8964</super-button>
+
             </div>
-            </div>
-          </super-navigate>
-
-          <div style="position:relative; float:right; left: 5px; bottom: 10px; margin-top: -85px;">
-            <super-button style=" color: #0DD5B2; width:50px;height:20px;font-size:50px; background-color: #ffffff; border-color:#ffffff;"class="button button-small button-assertive" ng-click="up(event.id)">&#8963</super-button>
-
-
-            <div id ="vote-lbl" ng-bind="event['Vote']"></div>
-          
-
-            <super-button style=" color: #FF554C;width:50px;height:20px;font-size:50px; background-color: #ffffff;border-color:#ffffff" class="button button-small button-assertive" ng-click="down(event.id)">&#8964</super-button>
-
           </div>
-        </div>
-      </li>
+        </li>
+      </div>
+
+
+      </ul>
     </div>
-
-
-    </ul>
-
     <h4 ng-show="events.length == 0" class="assertive padding">
       No events found. Create one?
     </h4>
