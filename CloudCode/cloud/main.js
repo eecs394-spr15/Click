@@ -14,14 +14,14 @@ Parse.Cloud.job('updatePlanItPurple', function(request, status){
 
 
         // get time right now
-        var now = new Date(2015,3,16);
-
+        var now = new Date();
+        console.log(now.toDateString());
         var count = 0;
 
         // get events in our Parse database
         var query = new Parse.Query(Parse.Object.extend('Events'));
         
-        for(i = 0; i < events.length; i++){
+        for(var i = 0; i < events.length; i++){
           
           // don't add events without location
           if (events[i].centerpoint === null) continue;
@@ -30,30 +30,44 @@ Parse.Cloud.job('updatePlanItPurple', function(request, status){
 
           // get modify dates and times
           var createdDate = events[i].create_date.split('-').map(Number);
-          var createdDateTime = new Date(createdDate[0], createdDate[1], createdDate[2]);
+          var createdDateTime = new Date(createdDate[0], createdDate[1] - 1, createdDate[2]);
 
-          if (createdDateTime.toDateString() == now.toDateString()){
-            count++;
-            var Event = Parse.Object.extend('Events');
-            var newEvent = new Event();
-            newEvent.set('planitpurpleId', events[i].id.trim());
-            newEvent.set('EventName', events[i].title.trim());
-            newEvent.set('Comments', events[i].description.trim());
-            newEvent.set('EventType', events[i].category_name.trim() || '');
-            newEvent.set('PosterName', events[i].contact_name.trim() || '');
-            newEvent.set('Contact', events[i].contact_email.trim() || '');
-            newEvent.set('Street', events[i].facility_address_1.trim());
-            newEvent.set('Room', events[i].address_2.trim() || '');
-            newEvent.set('City', events[i].facility_city.trim());
-            newEvent.set('State', events[i].facility_state.trim());
-            newEvent.set('Lat', Number(latlong[0]));
-            newEvent.set('Long', Number(latlong[1]));
-            newEvent.set('StartDate', new Date(events[i].eventdate_ical_format));
-            newEvent.set('EndDate', new Date(events[i].eventend_ical_format));
-            newEvent.set('Vote', Number(0));            
-            newEvents.push(newEvent);
+          if (createdDateTime.toDateString() == now.toDateString()) {
+            if (events[i].category_name.trim() == "Lectures & Meetings" ||
+              events[i].category_name.trim() == "Social" ||
+              events[i].category_name.trim() == "Athletics" ||
+              events[i].category_name.trim() == "Fine Arts" ||
+              events[i].category_name.trim() == "Other" ||
+              events[i].category_name.trim() == "Fitness & Recreation")
+            {
+              count++;
+              console.log(events[i].title);
+              var Event = Parse.Object.extend('Events');
+              var newEvent = new Event();
+              newEvent.set('planitpurpleId', events[i].id.trim());
+              newEvent.set('EventName', events[i].title.trim());
+              newEvent.set('Comments', events[i].description.trim());
+              newEvent.set('EventType', events[i].category_name.trim() || '');
+              newEvent.set('PosterName', events[i].contact_name.trim() || '');
+              newEvent.set('Contact', events[i].contact_email.trim() || '');
+              newEvent.set('Street', events[i].facility_address_1.trim());
+              newEvent.set('Room', events[i].address_2.trim() || '');
+              newEvent.set('City', events[i].facility_city.trim());
+              newEvent.set('State', events[i].facility_state.trim());
+              newEvent.set('Lat', Number(latlong[0]));
+              newEvent.set('Long', Number(latlong[1]));
+              var startDate = new Date(events[i].eventdate_ical_format);
+              startDate.setHours(startDate.getHours() + 5);
+              newEvent.set('StartDate', startDate);
+              var endDate = new Date(events[i].eventend_ical_format);
+              endDate.setHours(endDate.getHours() + 5);
+              newEvent.set('EndDate', endDate);
+              newEvent.set('Vote', Number(0));            
+              newEvents.push(newEvent);
+            }
           }
         }
+        console.log(count);
       }).then(function () {
         var promise = Parse.Promise.as();
         var oldEvents = [];
