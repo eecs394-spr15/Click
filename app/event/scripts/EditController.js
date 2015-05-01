@@ -6,14 +6,13 @@ angular
   	$scope.currentUser = Parse.User.current();
 
     $scope.options = [
-      'Party',
-      'Enterainment',
-      'Fine Arts',
-      'Academic',
-      'Sports and Recreation',
-      'Lectures and Meetings',
-      'Code'
-    ];
+          'Social',
+          'Fine Arts',
+          'Athletics',
+          'Lectures & Meetings',
+          'Fitness & Recreation',
+          'Other'
+        ];
 
     // Fetch an object based on id from the database
     Event.find(steroids.view.params.id).then( function (event) {

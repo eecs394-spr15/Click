@@ -24,6 +24,7 @@ angular
           {
             $scope.events[i] = EventHelper.formatEvent(events[i]);
             $scope.events[i].StartTimeComparison = $scope.events[i].StartDate.iso;
+            $scope.events[i].IconString = $scope.events[i].EventType.replace(/ /g, '').replace('&', "");
           }
 
         });

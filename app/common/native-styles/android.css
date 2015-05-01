@@ -4,7 +4,7 @@
  ***********************************************************/
 
 navigation-bar {
-  background-color: #00B5FF;
+  background-color: #8a6de9;
   color: #ffffff;
   padding-left: 6px;
   padding-right: 6px;
@@ -14,13 +14,14 @@ navigation-bar title {
   color: #ffffff;
   font-size: 18px;
   font-weight: 600;
+  text-align: center;
 }
 
 navigation-bar button {
+  font-size: 20px;
+  font-weight: bold;
+  position: absolute;
   color: #ffffff;
-  font-weight: 300;
-  margin-left: 6px;
-  margin-right: 6px;
 }
 
 navigation-bar back-indicator {
@@ -44,13 +45,14 @@ tab-bar {
 
 tab-bar tab-bar-item {
   color: #b0b1b4;
-  font-family: "Roboto";
+  font-family: "Avenir";
   font-size: 10px;
 }
 
-tab-bar tab-bar-item:selected {
-  color: #1596f7;
+tab-bar tab-bar-item: selected {
+  color: #915AA4;
 }
+
 
 tab-bar divider {
   background-color: #D8D8D8;
@@ -60,14 +62,14 @@ tab-bar tab-bar-item marker-top:selected {
   background-color: #1596f7;
 }
 
-tab-bar-item#settings {
-  background-image: url(icons/cog.svg);
+tab-bar-item#profile {
+  background-image: url(icons/profile2.svg);
 }
 
 tab-bar-item#index {
-  background-image: url(icons/home.svg);
+  background-image: url(icons/click2.svg);
 }
 
-tab-bar-item#internet {
-  background-image: url(icons/search.svg);
+tab-bar-item#map {
+  background-image: url(icons/map.svg);
 }

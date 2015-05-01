@@ -51,16 +51,16 @@ tab-bar tab-bar-item: selected {
 
 
 tab-bar-item#profile {
-  background-image: url(icons/user.svg);
+  background-image: url(icons/profile2.svg);
 }
 
 
 tab-bar-item#index {
-  background-image: url(icons/click.svg);
+  background-image: url(icons/click2.svg);
 }
 
 tab-bar-item#map {
-  background-image: url(icons/Globe.svg);
+  background-image: url(icons/map.svg);
   padding-bottom: 4px;
 }
 
