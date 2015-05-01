@@ -8,8 +8,8 @@ angular
     //$scope.test;
     $scope.key;
     
-   
-  
+    $scope.searchText = '';
+    $scope.filterType = [];
    
 
     //upvote and downvote
@@ -291,5 +291,12 @@ angular
     function onVisibilityChange() {
       location.reload();
     }
+
+    $scope.clear = function () {
+     $scope.searchText = '';
+    };
+
+
+
 
   });

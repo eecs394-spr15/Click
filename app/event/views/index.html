@@ -4,22 +4,61 @@
       Clicks
     </super-navbar-title>
     <super-navbar-button id="add" side="right" ng-click="addNewEvent()">+</super-navbar-button>
-
-
-    <div class="button-bar bar-stable" style="position:fixed;z-index: 999;">
-      <a class="button icon-right super-chevron-up sortbutton" id="name-btn" ng-click="predicate = 'EventName'; nameReverse=!nameReverse; reverse=nameReverse">Name</a>
-      <a class="button icon-right super-chevron-up sortbutton" id="time-btn" ng-click="predicate = 'StartTimeComparison'; timeReverse=!timeReverse; reverse=timeReverse">Time</a>
-      <a class="button icon-right super-chevron-up sortbutton" id="vote-btn" ng-click="predicate = '-Vote'; voteReverse=!voteReverse; reverse=voteReverse" >Votes</a>
+ 
+    <div class="bar bar-header item-input-inset top-bar">
+      <label class="item-input-wrapper search-bar">
+        <i class="icon super-ios7-search placeholder-icon"></i>
+        <input type="search" placeholder="Search" ng-model="searchText">
+      </label>
+        <button class="button button-outline button-positive button-large button-royal clear-btn" ng-click="clear()">
+          Clear
+        </button>
+        <button class="button button-positive button-large button-royal filter-btn" data-toggle="collapse" data-target="#filter">
+         Filter
+        </button>
     </div>
+    
+
+    <div class="bar bot-bar">
+      <div class="button-bar bar-stable">
+        <a class="button icon-right super-chevron-up sortbutton" id="name-btn" ng-click="predicate = 'EventName'; nameReverse=!nameReverse; reverse=nameReverse">Name</a>
+        <a class="button icon-right super-chevron-up sortbutton" id="time-btn" ng-click="predicate = 'StartTimeComparison'; timeReverse=!timeReverse; reverse=timeReverse">Time</a>
+        <a class="button icon-right super-chevron-up sortbutton" id="vote-btn" ng-click="predicate = '-Vote'; voteReverse=!voteReverse; reverse=voteReverse" >Votes</a>
+      </div>
+    </div>
+<!--
+    <div id="filter" class="collapse" style="top:80px;">
+        <ul>
+
+            <li class="row">
+                <div class="col col-33"><strong>Location</strong>:</div>
+                <div class="col col-33"><input type="checkbox" ng-model="filterType['Social']"> Social</div>
+                <div class="col col-33"><input type="checkbox" ng-model="filterType['FineArts']"> Fine Arts</div>
+            </li>
+
+            <li class="row">
+                <div class="col col-33"><strong>Size</strong>:</div>
+                <div class="col col-33"><input type="checkbox" ng-model="filterType['Athletics']"> Athletics</div>
+                <div class="col col-33"><input type="checkbox" ng-model="filterType['Fitness']"> Fitness and Recreation</div>
+            </li>
+
+            <li class="row">
+                <div class="col col-33"><strong>Type</strong>:</div>
+                <div class="col col-33"><input type="checkbox" ng-model="filterType['Lectures']"> Lectures and Meetings</div>
+                <div class="col col-33"><input type="checkbox" ng-model="filterType['Other']"> Other</div>
+            </li>
+        </ul>
+    </div>
+-->
   </super-navbar>
 
   <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
-  <div ng-hide="showSpinner">
+  <div ng-hide="showSpinner" style="top:40px;">
     
-    <div style="padding-top:40px;">
+    <div style="padding-top:80px;">
       <ul class="list"  ng-hide="events.length == 0">
 
-      <div ng-repeat="event in events | orderBy:predicate:reverse" >
+      <div ng-repeat="event in events |filter:searchText | orderBy:predicate:reverse" >
         <li>
           <div class="item">
             
